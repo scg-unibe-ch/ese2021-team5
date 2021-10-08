@@ -6,7 +6,7 @@
   <mat-form-field>
     <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password">
   </mat-form-field>
-  <button mat-flat-button color="primary" (click)="registerUser()">Register</button>
+  <button mat-flat-button color="primary" (click)="registerUser()" [disabled]="checkPasswordProperties(userToRegister.password) === false || userToRegister.username === '' || userToRegister.password === ''">Register</button>
 </mat-card>
 
 <mat-card>
@@ -19,7 +19,7 @@
     <mat-form-field>
       <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToLogin.password">
     </mat-form-field>
-    <button mat-flat-button color="primary" (click)="loginUser()">Login</button>
+    <button mat-flat-button color="primary" (click)="loginUser()" [disabled]="userToLogin.username === '' || userToLogin.password === ''">Login</button>
   </div>
 
   <div *ngIf="loggedIn">

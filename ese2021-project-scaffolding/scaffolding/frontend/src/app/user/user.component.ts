@@ -82,4 +82,39 @@ export class UserComponent {
       this.endpointMsgAdmin = "Unauthorized";
     });
   }
+
+  /**
+   * Returns true if a password: string holds a set of defined properties.
+   * @param password: string
+   * implemented properties:
+   * -required length
+   * -contains upper and lowercase characters
+   */
+  checkPasswordProperties(password: string): boolean{
+    let requiredPropertiesFulfilled: boolean = false;
+    let isLongEnough: boolean = false;
+    let containsUppercase: boolean = false;
+    let containsLowercase: boolean = false;
+
+    let requiredLength = 8;
+
+    if (password.length >= requiredLength){
+      isLongEnough = true;
+    }
+
+    for(let x = 0; x < password.length; x++){
+      if(password.charAt(x).toUpperCase() === password.charAt(x) && (password.charAt(x) <= '0'|| password.charAt(x) >= '9')){
+        containsUppercase = true;
+      }
+      if(password.charAt(x).toLowerCase() === password.charAt(x) && (password.charAt(x) <= '0' || password.charAt(x) >= '9')){
+        containsLowercase = true;
+      }
+    }
+
+    if (isLongEnough && containsUppercase && containsLowercase){
+      requiredPropertiesFulfilled = true;
+    }
+
+    return requiredPropertiesFulfilled;
+  }
 }
