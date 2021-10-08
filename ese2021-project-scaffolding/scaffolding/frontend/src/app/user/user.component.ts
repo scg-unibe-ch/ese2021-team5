@@ -22,6 +22,8 @@ export class UserComponent {
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
+  endpointMsgRegistration: string = '';
+
   constructor(
     public httpClient: HttpClient,
     public userService: UserService
@@ -85,36 +87,78 @@ export class UserComponent {
 
   /**
    * Returns true if a password: string holds a set of defined properties.
-   * @param password: string
    * implemented properties:
    * -required length
    * -contains upper and lowercase characters
+   * -contains special character
+   * -contains digit
    */
   checkPasswordProperties(password: string): boolean{
-    let requiredPropertiesFulfilled: boolean = false;
     let isLongEnough: boolean = false;
     let containsUppercase: boolean = false;
     let containsLowercase: boolean = false;
-
+    let containsDigit: boolean = false;
+    let containsSpecialChar: boolean = false;
     let requiredLength = 8;
 
     if (password.length >= requiredLength){
       isLongEnough = true;
     }
 
-    for(let x = 0; x < password.length; x++){
-      if(password.charAt(x).toUpperCase() === password.charAt(x) && (password.charAt(x) <= '0'|| password.charAt(x) >= '9')){
+    for(let i = 0; i < password.length; i++){
+      if(password.charCodeAt(i) >= 65 && password.charCodeAt(i) <= 90){ //unicode --> doesn't work for: Ö, Ä, etc.
         containsUppercase = true;
       }
-      if(password.charAt(x).toLowerCase() === password.charAt(x) && (password.charAt(x) <= '0' || password.charAt(x) >= '9')){
+      if(password.charCodeAt(i) >= 97 && password.charCodeAt(i) <= 122){
         containsLowercase = true;
+      }
+      if (password.charCodeAt(i) >= 48 && password.charCodeAt(i) <= 57){
+        containsDigit = true;
+      }
+      if ((password.charCodeAt(i) >= 32 && password.charCodeAt(i) <= 47) || //special chars are hard to define in unicode;
+        (password.charCodeAt(i) >= 58 && password.charCodeAt(i) <= 64) ||
+        (password.charCodeAt(i) >= 91 && password.charCodeAt(i) <= 96) ||
+        (password.charCodeAt(i) >= 123 && password.charCodeAt(i) <= 126)){
+        containsSpecialChar = true;
       }
     }
 
-    if (isLongEnough && containsUppercase && containsLowercase){
-      requiredPropertiesFulfilled = true;
-    }
+    this.endpointMsgRegistration = this.buildUserMessage(containsUppercase, containsLowercase, containsSpecialChar, containsDigit, isLongEnough, requiredLength, password.length)
 
-    return requiredPropertiesFulfilled;
+    return isLongEnough && containsUppercase && containsLowercase && containsDigit && containsSpecialChar;
+  }
+
+  /**
+   * Uses concatenation to build a string giving information to the User.
+   * Tells the user which parts of his password are invalid.
+   * Uses HTML code [innerHTML] {@see user.component.html}
+   */
+  buildUserMessage(containsUppercase: boolean, containsLowercase: boolean, containsSpecialChar: boolean, containsDigit: boolean, isLongEnough: boolean, requiredLength: number, passwordLength: number): string{
+    let passwordTooShort: string = 'Your password is to short! It requires at least <b>' + requiredLength + '</b> characters.<br>';
+    let noUpperCase: string = "Your password needs at least one <b>upper case</b> character. <br>";
+    let noLowerCase: string = "Your password needs at least one <b>lower case</b> character. <br>";
+    let noDigit: string = "Your password needs at least one <b>digit.</b> <br>";
+    let noSpecialChar: string = "Your password needs at least one <b>special char.</b> <br>";
+    this.endpointMsgRegistration = '';
+
+    if(!isLongEnough){
+      this.endpointMsgRegistration += passwordTooShort;
+    }
+    if (!containsUppercase) {
+      this.endpointMsgRegistration += noUpperCase;
+    }
+    if (!containsLowercase) {
+      this.endpointMsgRegistration += noLowerCase;
+    }
+    if (!containsSpecialChar){
+      this.endpointMsgRegistration += noSpecialChar;
+    }
+    if (!containsDigit){
+      this.endpointMsgRegistration += noDigit;
+    }
+    if (passwordLength === 0){
+      this.endpointMsgRegistration = '';
+    }
+    return this.endpointMsgRegistration;
   }
 }
