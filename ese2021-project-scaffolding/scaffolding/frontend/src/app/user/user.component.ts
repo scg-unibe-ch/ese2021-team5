@@ -3,6 +3,7 @@ import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
+import {Account} from "../models/account.model";
 
 @Component({
   selector: 'app-user',
@@ -13,11 +14,15 @@ export class UserComponent {
 
   loggedIn: boolean | undefined;
 
+  registrationState: number = 0;
+
   user: User | undefined;
 
-  userToRegister: User = new User(0, '', '');
+  account: Account = new Account('', '');
 
-  userToLogin: User = new User(0, '', '');
+  userToRegister: User = new User(0, '', '', this.account);
+
+  userToLogin: User = new User(0, '', '', this.account);
 
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
@@ -34,7 +39,12 @@ export class UserComponent {
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
-    this.user = userService.getUser();
+    this.user = userService.getUser();  //might be undefined
+
+  }
+
+  updateRegistrationState(): void{
+    this.registrationState = 1;
   }
 
   registerUser(): void {
@@ -42,7 +52,11 @@ export class UserComponent {
       userName: this.userToRegister.username,
       password: this.userToRegister.password
     }).subscribe(() => {
-      this.userToRegister.username = this.userToRegister.password = '';
+      this.registrationState = 2;
+      this.userToLogin.username = this.userToRegister.username;
+      this.userToLogin.password = this.userToRegister.password;
+      this.loginUser();
+      this.userToRegister.username = this.userToRegister.password = this.userToRegister.account.firstname = this.userToRegister.account.lastname = '';
     });
   }
 
@@ -57,7 +71,7 @@ export class UserComponent {
       localStorage.setItem('userToken', res.token);
 
       this.userService.setLoggedIn(true);
-      this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password));
+      this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, this.account));
     });
   }
 
@@ -128,6 +142,16 @@ export class UserComponent {
     return isLongEnough && containsUppercase && containsLowercase && containsDigit && containsSpecialChar;
   }
 
+  checkProvidedAccountData(firstname: string, lastname: string):boolean{
+    let dataIsOkay: boolean = false;
+
+    if (firstname.length !== 0 && lastname.length !== 0){
+      dataIsOkay = true;
+    }
+
+    return dataIsOkay;
+  }
+
   /**
    * Uses concatenation to build a string giving information to the User.
    * Tells the user which parts of his password are invalid.
@@ -161,4 +185,14 @@ export class UserComponent {
     }
     return this.endpointMsgRegistration;
   }
+
+  /**
+   * Strange getter --> For some reason i'm unable to access localStorage from within
+   * the HTML directly?
+   */
+  getUserName(): string{
+
+    return <string>localStorage.getItem('userName');
+  }
+
 }
