@@ -18,7 +18,7 @@ export class UserComponent {
 
   user: User | undefined;
 
-  account: Account = new Account('', '');
+  account: Account = new Account('', '','','','','','','');
 
   userToRegister: User = new User(0, '', '', this.account);
 
@@ -142,13 +142,37 @@ export class UserComponent {
     return isLongEnough && containsUppercase && containsLowercase && containsDigit && containsSpecialChar;
   }
 
-  checkProvidedAccountData(firstname: string, lastname: string):boolean{
-    let dataIsOkay: boolean = false;
+  /**
+   * Returns true if:
+   * all variables of Account have a length unequal to 0
+   * the address contains a digit.
+   * the email contains '@'
+   *
+   */
+  checkProvidedAccountData(firstname: string, lastname: string, email: string, address: string, zip: string, city: string, phone: string, birthday: string):boolean{
+    let dataIsOkay: boolean = false
+    let addressContainsDigit: boolean = false;
+    let dataNotZero: boolean = false;
+    let emailContainsAt: boolean = false;
 
-    if (firstname.length !== 0 && lastname.length !== 0){
-      dataIsOkay = true;
+    if (firstname.length !== 0 && lastname.length !== 0 && email.length !== 0 && address.length !== 0 && city.length !== 0 && zip.length !== 0 && phone.length !== 0 && birthday.length !== 0){
+      dataNotZero = true;
     }
 
+    for(let i = 0; i < address.length; i++) {
+      if (address.charCodeAt(i) >= 48 && address.charCodeAt(i) <= 57) {
+        addressContainsDigit = true;
+      }
+    }
+
+    for(let i = 0; i < email.length; i++) {
+      if (email.charCodeAt(i) == 64 ) { //64 in unicode is @ symbol
+        emailContainsAt = true;
+      }
+    }
+    if(dataNotZero && addressContainsDigit && emailContainsAt){
+      dataIsOkay = true;
+    }
     return dataIsOkay;
   }
 

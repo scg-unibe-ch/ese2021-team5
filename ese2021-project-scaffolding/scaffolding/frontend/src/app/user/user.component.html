@@ -40,7 +40,8 @@
     <mat-form-field>
       <input matInput type="text" placeholder="Date of Birth" name="birthday" [(ngModel)]="userToRegister.account.birthday">
     </mat-form-field>
-    <button mat-flat-button color="primary" (click)="registerUser()" [disabled]="checkProvidedAccountData(userToRegister.account.firstname, userToRegister.account.lastname) === false">Register</button>
+    <button mat-flat-button color="primary" (click)="registerUser()" [disabled]="checkProvidedAccountData(userToRegister.account.firstname, userToRegister.account.lastname, userToRegister.account.email,
+    userToRegister.account.address, userToRegister.account.zip, userToRegister.account.city, userToRegister.account.phone, userToRegister.account.birthday) === false">Register</button>
   </mat-card>
 </div>
 
