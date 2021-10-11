@@ -27,6 +27,7 @@ export class UserComponent {
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
+  endpointMsgPassword: string = '';
   endpointMsgRegistration: string = '';
 
   constructor(
@@ -137,7 +138,7 @@ export class UserComponent {
       }
     }
 
-    this.endpointMsgRegistration = this.buildUserMessage(containsUppercase, containsLowercase, containsSpecialChar, containsDigit, isLongEnough, requiredLength, password.length)
+    this.endpointMsgPassword = this.buildUserMessagePassword(containsUppercase, containsLowercase, containsSpecialChar, containsDigit, isLongEnough, requiredLength, password.length)
 
     return isLongEnough && containsUppercase && containsLowercase && containsDigit && containsSpecialChar;
   }
@@ -173,39 +174,67 @@ export class UserComponent {
     if(dataNotZero && addressContainsDigit && emailContainsAt){
       dataIsOkay = true;
     }
+
+    this.endpointMsgRegistration = this.buildUserMessageRegistration(dataNotZero, addressContainsDigit, emailContainsAt);
+
     return dataIsOkay;
   }
 
   /**
+   * USED FOR PASSWORD
    * Uses concatenation to build a string giving information to the User.
    * Tells the user which parts of his password are invalid.
    * Uses HTML code [innerHTML] {@see user.component.html}
    */
-  buildUserMessage(containsUppercase: boolean, containsLowercase: boolean, containsSpecialChar: boolean, containsDigit: boolean, isLongEnough: boolean, requiredLength: number, passwordLength: number): string{
+  buildUserMessagePassword(containsUppercase: boolean, containsLowercase: boolean, containsSpecialChar: boolean, containsDigit: boolean, isLongEnough: boolean, requiredLength: number, passwordLength: number): string{
     let passwordTooShort: string = 'Your password is to short! It requires at least <b>' + requiredLength + '</b> characters.<br>';
     let noUpperCase: string = "Your password needs at least one <b>upper case</b> character. <br>";
     let noLowerCase: string = "Your password needs at least one <b>lower case</b> character. <br>";
     let noDigit: string = "Your password needs at least one <b>digit.</b> <br>";
     let noSpecialChar: string = "Your password needs at least one <b>special char.</b> <br>";
-    this.endpointMsgRegistration = '';
+    this.endpointMsgPassword = '';
 
     if(!isLongEnough){
-      this.endpointMsgRegistration += passwordTooShort;
+      this.endpointMsgPassword += passwordTooShort;
     }
     if (!containsUppercase) {
-      this.endpointMsgRegistration += noUpperCase;
+      this.endpointMsgPassword += noUpperCase;
     }
     if (!containsLowercase) {
-      this.endpointMsgRegistration += noLowerCase;
+      this.endpointMsgPassword += noLowerCase;
     }
     if (!containsSpecialChar){
-      this.endpointMsgRegistration += noSpecialChar;
+      this.endpointMsgPassword += noSpecialChar;
     }
     if (!containsDigit){
-      this.endpointMsgRegistration += noDigit;
+      this.endpointMsgPassword += noDigit;
     }
     if (passwordLength === 0){
-      this.endpointMsgRegistration = '';
+      this.endpointMsgPassword = '';
+    }
+    return this.endpointMsgPassword;
+  }
+
+  /**
+   * USED FOR REGISTRATION
+   * Uses concatenation to build a string giving information to the User.
+   * Tells the user which parts of his registration are invalid.
+   * Uses HTML code [innerHTML] {@see user.component.html}
+   */
+  buildUserMessageRegistration(dataNotZero: boolean, addressContainsDigit: boolean, emailContainsAt: boolean): string{
+    let dataZero: string = 'Fill in all the information. <br>';
+    let addressNoDigit: string = 'You missed the number from your address. <br>';
+    let emailNoAt: string = 'Your E-Mail is not an E-Mail. <br>';
+    this.endpointMsgRegistration = '';
+
+    if(!dataNotZero){
+      this.endpointMsgRegistration += dataZero;
+    }
+    if(!addressContainsDigit){
+      this.endpointMsgRegistration += addressNoDigit;
+    }
+    if(!emailContainsAt){
+      this.endpointMsgRegistration += emailNoAt;
     }
     return this.endpointMsgRegistration;
   }

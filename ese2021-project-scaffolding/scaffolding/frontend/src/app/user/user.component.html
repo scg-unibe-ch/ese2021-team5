@@ -8,7 +8,7 @@
       <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password">
     </mat-form-field>
     <button mat-flat-button color="primary" (click)="updateRegistrationState()" [disabled]="checkPasswordProperties(userToRegister.password) === false || userToRegister.username === '' || userToRegister.password === ''">Register</button>
-    <br> <div [innerHTML]="endpointMsgRegistration" style="color: orangered"></div>
+    <br> <div [innerHTML]="endpointMsgPassword" style="color: orangered"></div>
   </mat-card>
 </div>
 
@@ -42,6 +42,7 @@
     </mat-form-field>
     <button mat-flat-button color="primary" (click)="registerUser()" [disabled]="checkProvidedAccountData(userToRegister.account.firstname, userToRegister.account.lastname, userToRegister.account.email,
     userToRegister.account.address, userToRegister.account.zip, userToRegister.account.city, userToRegister.account.phone, userToRegister.account.birthday) === false">Register</button>
+    <br> <div [innerHTML]="endpointMsgRegistration" style="color: orangered"></div>
   </mat-card>
 </div>
 
