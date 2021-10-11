@@ -40,7 +40,10 @@ export class UserComponent {
       userName: this.userToRegister.username,
       password: this.userToRegister.password
     }).subscribe(() => {
-      this.userToRegister.username = this.userToRegister.password = '';
+      this.userToRegister.username = this.userToRegister.password = this.userToRegister.phone =
+        this.userToRegister.zip = this.userToRegister.address =  this.userToRegister.firstname =
+          this.userToRegister.lastname = this.userToRegister.birthday = this.userToRegister.city =
+            this.userToRegister.email = '';
     });
   }
 
