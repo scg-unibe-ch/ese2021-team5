@@ -27,6 +27,7 @@ export class UserComponent {
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
+  //endpointMsgUsername: string = '';
   endpointMsgPassword: string = '';
   endpointMsgRegistration: string = '';
 
@@ -100,6 +101,20 @@ export class UserComponent {
     });
   }
 
+  //checkUsername(username: string): boolean{
+  //  let usernameIsNotUsed: boolean = false
+
+  //  this.endpointMsgUsername = 'This username is already used. <br>';
+
+  //  if(request to backend if username is used){
+  //    usernameIsNotUsed = true;
+  //    this.endpointMsgUsername = ''
+  //  }
+  //
+  //  return usernameIsNotUsed;
+  //  }
+  //}
+
   /**
    * Returns true if a password: string holds a set of defined properties.
    * implemented properties:
@@ -148,6 +163,7 @@ export class UserComponent {
    * all variables of Account have a length unequal to 0
    * the address contains a digit.
    * the email contains '@'
+   * (not yet: the email isn't used already.
    *
    */
   checkProvidedAccountData(firstname: string, lastname: string, email: string, address: string, zip: string, city: string, phone: string, birthday: string):boolean{
@@ -155,6 +171,7 @@ export class UserComponent {
     let addressContainsDigit: boolean = false;
     let dataNotZero: boolean = false;
     let emailContainsAt: boolean = false;
+    //let emailNotUsed: boolean = false;
 
     if (firstname.length !== 0 && lastname.length !== 0 && email.length !== 0 && address.length !== 0 && city.length !== 0 && zip.length !== 0 && phone.length !== 0 && birthday.length !== 0){
       dataNotZero = true;
@@ -171,11 +188,16 @@ export class UserComponent {
         emailContainsAt = true;
       }
     }
-    if(dataNotZero && addressContainsDigit && emailContainsAt){
+
+    //if(request to backend if email is used already){
+    //  emailNotUsed = true;
+    // }
+
+    if(dataNotZero && addressContainsDigit && emailContainsAt ){ //&& emailNotUsed
       dataIsOkay = true;
     }
 
-    this.endpointMsgRegistration = this.buildUserMessageRegistration(dataNotZero, addressContainsDigit, emailContainsAt);
+    this.endpointMsgRegistration = this.buildUserMessageRegistration(dataNotZero, addressContainsDigit, emailContainsAt); //, emailNotUsed
 
     return dataIsOkay;
   }
@@ -221,10 +243,11 @@ export class UserComponent {
    * Tells the user which parts of his registration are invalid.
    * Uses HTML code [innerHTML] {@see user.component.html}
    */
-  buildUserMessageRegistration(dataNotZero: boolean, addressContainsDigit: boolean, emailContainsAt: boolean): string{
+  buildUserMessageRegistration(dataNotZero: boolean, addressContainsDigit: boolean, emailContainsAt: boolean): string{ //,emailNotUsed: boolean
     let dataZero: string = 'Fill in all the information. <br>';
     let addressNoDigit: string = 'You missed the number from your address. <br>';
     let emailNoAt: string = 'Your E-Mail is not an E-Mail. <br>';
+    //let emailUsed: string = 'This E-Mail is already linked to a Account.<br>';
     this.endpointMsgRegistration = '';
 
     if(!dataNotZero){
@@ -236,6 +259,9 @@ export class UserComponent {
     if(!emailContainsAt){
       this.endpointMsgRegistration += emailNoAt;
     }
+    //if(!emailNotUsed){
+    //  this.endpointMsgRegistration += emailUsed;
+    // }
     return this.endpointMsgRegistration;
   }
 

@@ -8,6 +8,8 @@
       <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password">
     </mat-form-field>
     <button mat-flat-button color="primary" (click)="updateRegistrationState()" [disabled]="checkPasswordProperties(userToRegister.password) === false || userToRegister.username === '' || userToRegister.password === ''">Register</button>
+    <!--|| checkUsername(userToRegister.username) === false-->
+    <!--<br> <div [innerHTML]="endpointMsgUsername" style="color: orangered"></div>-->
     <br> <div [innerHTML]="endpointMsgPassword" style="color: orangered"></div>
   </mat-card>
 </div>
