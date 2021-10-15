@@ -253,13 +253,13 @@ export class UserComponent {
     if(!dataNotZero){
       this.endpointMsgRegistration += dataZero;
     }
-    if(!addressContainsDigit){
+    if(!addressContainsDigit && dataNotZero){
       this.endpointMsgRegistration += addressNoDigit;
     }
-    if(!emailContainsAt){
+    if(!emailContainsAt && dataNotZero){
       this.endpointMsgRegistration += emailNoAt;
     }
-    //if(!emailNotUsed){
+    //if(!emailNotUsed && dataNotZero){
     //  this.endpointMsgRegistration += emailUsed;
     // }
     return this.endpointMsgRegistration;
