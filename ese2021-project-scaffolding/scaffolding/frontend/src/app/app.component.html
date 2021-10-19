@@ -28,4 +28,10 @@
   <mat-tab *ngIf="loggedIn" label="Profile Page">
     Profile Page
   </mat-tab>
+
+  <mat-tab *ngIf="loggedIn" label="New Post">
+    <app-community-post></app-community-post>
+  </mat-tab>
+
+
 </mat-tab-group>

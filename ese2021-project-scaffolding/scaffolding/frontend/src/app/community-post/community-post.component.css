@@ -1,0 +1,22 @@
+.mat-card {
+  background-color: lightblue;
+}
+
+.title {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.textarea {
+  width: 100%;
+  size: 100%;
+}
+
+.container-row {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+
