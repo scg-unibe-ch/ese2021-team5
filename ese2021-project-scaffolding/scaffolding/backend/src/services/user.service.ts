@@ -35,7 +35,7 @@ export class UserService {
                 const token: string = jwt.sign({ userName: user.userName, userId: user.userId, admin: user.admin }, secret, { expiresIn: '2h' });
                 return Promise.resolve({ user, token });
             } else {
-                return Promise.reject({ message: 'not authorized' });
+                return Promise.reject({ message: 'not authorized' , isPasswordCorrect: false});
             }
         })
         .catch(err => Promise.reject({ message: err }));
