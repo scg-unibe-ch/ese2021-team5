@@ -17,7 +17,7 @@ export class UserService {
           if (foundUser == null) {
             return User.create(user).then(inserted => Promise.resolve(inserted));
         } else {
-          return Promise.reject({ message: 'account already exists'});
+          return Promise.reject({ message: 'account already exists', isUsernameTaken: true});
         }
       })
       .catch(err => Promise.reject({ message: err}));
