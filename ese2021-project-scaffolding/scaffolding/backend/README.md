@@ -324,8 +324,18 @@ Some endpoints can be called in a [browser](http://localhost:3000), others have 
 		Body:
 	```json
 	{
-		"message": "not authorized",
+		"message": "wrong password",
 		"isPasswordCorrect": false,
+	}
+
+	```
+	```
+		Code: 500
+		Body:
+	```json
+	{
+		"message": "wrong username",
+		"isUsernameCorrect": false,
 	}
 
 	```
