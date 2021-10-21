@@ -1,5 +1,15 @@
 <div>
   <mat-card class="postBackground">
-    <h3>{{post.title}}</h3>
+    <h5>This Post was created by {{post.creatorUsername}}</h5>
+    <mat-card-header class="postHeader">
+      <h3>{{post.title}}</h3>
+    </mat-card-header>
+    <br>
+    <mat-card-content class="postHeader">
+      <h5>{{post.text}}</h5>
+    </mat-card-content>
+    <div *ngIf="myOwnPost()">
+      <button class="right-button" mat-flat-button color="warn" (click)="deletePost()">Delete your Post!</button>
+    </div>
   </mat-card>
 </div>

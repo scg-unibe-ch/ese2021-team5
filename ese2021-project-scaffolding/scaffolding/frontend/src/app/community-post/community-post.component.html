@@ -8,13 +8,13 @@
   <mat-card>
     <h3>What do you want to tell the world?</h3>
     <mat-form-field>
-      <mat-label>Titel</mat-label>
-      <input matInput placeholder="write here" [(ngModel)]="newPostTitle">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="write here" [(ngModel)]="newPostTitle" name="title">
     </mat-form-field>
     <br>
     <mat-form-field class="newPost">
       <mat-label>Tell your Story</mat-label>
-      <textarea matInput placeholder="write here"></textarea>
+      <textarea matInput placeholder="write here" [(ngModel)]="newPostText"></textarea>
     </mat-form-field>
 
     <button mat-flat-button color="warn" (click)="publishPost()">Publish!</button>
@@ -22,9 +22,10 @@
 </div>
 
 <div>
-  <mat-card class="postBackground"><h3 style="color:white">Relevant Posts</h3>
-    <app-post *ngFor="let post of allPosts">
-
+  <mat-card class="postBackground"><h3>Some unsorted Posts</h3>
+    <app-post *ngFor="let post of allPosts"
+              [post]="post"
+              (delete)="deletePost($event)"> <!--not sure what this does... Required for data-binding inside the post template -->
     </app-post>
   </mat-card>
 </div>

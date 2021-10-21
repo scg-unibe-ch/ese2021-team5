@@ -1,0 +1,11 @@
+.postBackground {
+  background-color: darkcyan;
+}
+
+.postHeader{
+  background-color: darkseagreen;
+}
+
+.right-button{
+  float: right;
+}

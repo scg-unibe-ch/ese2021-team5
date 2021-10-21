@@ -271,7 +271,6 @@ export class UserComponent {
    * the HTML directly?
    */
   getUserName(): string{
-
     return <string>localStorage.getItem('userName');
   }
 
