@@ -28,16 +28,16 @@
       <input matInput type="text" placeholder="Street Name and Nr." name="address" [(ngModel)]="userToRegister.account.address">
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" placeholder="ZIP Code" name="zip" [(ngModel)]="userToRegister.account.zip">
+      <input matInput type="number" placeholder="ZIP Code" name="zip" [(ngModel)]="userToRegister.account.zip">
     </mat-form-field>
     <mat-form-field>
       <input matInput type="text" placeholder="City" name="city" [(ngModel)]="userToRegister.account.city">
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" placeholder="Phone Number" name="phone" [(ngModel)]="userToRegister.account.phone">
+      <input matInput type="number" placeholder="Phone Number" name="phone" [(ngModel)]="userToRegister.account.phone">
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" placeholder="Date of Birth" name="birthday" [(ngModel)]="userToRegister.account.birthday">
+      <input matInput type="date" placeholder="Date of Birth" name="birthday" [(ngModel)]="userToRegister.account.birthday">
     </mat-form-field>
     <br> <div [innerHTML]="endpointMsgRegistration" style="color: orangered"></div>
   </mat-card>

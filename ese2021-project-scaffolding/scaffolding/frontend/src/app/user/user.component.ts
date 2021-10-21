@@ -50,7 +50,15 @@ export class UserComponent {
   registerUser(): void {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
-      password: this.userToRegister.password
+      password: this.userToRegister.password,
+      firstName: this.userToRegister.account.firstname,
+      lastName: this.userToRegister.account.lastname,
+      email: this.userToRegister.account.email,
+      street: this.userToRegister.account.address,
+      city: this.userToRegister.account.city,
+      plz: this.userToRegister.account.zip,
+      phoneNumber: this.userToRegister.account.phone,
+      birthday: this.userToRegister.account.birthday
     }).subscribe(() => {
       this.registrationState = 2;
       this.userToLogin.username = this.userToRegister.username;
