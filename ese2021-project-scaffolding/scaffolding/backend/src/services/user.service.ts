@@ -31,11 +31,12 @@ export class UserService {
             }
         })
         .then(user => {
+            if (user == null) { return Promise.reject({ message: 'wrong username' , isUsernameCorrect: false}); }
             if (bcrypt.compareSync(loginRequestee.password, user.password)) {// compares the hash with the password from the login request
                 const token: string = jwt.sign({ userName: user.userName, userId: user.userId, admin: user.admin }, secret, { expiresIn: '2h' });
                 return Promise.resolve({ user, token });
             } else {
-                return Promise.reject({ message: 'not authorized' , isPasswordCorrect: false});
+                return Promise.reject({ message: 'wrong password' , isPasswordCorrect: false});
             }
         })
         .catch(err => Promise.reject({ message: err }));
