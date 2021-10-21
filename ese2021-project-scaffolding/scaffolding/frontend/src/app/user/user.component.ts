@@ -27,9 +27,10 @@ export class UserComponent {
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
-  //endpointMsgUsername: string = '';
+  endpointMsgUsername: string = '';
   endpointMsgPassword: string = '';
   endpointMsgRegistration: string = '';
+  endpointMsgLogin: string = '';
 
   constructor(
     public httpClient: HttpClient,
@@ -45,9 +46,6 @@ export class UserComponent {
 
   }
 
-  updateRegistrationState(): void{
-    this.registrationState = 1;
-  }
 
   registerUser(): void {
     this.httpClient.post(environment.endpointURL + "user/register", {
@@ -59,7 +57,11 @@ export class UserComponent {
       this.userToLogin.password = this.userToRegister.password;
       this.loginUser();
       this.userToRegister.username = this.userToRegister.password = this.userToRegister.account.firstname = this.userToRegister.account.lastname = '';
-    });
+    },
+      ()=>{
+        this.endpointMsgUsername = "This username is already used, change it and try again."
+      }
+    );
   }
 
   loginUser(): void {
@@ -74,7 +76,11 @@ export class UserComponent {
 
       this.userService.setLoggedIn(true);
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, this.account));
-    });
+    },
+      ()=> {
+        this.endpointMsgLogin = "The username or password is false, try again.";
+    }
+    );
   }
 
   logoutUser(): void {
@@ -101,19 +107,6 @@ export class UserComponent {
     });
   }
 
-  //checkUsername(username: string): boolean{
-  //  let usernameIsNotUsed: boolean = false
-
-  //  this.endpointMsgUsername = 'This username is already used. <br>';
-
-  //  if(request to backend if username is used){
-  //    usernameIsNotUsed = true;
-  //    this.endpointMsgUsername = ''
-  //  }
-  //
-  //  return usernameIsNotUsed;
-  //  }
-  //}
 
   /**
    * Returns true if a password: string holds a set of defined properties.
@@ -166,14 +159,14 @@ export class UserComponent {
    * (not yet: the email isn't used already.
    *
    */
-  checkProvidedAccountData(firstname: string, lastname: string, email: string, address: string, zip: string, city: string, phone: string, birthday: string):boolean{
+  checkProvidedAccountData(username: string, password: string, firstname: string, lastname: string, email: string, address: string, zip: string, city: string, phone: string, birthday: string):boolean{
     let dataIsOkay: boolean = false
     let addressContainsDigit: boolean = false;
     let dataNotZero: boolean = false;
     let emailContainsAt: boolean = false;
     //let emailNotUsed: boolean = false;
 
-    if (firstname.length !== 0 && lastname.length !== 0 && email.length !== 0 && address.length !== 0 && city.length !== 0 && zip.length !== 0 && phone.length !== 0 && birthday.length !== 0){
+    if (username.length !== 0 && password.length !== 0 && firstname.length !== 0 && lastname.length !== 0 && email.length !== 0 && address.length !== 0 && city.length !== 0 && zip.length !== 0 && phone.length !== 0 && birthday.length !== 0){
       dataNotZero = true;
     }
 

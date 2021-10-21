@@ -1,4 +1,4 @@
-<div *ngIf="registrationState == 0 && loggedIn == false">
+<div *ngIf="registrationState == 0 || registrationState == 1 && loggedIn == false">
   <mat-card>
    <h3>Register</h3>
    <mat-form-field>
@@ -7,16 +7,13 @@
    <mat-form-field>
       <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password">
     </mat-form-field>
-    <button mat-flat-button color="primary" (click)="updateRegistrationState()" [disabled]="checkPasswordProperties(userToRegister.password) === false || userToRegister.username === '' || userToRegister.password === ''">Register</button>
+    <button mat-flat-button color="primary" (click)="registerUser()" [disabled]="checkPasswordProperties(userToRegister.password) === false ||
+    checkProvidedAccountData(userToRegister.username,userToRegister.password,userToRegister.account.firstname, userToRegister.account.lastname, userToRegister.account.email,
+    userToRegister.account.address, userToRegister.account.zip, userToRegister.account.city, userToRegister.account.phone, userToRegister.account.birthday) === false">Register</button>
     <!--|| checkUsername(userToRegister.username) === false-->
-    <!--<br> <div [innerHTML]="endpointMsgUsername" style="color: orangered"></div>-->
     <br> <div [innerHTML]="endpointMsgPassword" style="color: orangered"></div>
-  </mat-card>
-</div>
+    <br> <div [innerHTML]="endpointMsgUsername" style="color: orangered"></div>
 
-<div *ngIf="registrationState == 1">
-  <mat-card>
-    <h3>Welcome {{userToRegister.username}}!</h3>
     <h4>To finish your registration you will need to provide some additional data.</h4>
     <mat-form-field>
       <input matInput type="text" placeholder="Name" name="firstname" [(ngModel)]="userToRegister.account.firstname">
@@ -42,11 +39,10 @@
     <mat-form-field>
       <input matInput type="text" placeholder="Date of Birth" name="birthday" [(ngModel)]="userToRegister.account.birthday">
     </mat-form-field>
-    <button mat-flat-button color="primary" (click)="registerUser()" [disabled]="checkProvidedAccountData(userToRegister.account.firstname, userToRegister.account.lastname, userToRegister.account.email,
-    userToRegister.account.address, userToRegister.account.zip, userToRegister.account.city, userToRegister.account.phone, userToRegister.account.birthday) === false">Register</button>
     <br> <div [innerHTML]="endpointMsgRegistration" style="color: orangered"></div>
   </mat-card>
 </div>
+
 
 <mat-card>
   <div *ngIf="!loggedIn">
@@ -58,6 +54,7 @@
       <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToLogin.password">
     </mat-form-field>
     <button mat-flat-button color="primary" (click)="loginUser()" [disabled]="userToLogin.username === '' || userToLogin.password === ''">Login</button>
+    <br> <div [innerHTML]="endpointMsgLogin" style="color: orangered"></div>
   </div>
 
   <div *ngIf="loggedIn">
