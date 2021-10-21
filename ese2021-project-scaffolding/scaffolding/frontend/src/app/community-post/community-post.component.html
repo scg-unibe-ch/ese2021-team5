@@ -9,7 +9,7 @@
     <h3>What do you want to tell the world?</h3>
     <mat-form-field>
       <mat-label>Titel</mat-label>
-      <input matInput placeholder="write here">
+      <input matInput placeholder="write here" [(ngModel)]="newPostTitle">
     </mat-form-field>
     <br>
     <mat-form-field class="newPost">
@@ -23,12 +23,9 @@
 
 <div>
   <mat-card class="postBackground"><h3 style="color:white">Relevant Posts</h3>
-    <mat-card>
-      this is supposed to be a community post
-    </mat-card>
-    <mat-card>
-      and this is another post
-    </mat-card>
+    <app-post *ngFor="let post of allPosts">
+
+    </app-post>
   </mat-card>
 </div>
 

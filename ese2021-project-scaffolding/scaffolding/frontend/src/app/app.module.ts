@@ -18,6 +18,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { CommunityPostComponent } from './community-post/community-post.component';
+import { PostComponent } from './community-post/post/post.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CommunityPostComponent } from './community-post/community-post.componen
     TodoListComponent,
     TodoItemComponent,
     UserComponent,
-    CommunityPostComponent
+    CommunityPostComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
