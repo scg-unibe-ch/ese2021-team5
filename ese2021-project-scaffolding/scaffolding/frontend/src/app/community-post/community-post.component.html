@@ -1,0 +1,37 @@
+<div *ngIf="loggedIn == true">
+  <mat-card>
+    <button mat-flat-button color="primary" (click)="newPost()">Create a new Post!</button>
+  </mat-card>
+</div>
+
+<div *ngIf="showNewPostWindow == true">
+  <mat-card>
+    <h3>What do you want to tell the world?</h3>
+    <mat-form-field>
+      <mat-label>Titel</mat-label>
+      <input matInput placeholder="write here">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="newPost">
+      <mat-label>Tell your Story</mat-label>
+      <textarea matInput placeholder="write here"></textarea>
+    </mat-form-field>
+
+    <button mat-flat-button color="warn" (click)="publishPost()">Publish!</button>
+  </mat-card>
+</div>
+
+<div>
+  <mat-card class="postBackground"><h3 style="color:white">Relevant Posts</h3>
+    <mat-card>
+      this is supposed to be a community post
+    </mat-card>
+    <mat-card>
+      and this is another post
+    </mat-card>
+  </mat-card>
+</div>
+
+
+
+

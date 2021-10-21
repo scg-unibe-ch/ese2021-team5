@@ -17,13 +17,15 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { CommunityPostComponent } from './community-post/community-post.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
     TodoItemComponent,
-    UserComponent
+    UserComponent,
+    CommunityPostComponent
   ],
   imports: [
     BrowserModule,
