@@ -31,12 +31,13 @@ export class UserService {
             }
         })
         .then(user => {
-            if (user == null) { return Promise.reject({ message: 'wrong username' , isUsernameCorrect: false}); }
+            // tslint:disable-next-line:max-line-length
+            if (user == null) { return Promise.reject({ message: 'This username does not exist, note that case matters.' , isUsernameCorrect: false}); }
             if (bcrypt.compareSync(loginRequestee.password, user.password)) {// compares the hash with the password from the login request
                 const token: string = jwt.sign({ userName: user.userName, userId: user.userId, admin: user.admin }, secret, { expiresIn: '2h' });
                 return Promise.resolve({ user, token });
             } else {
-                return Promise.reject({ message: 'wrong password' , isPasswordCorrect: false});
+                return Promise.reject({ message: 'This password is incorrect' , isPasswordCorrect: false});
             }
         })
         .catch(err => Promise.reject({ message: err }));
