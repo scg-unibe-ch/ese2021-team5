@@ -22,11 +22,13 @@ export class UserService {
         })
         .then(foundUser2 => {
         // tslint:disable-next-line:max-line-length
-        if (foundUser2 == null) {return User.create(user).then(inserted => Promise.resolve(inserted)); } else { return Promise.reject({ message: 'email already registered', isEmailTakes: true}); }
+        if (foundUser2 == null) {return User.create(user).then(inserted => Promise.resolve(inserted));
+            // tslint:disable-next-line:max-line-length
+        } else { return Promise.reject({ message: 'The email you gave is already connected to an account, please use another one.', isEmailTakes: true}); }
             });
 
         } else {
-          return Promise.reject({ message: 'account already exists', isUsernameTaken: true});
+          return Promise.reject({ message: 'This username is already used, please use another one and try again.', isUsernameTaken: true});
         }
       })
       .catch(err => Promise.reject({ message: err}));

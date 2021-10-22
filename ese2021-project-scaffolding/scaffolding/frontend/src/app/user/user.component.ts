@@ -66,8 +66,8 @@ export class UserComponent {
       this.loginUser();
       this.userToRegister.username = this.userToRegister.password = this.userToRegister.account.firstname = this.userToRegister.account.lastname = '';
     },
-      ()=>{
-        this.endpointMsgUsername = "This username is already used, change it and try again."
+      (err)=>{
+        this.endpointMsgUsername = err.error.message.message;
       }
     );
   }
@@ -173,7 +173,6 @@ export class UserComponent {
     let addressContainsDigit: boolean = false;
     let dataNotZero: boolean = false;
     let emailContainsAt: boolean = false;
-    //let emailNotUsed: boolean = false;
 
     if (username.length !== 0 && password.length !== 0 && firstname.length !== 0 && lastname.length !== 0 && email.length !== 0 && address.length !== 0 && city.length !== 0 && zip.length !== 0 && phone.length !== 0 && birthday.length !== 0){
       dataNotZero = true;
@@ -191,9 +190,6 @@ export class UserComponent {
       }
     }
 
-    //if(request to backend if email is used already){
-    //  emailNotUsed = true;
-    // }
 
     if(dataNotZero && addressContainsDigit && emailContainsAt ){ //&& emailNotUsed
       dataIsOkay = true;
@@ -245,11 +241,10 @@ export class UserComponent {
    * Tells the user which parts of his registration are invalid.
    * Uses HTML code [innerHTML] {@see user.component.html}
    */
-  buildUserMessageRegistration(dataNotZero: boolean, addressContainsDigit: boolean, emailContainsAt: boolean): string{ //,emailNotUsed: boolean
+  buildUserMessageRegistration(dataNotZero: boolean, addressContainsDigit: boolean, emailContainsAt: boolean): string{
     let dataZero: string = 'Fill in all the information. <br>';
     let addressNoDigit: string = 'You missed the number from your address. <br>';
     let emailNoAt: string = 'Your E-Mail is not an E-Mail. <br>';
-    //let emailUsed: string = 'This E-Mail is already linked to a Account.<br>';
     this.endpointMsgRegistration = '';
 
     if(!dataNotZero){
@@ -261,9 +256,7 @@ export class UserComponent {
     if(!emailContainsAt && dataNotZero){
       this.endpointMsgRegistration += emailNoAt;
     }
-    //if(!emailNotUsed && dataNotZero){
-    //  this.endpointMsgRegistration += emailUsed;
-    // }
+
     return this.endpointMsgRegistration;
   }
 
