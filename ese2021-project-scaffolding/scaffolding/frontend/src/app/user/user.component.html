@@ -10,7 +10,6 @@
     <button mat-flat-button color="primary" (click)="registerUser()" [disabled]="checkPasswordProperties(userToRegister.password) === false ||
     checkProvidedAccountData(userToRegister.username,userToRegister.password,userToRegister.account.firstname, userToRegister.account.lastname, userToRegister.account.email,
     userToRegister.account.address, userToRegister.account.zip, userToRegister.account.city, userToRegister.account.phone, userToRegister.account.birthday) === false">Register</button>
-    <!--|| checkUsername(userToRegister.username) === false-->
     <br> <div [innerHTML]="endpointMsgPassword" style="color: orangered"></div>
     <br> <div [innerHTML]="endpointMsgUsername" style="color: orangered"></div>
 
