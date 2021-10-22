@@ -15,7 +15,16 @@ export class UserService {
         })
         .then(foundUser => {
           if (foundUser == null) {
-            return User.create(user).then(inserted => Promise.resolve(inserted));
+            return User.findOne({
+            where: {
+                email: user.email
+            }
+        })
+        .then(foundUser2 => {
+        // tslint:disable-next-line:max-line-length
+        if (foundUser2 == null) {return User.create(user).then(inserted => Promise.resolve(inserted)); } else { return Promise.reject({ message: 'email already registered', isEmailTakes: true}); }
+            });
+
         } else {
           return Promise.reject({ message: 'account already exists', isUsernameTaken: true});
         }

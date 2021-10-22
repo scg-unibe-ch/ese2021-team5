@@ -28,7 +28,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
     city: string;
     firstName: string;
     lastName: string;
-    email: string;
+    email!: string;
     plz: number;
     birthday: Date;
 
@@ -65,6 +65,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
             },
             email: {
                 type: DataTypes.STRING,
+                allowNull: false
             },
             plz: {
                 type: DataTypes.INTEGER,
