@@ -6,6 +6,10 @@
   background-color: #EEE;
 }
 
+.colorRed{
+  background-color: red;
+}
+
 .newPost {
   width: 60%;
 }

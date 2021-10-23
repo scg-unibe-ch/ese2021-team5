@@ -18,6 +18,8 @@ export class CommunityPostComponent implements OnInit {
   allPosts: Post[] = []; //contains all communityPosts
   newPostTitle: string = '';
   newPostText: string = '';
+  newPostFlag: any = false;
+  newPostButtonTxt: string = "Create a new Post!";
   private user: User | undefined;
 
   constructor(
@@ -33,6 +35,12 @@ export class CommunityPostComponent implements OnInit {
   }
 
   newPost(): void {
+    if(this.newPostButtonTxt === "Create a new Post!") {
+      this.newPostButtonTxt = 'Cancel';
+    } else {
+      this.newPostButtonTxt = "Create a new Post!";
+    }
+    this.newPostFlag = !this.newPostFlag;
     this.showNewPostWindow = !this.showNewPostWindow;
   }
 
