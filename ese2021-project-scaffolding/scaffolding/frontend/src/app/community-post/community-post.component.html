@@ -23,16 +23,19 @@
         <mat-label>Tell your Story</mat-label>
         <textarea matInput placeholder="write here" [(ngModel)]="newPostText"></textarea>
       </mat-form-field>
-
-      <mat-form-field class="newPost">
-        <mat-label>Select image:</mat-label>
-        <input matInput placeholder="write here">
+      <br>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="addImageByURL()">{{newImageUrlButtonText}}</button>
+      </mat-card-actions>
+      <mat-form-field class="newPost" *ngIf="showNewImageUrlField">
+        <mat-label>Add an image using a link:</mat-label>
+        <input matInput placeholder="Please enter a link" [(ngModel)]="newPictureLink">
       </mat-form-field>
 
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-flat-button color="warn" (click)="publishPost()">Publish!</button>
+      <button mat-flat-button color="warn" (click)="publishPost()" [disabled]="publishButtonDisabled()">Publish!</button>
     </mat-card-actions>
   </mat-card>
 </div>

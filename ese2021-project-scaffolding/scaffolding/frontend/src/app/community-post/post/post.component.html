@@ -1,13 +1,18 @@
 <div>
   <mat-card class="postBackground">
-    <h5>This Post was created by {{post.creatorUsername}}</h5>
-    <mat-card-header class="postHeader">
+    <div style="text-align: right" class="creator"><span>This Post was created by <b>{{post.creatorUsername}}</b></span></div>
+
+    <mat-card class="postHeader">
       <h3>{{post.title}}</h3>
-    </mat-card-header>
-    <br>
-    <mat-card-content class="postHeader">
-      <h5>{{post.text}}</h5>
-    </mat-card-content>
+      <div [innerHTML]="post.text"></div>
+    <div *ngIf="post.pictureLink != ''">
+      <br>
+      <img src="{{post.pictureLink}}" alt="There seems to be a problem with your URL">
+    </div>
+    </mat-card>
+    <div *ngIf="loggedIn() === true">
+      <button class="right-button" mat-flat-button color="primary" (click)="createAnswer()">Respond</button>
+    </div>
     <div *ngIf="myOwnPost()">
       <button class="right-button" mat-flat-button color="warn" (click)="deletePost()">Delete your Post!</button>
     </div>

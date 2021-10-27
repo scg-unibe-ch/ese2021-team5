@@ -266,12 +266,8 @@ export class UserComponent {
     return this.endpointMsgRegistration;
   }
 
-  /**
-   * Strange getter --> For some reason i'm unable to access localStorage from within
-   * the HTML directly?
-   */
   getUserName(): string{
-    return <string>localStorage.getItem('userName');
+    return this.userService.getUser()?.username || '(Unable to find username)';
   }
 
 }

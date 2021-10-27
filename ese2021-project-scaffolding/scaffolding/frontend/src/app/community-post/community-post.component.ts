@@ -1,6 +1,5 @@
 import {Component, OnInit, Output} from '@angular/core';
 import {UserService} from "../services/user.service";
-import {TodoList} from "../models/todo-list.model";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Post} from "../models/post.model";
@@ -15,10 +14,13 @@ export class CommunityPostComponent implements OnInit {
 
   loggedIn: boolean | undefined;
   showNewPostWindow: boolean = false;
+  showNewImageUrlField: boolean = false;
+  newImageUrlButtonText = 'Link an image to your post!';
   allPosts: Post[] = []; //contains all communityPosts
   newPostTitle: string = '';
   newPostText: string = '';
   newPostImage: any;
+  newPictureLink: string = '';
   newPostFlag: any = false;
   newPostButtonTxt: string = "Create a new Post!";
   private user: User | undefined;
@@ -45,10 +47,13 @@ export class CommunityPostComponent implements OnInit {
     this.showNewPostWindow = !this.showNewPostWindow;
   }
 
+  publishButtonDisabled(): boolean{
+    return this.newPostText === '' || this.newPostTitle === '';
+  }
+
   publishPost(): void{
-    this.allPosts.push(new Post(this.newPostTitle, this.newPostText, this.userService.getUser()?.userId || 0, this.userService.getUser()?.username || '')); //0 means that there is an error --> this will cause problems at some point
-    this.newPostTitle = '';
-    this.newPostText = '';
+    this.allPosts.push(new Post(this.newPostTitle, this.newPostText, this.userService.getUser()?.userId || 0, this.userService.getUser()?.username || '', this.newPictureLink)); //0 means that there is an error --> this will cause problems at some point
+    this.newPostTitle= this.newPictureLink = this.newPostText = '';
   }
 
   deletePost(post: Post): void{
@@ -60,4 +65,13 @@ export class CommunityPostComponent implements OnInit {
     //})}
 
 
+  addImageByURL(): void {
+    this.showNewImageUrlField = !this.showNewImageUrlField
+    if (this.showNewImageUrlField){
+      this.newImageUrlButtonText = "Cancel";
+    } else {
+      this.newImageUrlButtonText = "Link an image to your post!";
+      this.newPictureLink = '';
+    }
+  }
 }

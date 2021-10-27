@@ -83,6 +83,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Checks the user status to see whether there is already a logged in user upon reloading the page.
+   * If a user is logged in, a request is sent to the backend, to get the corresponding user data.
+   */
   checkUserStatus(): void {
     // Get user data from local storage
     const userToken = localStorage.getItem('userToken');

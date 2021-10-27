@@ -1,9 +1,14 @@
 .postBackground {
-  background-color: darkcyan;
+  background-color: darkgray;
+  margin-bottom: 40px;
 }
 
 .postHeader{
-  background-color: darkseagreen;
+  background-color: white;
+}
+
+.creator{
+  margin-bottom: 20px;
 }
 
 .right-button{

@@ -13,7 +13,7 @@ import {Account} from "../../models/account.model";
 export class PostComponent implements OnInit {
 
   @Input()
-  post: Post = new Post('','',0, '');
+  post: Post = new Post('','',0, '', '');
 
   @Output()
   delete = new EventEmitter<Post>();
@@ -37,6 +37,14 @@ export class PostComponent implements OnInit {
       thisIsMyPost = true;
     }
     return thisIsMyPost;
+  }
+
+  createAnswer(): void {
+
+  }
+
+  loggedIn(): boolean {
+    return this.userService.getLoggedIn() || false;
   }
 
 }
