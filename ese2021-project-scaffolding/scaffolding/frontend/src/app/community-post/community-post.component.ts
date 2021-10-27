@@ -18,6 +18,7 @@ export class CommunityPostComponent implements OnInit {
   allPosts: Post[] = []; //contains all communityPosts
   newPostTitle: string = '';
   newPostText: string = '';
+  newPostImage: any;
   newPostFlag: any = false;
   newPostButtonTxt: string = "Create a new Post!";
   private user: User | undefined;
@@ -57,5 +58,6 @@ export class CommunityPostComponent implements OnInit {
     //this.httpClient.post(environment.endpointURL + "todolist", {
     //}).subscribe((list: any) => {
     //})}
+
 
 }
