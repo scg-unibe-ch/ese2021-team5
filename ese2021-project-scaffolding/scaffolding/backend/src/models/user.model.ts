@@ -6,6 +6,14 @@ export interface UserAttributes {
     userName: string;
     password: string;
     admin: boolean;
+    phoneNumber: number;
+    street: string;
+    city: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    plz: number;
+    birthday: Date;
 }
 
 export interface UserCreationAttributes extends Optional<UserAttributes, 'userId'> { }
@@ -15,6 +23,14 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
     userName!: string;
     password!: string;
     admin!: boolean;
+    phoneNumber: number;
+    street: string;
+    city: string;
+    firstName: string;
+    lastName: string;
+    email!: string;
+    plz: number;
+    birthday: Date;
 
     public static initialize(sequelize: Sequelize) {
         User.init({
@@ -25,7 +41,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
             },
             userName: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             password: {
                 type: DataTypes.STRING,
@@ -34,7 +50,32 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
             admin: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false
-            }
+            },
+            street: {
+                type: DataTypes.STRING,
+            },
+            city: {
+                type: DataTypes.STRING,
+            },
+            firstName: {
+                type: DataTypes.STRING,
+            },
+            lastName: {
+                type: DataTypes.STRING,
+            },
+            email: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            plz: {
+                type: DataTypes.INTEGER,
+            },
+            phoneNumber: {
+                type: DataTypes.INTEGER
+            },
+            birthday: {
+                type: DataTypes.DATEONLY
+            },
         },
             {
                 sequelize,

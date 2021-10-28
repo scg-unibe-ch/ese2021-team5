@@ -278,6 +278,16 @@ Some endpoints can be called in a [browser](http://localhost:3000), others have 
 	}
 
 	```
+
+		Code: 500
+		Body:
+	```json
+	{
+		"message": "account already exists",
+		"isUsernameTaken": true,
+	}
+
+	```
 	</details>
 
 - POST `/login`
@@ -310,6 +320,26 @@ Some endpoints can be called in a [browser](http://localhost:3000), others have 
 	}
 
 	```
+		Code: 500
+		Body:
+	```json
+	{
+		"message": "wrong password",
+		"isPasswordCorrect": false,
+	}
+
+	```
+	```
+		Code: 500
+		Body:
+	```json
+	{
+		"message": "wrong username",
+		"isUsernameCorrect": false,
+	}
+
+	```
+	</details>
 	</details>
 
 - GET

@@ -1,3 +1,5 @@
+import {Account} from "./account.model";
+
 export class User {
 
   public address: string | undefined;
@@ -13,5 +15,6 @@ export class User {
     public userId: number,
     public username: string,
     public password: string,
+    public account: Account,
   ) {}
 }
