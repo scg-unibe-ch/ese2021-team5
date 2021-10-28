@@ -28,9 +28,15 @@
         <button mat-flat-button color="primary" (click)="addImageByURL()">{{newImageUrlButtonText}}</button>
       </mat-card-actions>
       <mat-form-field class="newPost" *ngIf="showNewImageUrlField">
-        <mat-label>Add an image using a link:</mat-label>
         <input matInput placeholder="Please enter a link" [(ngModel)]="newPictureLink">
       </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="fileInput.click()">
+          <mat-label>Upload an image from your computer!</mat-label>
+          <input #fileInput type="file" style="display:none;" />
+        </button>
+      </mat-card-actions>
 
     </mat-card-content>
 
