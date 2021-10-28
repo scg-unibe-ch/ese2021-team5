@@ -17,6 +17,8 @@ export class PostComponent implements OnInit {
 
   @Output()
   delete = new EventEmitter<Post>();
+  upvoted: boolean = false;
+  downvoted: boolean = false;
 
   constructor(
     public userService: UserService
@@ -45,6 +47,24 @@ export class PostComponent implements OnInit {
 
   loggedIn(): boolean {
     return this.userService.getLoggedIn() || false;
+  }
+
+  upvote(): void{
+    //send +1 upvote to backend
+    if(this.downvoted){
+      //send -1 downvote to backend
+    }
+    this.upvoted = true;
+    this.downvoted = false;
+  }
+
+  downvote(): void{
+    //send +1 downvote to backend
+    if(this.upvoted){
+      //send -1 upvote to backend
+    }
+    this.downvoted = true;
+    this.upvoted = false;
   }
 
 }
