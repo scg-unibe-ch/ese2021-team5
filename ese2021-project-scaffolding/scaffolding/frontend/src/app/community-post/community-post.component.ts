@@ -19,6 +19,7 @@ export class CommunityPostComponent implements OnInit {
   allPosts: Post[] = []; //contains all communityPosts
   newPostTitle: string = '';
   newPostText: string = '';
+  newPostCategory: string = '';
   newPostImage: any;
   newPictureLink: string = '';
   newPostFlag: any = false;
@@ -48,12 +49,12 @@ export class CommunityPostComponent implements OnInit {
   }
 
   publishButtonDisabled(): boolean{
-    return this.newPostText === '' || this.newPostTitle === '';
+    return this.newPostText === '' || this.newPostTitle === '' || this.newPostCategory === '';
   }
 
   publishPost(): void{
-    this.allPosts.push(new Post(this.newPostTitle, this.newPostText, this.userService.getUser()?.userId || 0, this.userService.getUser()?.username || '', this.newPictureLink)); //0 means that there is an error --> this will cause problems at some point
-    this.newPostTitle= this.newPictureLink = this.newPostText = '';
+    this.allPosts.push(new Post(this.newPostTitle, this.newPostCategory, this.newPostText, this.userService.getUser()?.userId || 0, this.userService.getUser()?.username || '', this.newPictureLink)); //0 means that there is an error --> this will cause problems at some point
+    this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
   }
 
   deletePost(post: Post): void{

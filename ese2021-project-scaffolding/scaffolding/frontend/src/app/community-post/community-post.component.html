@@ -20,6 +20,13 @@
         <textarea matInput placeholder="write here" [(ngModel)]="newPostTitle" name="title"></textarea>
       </mat-form-field>
       <br>
+      <mat-card-actions>
+        <p>select Category</p>
+        <select [(ngModel)]="newPostCategory" name="categories">
+          <option>Category 1</option>
+          <option>Category 2</option>
+        </select>
+      </mat-card-actions>
       <mat-form-field class="newPost">
         <mat-label>Tell your Story</mat-label>
         <textarea matInput placeholder="write here" [(ngModel)]="newPostText"></textarea>

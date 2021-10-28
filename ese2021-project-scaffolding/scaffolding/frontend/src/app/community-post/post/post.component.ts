@@ -13,7 +13,7 @@ import {Account} from "../../models/account.model";
 export class PostComponent implements OnInit {
 
   @Input()
-  post: Post = new Post('','',0, '', '');
+  post: Post = new Post('','','',0, '', '');
 
   @Output()
   delete = new EventEmitter<Post>();
