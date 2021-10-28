@@ -50,20 +50,28 @@ export class PostComponent implements OnInit {
   }
 
   upvote(): void{
-    //send +1 upvote to backend
+    if(this.upvoted){
+      //send -1 upvote to backend
+    } else{
+      //send +1 upvote to backend
+    }
     if(this.downvoted){
       //send -1 downvote to backend
     }
-    this.upvoted = true;
+    this.upvoted = !this.upvoted;
     this.downvoted = false;
   }
 
   downvote(): void{
-    //send +1 downvote to backend
+    if(this.downvoted){
+      //send -1 downvote to backend
+    } else{
+      //send +1 downvote to backend
+    }
     if(this.upvoted){
       //send -1 upvote to backend
     }
-    this.downvoted = true;
+    this.downvoted = !this.downvoted;
     this.upvoted = false;
   }
 

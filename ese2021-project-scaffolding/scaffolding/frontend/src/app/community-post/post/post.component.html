@@ -22,11 +22,17 @@
     <div *ngIf="myOwnPost()">
       <button class="right-button" mat-flat-button color="primary" >Edit Post(not implemented yet)</button>
     </div>
-    <div *ngIf="!myOwnPost()">
-      <button class="vote" mat-flat-button color="primary" (click)="upvote()" [disabled]="upvoted">Upvote</button>
+    <div *ngIf="!myOwnPost() && !upvoted && !downvoted">
+      <button class="vote" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
+      <button class="vote" mat-flat-button color="primary" (click)="downvote()">Downvote</button>
     </div>
-    <div *ngIf="!myOwnPost()">
-      <button class="vote" mat-flat-button color="warn" (click)="downvote()"[disabled]="downvoted">Downvote</button>
+    <div *ngIf="!myOwnPost() && upvoted">
+      <button class="vote" mat-flat-button color="warn" (click)="upvote()">Upvote</button>
+      <button class="vote" mat-flat-button color="primary" (click)="downvote()">Downvote</button>
+    </div>
+    <div *ngIf="!myOwnPost() && downvoted">
+      <button class="vote" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
+      <button class="vote" mat-flat-button color="warn" (click)="downvote()">Downvote</button>
     </div>
 
   </mat-card>
