@@ -24,6 +24,8 @@ export class CommunityPostComponent implements OnInit {
   newPostFlag: any = false;
   newPostButtonTxt: string = "Create a new Post!";
   private user: User | undefined;
+  fileSelected: boolean = false;
+  image: any;
 
   constructor(
     public httpClient: HttpClient,
@@ -73,5 +75,16 @@ export class CommunityPostComponent implements OnInit {
       this.newImageUrlButtonText = "Link an image to your post!";
       this.newPictureLink = '';
     }
+  }
+
+  onFileChanged(event: any) {
+    this.image = event.target.files[0];
+    //console.log(this.image);
+    this.fileSelected = true;
+  }
+
+  deleteImage() {
+    this.image = null;
+    this.fileSelected = false;
   }
 }

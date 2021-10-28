@@ -24,18 +24,23 @@
         <textarea matInput placeholder="write here" [(ngModel)]="newPostText"></textarea>
       </mat-form-field>
       <br>
-      <mat-card-actions>
+      <mat-card-actions *ngIf="!fileSelected">
         <button mat-flat-button color="primary" (click)="addImageByURL()">{{newImageUrlButtonText}}</button>
       </mat-card-actions>
       <mat-form-field class="newPost" *ngIf="showNewImageUrlField">
         <input matInput placeholder="Please enter a link" [(ngModel)]="newPictureLink">
       </mat-form-field>
 
-      <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="fileInput.click()">
+      <mat-card-actions *ngIf="newPictureLink.length === 0">
+        <button *ngIf="!fileSelected" mat-flat-button color="primary" (click)="fileInput.click()">
           <mat-label>Upload an image from your computer!</mat-label>
-          <input #fileInput type="file" style="display:none;" />
+          <input #fileInput type="file" style="display:none;" (change)="onFileChanged($event)"/> <!-- unclear why this works -->
         </button>
+        <div *ngIf="fileSelected">
+          <button mat-flat-button color="primary" (click)="deleteImage()">
+            <mat-label>Delete Image: <b>{{image.name}}</b></mat-label>
+          </button>
+        </div>
       </mat-card-actions>
 
     </mat-card-content>
@@ -50,7 +55,7 @@
   <mat-card class="postBackground"><h3>Some unsorted Posts</h3>
     <app-post *ngFor="let post of allPosts"
               [post]="post"
-              (delete)="deletePost($event)"> <!--not sure what this does... Required for data-binding inside the post template -->
+              (delete)="deletePost($event)">
     </app-post>
   </mat-card>
 </div>
