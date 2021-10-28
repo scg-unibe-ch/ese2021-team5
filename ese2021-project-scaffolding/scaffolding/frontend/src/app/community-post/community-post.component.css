@@ -1,3 +1,7 @@
+p {
+  font-size: 15px;
+}
+
 .mat-card {
   margin: 40px 0;
 }
@@ -8,6 +12,10 @@
 
 .colorRed{
   background-color: red;
+}
+
+.title{
+  width: 20%;
 }
 
 .newPost {
