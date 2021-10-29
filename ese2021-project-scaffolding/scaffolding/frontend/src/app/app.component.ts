@@ -109,6 +109,7 @@ export class AppComponent implements OnInit {
 
         this.userService.setLoggedIn(false);
         this.userService.setUser(undefined);
+
       })
     }
 

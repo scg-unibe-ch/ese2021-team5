@@ -52,15 +52,18 @@ export class CommunityPostComponent implements OnInit {
   }
 
   publishButtonDisabled(): boolean{
-    return this.newPostText === '' || this.newPostTitle === '' || this.newPostCategory === '';
+
+    return (this.newPostText === '' && !this.fileSelected && this.newPictureLink === '') || this.newPostTitle === '' || this.newPostCategory === '';
   }
 
   /**
-   * Is missing an http-request
+   * Is missing the http-request
    */
   publishPost(): void{
     this.allPosts.push(new Post(this.newPostTitle, this.newPostCategory, this.newPostText, this.userService.getUser()?.userId || 0, this.userService.getUser()?.username || '', this.newPictureLink, this.image)); //0 means that there is an error --> this will cause problems at some point
     this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
+    this.deleteImage();
+    this.newPost();
   }
 
   deletePost(post: Post): void{

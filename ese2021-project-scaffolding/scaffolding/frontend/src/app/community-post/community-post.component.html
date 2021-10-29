@@ -31,13 +31,14 @@
         <mat-label>Tell your Story</mat-label>
         <textarea matInput placeholder="write here" [(ngModel)]="newPostText"></textarea>
       </mat-form-field>
-      <br>
+      <br> <br>
+
       <mat-card-actions *ngIf="!fileSelected">
         <button mat-flat-button color="primary" (click)="addImageByURL()">{{newImageUrlButtonText}}</button>
+        <mat-form-field class="newPost" *ngIf="showNewImageUrlField">
+         <input matInput placeholder="Please enter a link" [(ngModel)]="newPictureLink">
+        </mat-form-field>
       </mat-card-actions>
-      <mat-form-field class="newPost" *ngIf="showNewImageUrlField">
-        <input matInput placeholder="Please enter a link" [(ngModel)]="newPictureLink">
-      </mat-form-field>
 
       <mat-card-actions *ngIf="newPictureLink.length === 0">
         <button *ngIf="!fileSelected" mat-flat-button color="primary" (click)="fileInput.click()">
@@ -52,6 +53,7 @@
       </mat-card-actions>
 
     </mat-card-content>
+
 
     <mat-card-actions>
       <button mat-flat-button color="warn" (click)="publishPost()" [disabled]="publishButtonDisabled()">Publish!</button>
