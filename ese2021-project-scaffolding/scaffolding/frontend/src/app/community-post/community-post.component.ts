@@ -27,6 +27,7 @@ export class CommunityPostComponent implements OnInit {
   private user: User | undefined;
   fileSelected: boolean = false;
   image: any;
+  imageURL: any;
 
   constructor(
     public httpClient: HttpClient,
@@ -54,8 +55,11 @@ export class CommunityPostComponent implements OnInit {
     return this.newPostText === '' || this.newPostTitle === '' || this.newPostCategory === '';
   }
 
+  /**
+   * Is missing an http-request
+   */
   publishPost(): void{
-    this.allPosts.push(new Post(this.newPostTitle, this.newPostCategory, this.newPostText, this.userService.getUser()?.userId || 0, this.userService.getUser()?.username || '', this.newPictureLink)); //0 means that there is an error --> this will cause problems at some point
+    this.allPosts.push(new Post(this.newPostTitle, this.newPostCategory, this.newPostText, this.userService.getUser()?.userId || 0, this.userService.getUser()?.username || '', this.newPictureLink, this.image)); //0 means that there is an error --> this will cause problems at some point
     this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
   }
 
@@ -79,8 +83,8 @@ export class CommunityPostComponent implements OnInit {
   }
 
   onFileChanged(event: any) {
+
     this.image = event.target.files[0];
-    console.log(this.image);
     this.fileSelected = true;
   }
 

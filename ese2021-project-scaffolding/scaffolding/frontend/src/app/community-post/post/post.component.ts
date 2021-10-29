@@ -12,8 +12,10 @@ import {Account} from "../../models/account.model";
 })
 export class PostComponent implements OnInit {
 
+  imageURL: any;
+
   @Input()
-  post: Post = new Post('','','',0, '', '');
+  post: Post = new Post('','','',0, '', '', new File([], ''));
 
   @Output()
   delete = new EventEmitter<Post>();
