@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
     // Set boolean whether a user is logged in or not
     this.userService.setLoggedIn(!!userToken);
 
-    if (this.loggedIn) {
+    if (this.userService.getLoggedIn()) {
       this.httpClient.get(environment.endpointURL + "user/").subscribe((user: any) => {
         for (let i = 0; i < user.length; i++) {
           if (user[i].userName === localStorage.getItem('userName')) {
@@ -102,6 +102,13 @@ export class AppComponent implements OnInit {
             break;
           }
         }
+      },
+      () => {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userToken');
+
+        this.userService.setLoggedIn(false);
+        this.userService.setUser(undefined);
       })
     }
 

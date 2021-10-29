@@ -1,4 +1,4 @@
-<div *ngIf="loggedIn == true">
+<div *ngIf="loggedIn">
   <mat-card >
     <button mat-flat-button [ngClass]="{ 'colorRed' :newPostFlag }" color="primary" (click)="newPost()">{{newPostButtonTxt}}</button>
   </mat-card>

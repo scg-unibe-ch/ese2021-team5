@@ -80,7 +80,7 @@ export class CommunityPostComponent implements OnInit {
 
   onFileChanged(event: any) {
     this.image = event.target.files[0];
-    //console.log(this.image);
+    console.log(this.image);
     this.fileSelected = true;
   }
 
@@ -88,4 +88,5 @@ export class CommunityPostComponent implements OnInit {
     this.image = null;
     this.fileSelected = false;
   }
+
 }
