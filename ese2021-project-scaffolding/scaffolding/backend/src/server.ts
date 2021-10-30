@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import { TodoItemController } from './controllers/todoitem.controller';
 import { TodoListController } from './controllers/todolist.controller';
 import { UserController } from './controllers/user.controller';
+import { PostController } from './controllers/post.controller';
 import { SecuredController } from './controllers/secured.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
@@ -65,6 +66,7 @@ export class Server {
             .use('/todoitem', TodoItemController)   // any request on this path is forwarded to the TodoItemController
             .use('/todolist', TodoListController)
             .use('/user', UserController)
+            .use('/post', PostController)
             .use('/secured', SecuredController)
             .use('/admin', AdminController)
             .options('*', cors(options))
