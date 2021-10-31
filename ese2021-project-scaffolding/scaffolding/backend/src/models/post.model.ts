@@ -9,7 +9,7 @@ export interface PostAttributes {
   creatorId: number;
   creatorUsername: string;
   pictureLink: string;
-  pictureFile: File;
+  pictureFile: string;
 }
 
 export interface PostCreationAttributes extends Optional<PostAttributes, 'postId'> { }
@@ -22,7 +22,7 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
   creatorId!: number;
   creatorUsername: string;
   pictureLink: string;
-  pictureFile: File;
+  pictureFile: string;
 
   public static initialize(sequelize: Sequelize) {
     Post.init({
