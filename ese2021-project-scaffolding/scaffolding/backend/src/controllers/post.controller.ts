@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from 'express';
-import { PostService } from "../services/post.service";
+import { PostService } from '../services/post.service';
 import { verifyToken } from '../middlewares/checkAuth';
 
 const postController: Router = express.Router();
