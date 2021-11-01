@@ -15,7 +15,7 @@ export class PostComponent implements OnInit {
   imageURL: any;
 
   @Input()
-  post: Post = new Post('','','',0, '', '', new File([], ''));
+  post: Post = new Post('','','',0, '', '', new File([], ''), 0);
 
   @Output()
   delete = new EventEmitter<Post>();
@@ -28,7 +28,6 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   deletePost(): void {
@@ -37,7 +36,7 @@ export class PostComponent implements OnInit {
 
   myOwnPost(): boolean {
     let thisIsMyPost: boolean = false;
-    if((this.userService.getUser()?.userId || 0) === this.post.creatorId){ //0 stands for an error
+    if((this.userService.getUser()?.userId || 0) == this.post.creatorId){ //0 stands for an error
       thisIsMyPost = true;
     }
     return thisIsMyPost;

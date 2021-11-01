@@ -12,14 +12,17 @@ export class Post {
    public creatorUsername: string,
    public pictureLink: string,
    public pictureFile: File,
+   public postId: number,
   ) {
+
+    /*
     if (pictureFile != null) {
       let reader = new FileReader();
       reader.readAsDataURL(this.pictureFile);
       reader.onload = (_event) => {
         this.pictureUploadedURL = reader.result;
       }
-    }
+    } */
 
     }
   }

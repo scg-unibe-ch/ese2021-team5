@@ -39,6 +39,16 @@ postController.get('/:id',
       .catch(err => res.status(500).send(err));
   }
 );
+
+// ---inserted by Andri (without really understanding what he's doing)
+postController.get('/',
+    (req: Request, res: Response) => {
+    Post.findAll()
+        .then(post => res.status(200).send(post))
+        .catch(err => res.status(500).send(err));
+    });
+// -------
+
 postController.put('/:id', (req: Request, res: Response) => {
   Post.findByPk(req.params.id).then(found => {
     if (found != null) {

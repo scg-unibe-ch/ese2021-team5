@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Post} from "../models/post.model";
 import {User} from "../models/user.model";
+import {TodoList} from "../models/todo-list.model";
 
 @Component({
   selector: 'app-community-post',
@@ -20,14 +21,12 @@ export class CommunityPostComponent implements OnInit {
   newPostTitle: string = '';
   newPostText: string = '';
   newPostCategory: string = '';
-  newPostImage: any;
   newPictureLink: string = '';
   newPostFlag: any = false;
   newPostButtonTxt: string = "Create a new Post!";
   private user: User | undefined;
   fileSelected: boolean = false;
   image: any;
-  imageURL: any;
 
   constructor(
     public httpClient: HttpClient,
@@ -39,6 +38,7 @@ export class CommunityPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.readPosts();
   }
 
   newPost(): void {
@@ -56,23 +56,40 @@ export class CommunityPostComponent implements OnInit {
     return (this.newPostText === '' && !this.fileSelected && this.newPictureLink === '') || this.newPostTitle === '' || this.newPostCategory === '';
   }
 
-  /**
-   * Is missing the http-request
-   */
-  publishPost(): void{
-    this.allPosts.push(new Post(this.newPostTitle, this.newPostCategory, this.newPostText, this.userService.getUser()?.userId || 0, this.userService.getUser()?.username || '', this.newPictureLink, this.image)); //0 means that there is an error --> this will cause problems at some point
-    this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
-    this.deleteImage();
-    this.newPost();
+
+  publishPost(): void {
+    this.httpClient.post(environment.endpointURL + "post", {
+      creatorId: this.userService.getUser()?.userId || 0,
+      title: this.newPostTitle,
+      category: this.newPostCategory,
+      text: this.newPostText,
+      creatorUsername: this.userService.getUser()?.username || '',
+      pictureLink: this.newPictureLink,
+      pictureFile: this.image,
+
+    }).subscribe((post: any) => {
+      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId));
+      this.resetImage();
+      this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
+      this.newPost(); //resets the "new post window"
+    })
   }
+
+  readPosts(): void {
+    this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
+      posts.forEach((post: any) => {
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId));
+      })
+    })
+  }
+
 
   deletePost(post: Post): void{
-    this.allPosts.splice(this.allPosts.indexOf(post), 1)
-  }
+    this.httpClient.delete(environment.endpointURL + "post/" + post.postId).subscribe(() => {
+      this.allPosts.splice(this.allPosts.indexOf(post), 1);
+    })
 
-    //this.httpClient.post(environment.endpointURL + "todolist", {
-    //}).subscribe((list: any) => {
-    //})}
+  }
 
 
   addImageByURL(): void {
@@ -91,7 +108,7 @@ export class CommunityPostComponent implements OnInit {
     this.fileSelected = true;
   }
 
-  deleteImage() {
+  resetImage() {
     this.image = null;
     this.fileSelected = false;
   }

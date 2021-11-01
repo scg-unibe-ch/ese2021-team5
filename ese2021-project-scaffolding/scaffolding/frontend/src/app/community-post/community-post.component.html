@@ -46,7 +46,7 @@
           <input #fileInput type="file" style="display:none;" (change)="onFileChanged($event)"/> <!-- unclear why this works -->
         </button>
         <div *ngIf="fileSelected">
-          <button mat-flat-button color="primary" (click)="deleteImage()">
+          <button mat-flat-button color="primary" (click)="resetImage()">
             <mat-label>Delete Image: <b>{{image.name}}</b></mat-label>
           </button>
         </div>
