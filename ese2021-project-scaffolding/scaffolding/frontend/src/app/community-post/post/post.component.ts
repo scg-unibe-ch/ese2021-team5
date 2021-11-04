@@ -2,8 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TodoList} from "../../models/todo-list.model";
 import {Post} from "../../models/post.model";
 import {UserService} from "../../services/user.service";
+import {HttpClient} from "@angular/common/http";
 import {User} from "../../models/user.model";
 import {Account} from "../../models/account.model";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-post',
@@ -21,13 +23,16 @@ export class PostComponent implements OnInit {
   delete = new EventEmitter<Post>();
   upvoted: boolean = false;
   downvoted: boolean = false;
+  admin: boolean | undefined;
 
   constructor(
-    public userService: UserService
+    public userService: UserService,
+    public httpClient: HttpClient
   ) {
   }
 
   ngOnInit(): void {
+    this.checkAdmin();
   }
 
   deletePost(): void {
@@ -48,6 +53,15 @@ export class PostComponent implements OnInit {
 
   loggedIn(): boolean {
     return this.userService.getLoggedIn() || false;
+  }
+
+  checkAdmin(): void {
+    this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
+        this.admin = true;
+        },
+      () => {
+        this.admin = false;
+      });
   }
 
   upvote(): void{

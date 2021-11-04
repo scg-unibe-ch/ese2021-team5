@@ -16,24 +16,24 @@
     </mat-card>
     <div style="text-align: left" class="creator"><span>Upvotes: 0 <br>
     Downvotes: 0 </span></div>
-    <div *ngIf="loggedIn() === true">
+    <div *ngIf="loggedIn() === true && !admin"> <!-- guests and admins can't comment on posts. -->
       <button class="right-button" mat-flat-button color="primary" (click)="createAnswer()">Respond</button>
     </div>
-    <div *ngIf="myOwnPost()">
+    <div *ngIf="myOwnPost() || admin"> <!-- admins can delete posts from users. -->
       <button class="right-button" mat-flat-button color="warn" (click)="deletePost()">Delete your Post!</button>
     </div>
-    <div *ngIf="myOwnPost()">
+    <div *ngIf="myOwnPost() || admin"> <!-- admins can edit posts from users. -->
       <button class="right-button" mat-flat-button color="primary" >Edit Post(not implemented yet)</button>
     </div>
-    <div *ngIf="!myOwnPost() && !upvoted && !downvoted">
+    <div *ngIf="!myOwnPost() && loggedIn() === true && !admin && !upvoted && !downvoted"> <!-- guests and admins can't upvote/downvote posts. -->
       <button class="vote" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
       <button class="vote" mat-flat-button color="primary" (click)="downvote()">Downvote</button>
     </div>
-    <div *ngIf="!myOwnPost() && upvoted">
+    <div *ngIf="!myOwnPost() && loggedIn() === true && !admin && upvoted"> <!-- guests and admins can't upvote/downvote posts. -->
       <button class="vote" mat-flat-button color="warn" (click)="upvote()">Upvote</button>
       <button class="vote" mat-flat-button color="primary" (click)="downvote()">Downvote</button>
     </div>
-    <div *ngIf="!myOwnPost() && downvoted">
+    <div *ngIf="!myOwnPost() && loggedIn() === true && !admin && downvoted"> <!-- guests and admins can't upvote/downvote posts. -->
       <button class="vote" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
       <button class="vote" mat-flat-button color="warn" (click)="downvote()">Downvote</button>
     </div>

@@ -14,6 +14,7 @@ import {TodoList} from "../models/todo-list.model";
 export class CommunityPostComponent implements OnInit {
 
   loggedIn: boolean | undefined;
+  admin: boolean | undefined;
   showNewPostWindow: boolean = false;
   showNewImageUrlField: boolean = false;
   newImageUrlButtonText = 'Link an image to your post!';
@@ -39,6 +40,16 @@ export class CommunityPostComponent implements OnInit {
 
   ngOnInit(): void {
     this.readPosts();
+    this.checkAdmin();
+  }
+
+  checkAdmin():void{
+    this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
+      this.admin = true;},
+      () => {
+      this.admin = false;
+    });
+
   }
 
   newPost(): void {

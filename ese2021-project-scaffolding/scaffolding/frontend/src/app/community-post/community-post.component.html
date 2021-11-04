@@ -1,10 +1,10 @@
-<div *ngIf="loggedIn">
+<div *ngIf="loggedIn && !admin"> <!-- guests and admins can't create posts. -->
   <mat-card >
     <button mat-flat-button [ngClass]="{ 'colorRed' :newPostFlag }" color="primary" (click)="newPost()">{{newPostButtonTxt}}</button>
   </mat-card>
 </div>
 
-<div *ngIf="showNewPostWindow == true && loggedIn">
+<div *ngIf="showNewPostWindow == true && loggedIn && !admin"> <!-- guests and admins can't create posts. -->
   <mat-card class="example-card">
 
     <mat-card-header>
