@@ -14,10 +14,17 @@ import {environment} from "../../../environments/environment";
 })
 export class PostComponent implements OnInit {
 
-  imageURL: any;
-
   @Input()
   post: Post = new Post('','','',0, '', '', new File([], ''), 0);
+
+  imageURL: any;
+  editMode: boolean = false;
+  editButtonTextEdit: string = "Edit Post";
+  editButtonTextDiscardChanges: string = "Discard Changes";
+  editButtonText: string = this.editButtonTextEdit;
+  updatePostTitle: string = '';
+  updatePostText: string = '';
+  updatePostCategory: string = '';
 
   @Output()
   delete = new EventEmitter<Post>();
@@ -90,4 +97,29 @@ export class PostComponent implements OnInit {
     this.upvoted = false;
   }
 
+  editPost() {
+    this.editMode = !this.editMode;
+    this.updatePostTitle = this.post.title;
+    this.updatePostText = this.post.text;
+    this.updatePostCategory = this.post.category;
+    if (this.editButtonText == this.editButtonTextEdit){
+      this.editButtonText = this.editButtonTextDiscardChanges
+    } else {
+      this.editButtonText = this.editButtonTextEdit;
+    }
+  }
+
+  safeChanges() {
+    this.httpClient.put(environment.endpointURL + "post/" + this.post.postId, {
+      title: this.updatePostTitle,
+      text: this.updatePostText,
+      category: this.updatePostCategory,
+    }).subscribe( (post: any) => {
+      this.editPost();
+      this.post.title = post.title;
+      this.post.text = post.text;
+      this.post.category = post.category;
+      }
+    )
+  }
 }

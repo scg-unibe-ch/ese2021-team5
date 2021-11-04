@@ -2,6 +2,7 @@
   <mat-card class="postBackground">
     <div style="text-align: right" class="creator"><span>This Post was created by <b>{{post.creatorUsername}}</b> on (creation date)</span></div>
 
+    <div *ngIf="!editMode">
     <mat-card class="postHeader">
       <h3>{{post.title}}</h3>
       <p>{{post.category}}</p>
@@ -14,6 +15,34 @@
       <img mat-card-image class="image" src="{{post.pictureUploadedURL}}">
     </div>
     </mat-card>
+    </div>
+
+    <div *ngIf="editMode">
+      <mat-card class="postHeader">
+        <h3 style="color: orangered">Editing Mode</h3>
+        <mat-form-field appearance="outline" class="title">
+          <mat-label>Title</mat-label>
+          <textarea matInput placeholder="{{post.title}}" [(ngModel)]="updatePostTitle" name="title">something</textarea>
+        </mat-form-field> <br>
+        <select [(ngModel)]="updatePostCategory" name="categories">
+          <option>Category 1</option>
+          <option>Category 2</option>
+        </select> <br> <br>
+        <mat-form-field appearance="outline" class="title">
+          <mat-label>Text</mat-label>
+          <textarea matInput placeholder="{{post.text}}" [(ngModel)]="updatePostText" name="text">something</textarea>
+        </mat-form-field>
+        <div *ngIf="post.pictureLink != ''">
+          <br>
+          <img src="{{post.pictureLink}}" alt="There seems to be a problem with your URL">
+        </div>
+        <div *ngIf="post.pictureUploadedURL">
+          <img mat-card-image class="image" src="{{post.pictureUploadedURL}}">
+        </div>
+      </mat-card>
+
+    </div>
+
     <div style="text-align: left" class="creator"><span>Upvotes: 0 <br>
     Downvotes: 0 </span></div>
     <div *ngIf="loggedIn() === true && !admin"> <!-- guests and admins can't comment on posts. -->
@@ -23,7 +52,10 @@
       <button class="right-button" mat-flat-button color="warn" (click)="deletePost()">Delete your Post!</button>
     </div>
     <div *ngIf="myOwnPost() || admin"> <!-- admins can edit posts from users. -->
-      <button class="right-button" mat-flat-button color="primary" >Edit Post(not implemented yet)</button>
+      <button class="right-button" mat-flat-button color="primary" (click)="editPost()">{{editButtonText}}</button>
+    </div>
+    <div *ngIf="(myOwnPost() || admin) && editMode"> <!-- admins can edit posts from users. -->
+      <button class="right-button" mat-flat-button color="accent" (click)="safeChanges()">Safe Changes!</button>
     </div>
     <div *ngIf="!myOwnPost() && loggedIn() === true && !admin && !upvoted && !downvoted"> <!-- guests and admins can't upvote/downvote posts. -->
       <button class="vote" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
@@ -37,6 +69,8 @@
       <button class="vote" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
       <button class="vote" mat-flat-button color="warn" (click)="downvote()">Downvote</button>
     </div>
+
+
 
   </mat-card>
 </div>
