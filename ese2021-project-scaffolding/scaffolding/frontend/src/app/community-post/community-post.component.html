@@ -63,14 +63,14 @@
 
 
 <div>
-  <mat-card class="postBackground"><h3>Some unsorted Posts</h3>
-      <p>sort by: </p>
-      <select [(ngModel)]="sortBy" name="sort">
+  <mat-card class="postBackground"><h3>All Posts</h3>
+      <p>Sort by: </p> <Button mat-flat-button color="primary" (click)="sortPosts()">Update</Button>
+      <select [(ngModel)]="sortBy" name="sort" (ngModelChange)="sortPosts()">
         <option value="New">New</option>
         <option value="Score">Score</option>
       </select>
-    <div *ngIf="SortingByNew()"> <!-- Sort by New -->
-    <app-post  *ngFor="let post of allPosts"
+    <div>
+    <app-post  *ngFor="let post of displayPostsArray"
               [post]="post"
               (delete)="deletePost($event)">
     </app-post>

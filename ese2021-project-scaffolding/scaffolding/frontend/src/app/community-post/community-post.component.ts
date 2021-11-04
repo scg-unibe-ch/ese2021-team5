@@ -20,6 +20,9 @@ export class CommunityPostComponent implements OnInit {
   showNewImageUrlField: boolean = false;
   newImageUrlButtonText = 'Link an image to your post!';
   allPosts: Post[] = []; //contains all communityPosts
+  displayPostsArray: Post[] = [];
+  sortPostsByIdArray: Post[] = [];
+  sortPostsByRankArray: Post[] = []; //used for sorting posts by their rank
   newPostTitle: string = '';
   newPostText: string = '';
   newPostCategory: string = '';
@@ -40,6 +43,7 @@ export class CommunityPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.displayPostsArray = this.allPosts;
     this.readPosts();
     this.checkAdmin();
   }
@@ -89,7 +93,7 @@ export class CommunityPostComponent implements OnInit {
       pictureFile: this.image,
 
     }).subscribe((post: any) => {
-      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, this.image, post.postId));
+      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, this.image, post.postId, 0));
       this.resetImage();
       this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
       this.newPost(); //resets the "new post window"
@@ -99,7 +103,7 @@ export class CommunityPostComponent implements OnInit {
   readPosts(): void {
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
       posts.forEach((post: any) => {
-        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId));
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId, 0));
       })
     })
   }
@@ -123,15 +127,36 @@ export class CommunityPostComponent implements OnInit {
     }
   }
 
-  onFileChanged(event: any) {
+  onFileChanged(event: any): void {
 
     this.image = event.target.files[0];
     this.fileSelected = true;
   }
 
-  resetImage() {
+  resetImage(): void {
     this.image = null;
     this.fileSelected = false;
   }
 
+  sortPostsByRank(): void {
+    this.sortPostsByRankArray = this.allPosts;
+    this.displayPostsArray = this.sortPostsByRankArray.sort((a, b) => b.postRank - a.postRank);
+  }
+
+  sortPostsById(): void {
+    this.sortPostsByIdArray = this.allPosts;
+    this.displayPostsArray = this.sortPostsByIdArray.sort((a, b) => b.postId - a.postId);
+  }
+
+  sortPosts(): void {
+
+    switch (this.sortBy){
+      case 'Score':
+        this.sortPostsByRank();
+        break;
+      case 'New':
+        this.sortPostsById();
+        break;
+    }
+  }
 }

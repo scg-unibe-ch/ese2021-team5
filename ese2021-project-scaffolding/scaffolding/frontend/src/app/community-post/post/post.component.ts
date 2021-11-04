@@ -15,7 +15,7 @@ import {environment} from "../../../environments/environment";
 export class PostComponent implements OnInit {
 
   @Input()
-  post: Post = new Post('','','',0, '', '', new File([], ''), 0);
+  post: Post = new Post('','','',0, '', '', new File([], ''), 0, 0);
 
   imageURL: any;
   editMode: boolean = false;
@@ -74,11 +74,19 @@ export class PostComponent implements OnInit {
   upvote(): void{
     if(this.upvoted){
       //send -1 upvote to backend
+      if (this.post.postRank > 0) {
+        this.post.postRank--;
+      }
     } else{
       //send +1 upvote to backend
+        this.post.postRank++;
+
     }
     if(this.downvoted){
       //send -1 downvote to backend
+      if (this.post.postRank > 0) {
+        this.post.postRank--;
+      }
     }
     this.upvoted = !this.upvoted;
     this.downvoted = false;

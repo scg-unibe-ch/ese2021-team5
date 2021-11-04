@@ -43,8 +43,7 @@
 
     </div>
 
-    <div style="text-align: left" class="creator"><span>Upvotes: 0 <br>
-    Downvotes: 0 </span></div>
+    <div style="text-align: left" class="creator"><span>Score: {{post.postRank}} </span></div>
     <div *ngIf="loggedIn() === true && !admin"> <!-- guests and admins can't comment on posts. -->
       <button class="right-button" mat-flat-button color="primary" (click)="createAnswer()">Respond</button>
     </div>

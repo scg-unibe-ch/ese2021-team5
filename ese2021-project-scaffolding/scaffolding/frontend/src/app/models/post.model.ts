@@ -13,6 +13,7 @@ export class Post {
    public pictureLink: string,
    public pictureFile: File,
    public postId: number,
+   public postRank: number,
   ) {
 
     /*
