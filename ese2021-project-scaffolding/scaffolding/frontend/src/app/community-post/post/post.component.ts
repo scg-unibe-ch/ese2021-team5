@@ -25,6 +25,8 @@ export class PostComponent implements OnInit {
   updatePostTitle: string = '';
   updatePostText: string = '';
   updatePostCategory: string = '';
+  upvoteFlag: any = false;
+  downvoteFlag: any = false;
 
   @Output()
   delete = new EventEmitter<Post>();
@@ -72,37 +74,27 @@ export class PostComponent implements OnInit {
   }
 
   upvote(): void{
-    if(this.upvoted){
-      //send -1 upvote to backend
-      if (this.post.postRank > 0) {
-        this.post.postRank--;
-      }
-    } else{
-      //send +1 upvote to backend
+      if(!this.upvoteFlag) {
         this.post.postRank++;
-
-    }
-    if(this.downvoted){
-      //send -1 downvote to backend
-      if (this.post.postRank > 0) {
+      } else {
         this.post.postRank--;
       }
-    }
-    this.upvoted = !this.upvoted;
-    this.downvoted = false;
+      if(this.downvoteFlag){
+        this.downvote();
+      }
+    this.upvoteFlag = !this.upvoteFlag;
   }
 
   downvote(): void{
-    if(this.downvoted){
-      //send -1 downvote to backend
-    } else{
-      //send +1 downvote to backend
-    }
-    if(this.upvoted){
-      //send -1 upvote to backend
-    }
-    this.downvoted = !this.downvoted;
-    this.upvoted = false;
+      if(!this.downvoteFlag){
+        this.post.postRank--;
+      } else {
+        this.post.postRank++;
+      }
+      if(this.upvoteFlag){
+        this.upvote();
+      }
+      this.downvoteFlag = !this.downvoteFlag;
   }
 
   editPost() {

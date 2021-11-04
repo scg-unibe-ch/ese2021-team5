@@ -56,18 +56,11 @@
     <div *ngIf="(myOwnPost() || admin) && editMode"> <!-- admins can edit posts from users. -->
       <button class="right-button" mat-flat-button color="accent" (click)="safeChanges()">Safe Changes!</button>
     </div>
-    <div *ngIf="!myOwnPost() && loggedIn() === true && !admin && !upvoted && !downvoted"> <!-- guests and admins can't upvote/downvote posts. -->
-      <button class="vote" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
-      <button class="vote" mat-flat-button color="primary" (click)="downvote()">Downvote</button>
+    <div *ngIf="!myOwnPost() && loggedIn() === true && !admin"> <!-- guests and admins can't upvote/downvote posts. -->
+      <button class="vote" [ngClass]="{'colorRed' :upvoteFlag}" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
+      <button class="vote" [ngClass]="{'colorRed' :downvoteFlag}" mat-flat-button color="primary" (click)="downvote()">Downvote</button>
     </div>
-    <div *ngIf="!myOwnPost() && loggedIn() === true && !admin && upvoted"> <!-- guests and admins can't upvote/downvote posts. -->
-      <button class="vote" mat-flat-button color="warn" (click)="upvote()">Upvote</button>
-      <button class="vote" mat-flat-button color="primary" (click)="downvote()">Downvote</button>
-    </div>
-    <div *ngIf="!myOwnPost() && loggedIn() === true && !admin && downvoted"> <!-- guests and admins can't upvote/downvote posts. -->
-      <button class="vote" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
-      <button class="vote" mat-flat-button color="warn" (click)="downvote()">Downvote</button>
-    </div>
+
 
 
 
