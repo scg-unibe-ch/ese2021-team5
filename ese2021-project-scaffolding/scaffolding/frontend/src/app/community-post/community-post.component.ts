@@ -15,6 +15,7 @@ export class CommunityPostComponent implements OnInit {
 
   loggedIn: boolean | undefined;
   admin: boolean | undefined;
+  sortBy: string = 'New';
   showNewPostWindow: boolean = false;
   showNewImageUrlField: boolean = false;
   newImageUrlButtonText = 'Link an image to your post!';
@@ -41,6 +42,15 @@ export class CommunityPostComponent implements OnInit {
   ngOnInit(): void {
     this.readPosts();
     this.checkAdmin();
+  }
+
+  SortingByNew(): boolean{
+    if(this.sortBy.match("New")){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   checkAdmin():void{

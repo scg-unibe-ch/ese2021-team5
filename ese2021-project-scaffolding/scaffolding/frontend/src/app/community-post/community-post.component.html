@@ -61,12 +61,22 @@
   </mat-card>
 </div>
 
+
 <div>
   <mat-card class="postBackground"><h3>Some unsorted Posts</h3>
-    <app-post *ngFor="let post of allPosts"
+      <p>sort by: </p>
+      <select [(ngModel)]="sortBy" name="sort">
+        <option value="New">New</option>
+        <option value="Score">Score</option>
+      </select>
+    <div *ngIf="SortingByNew()"> <!-- Sort by New -->
+    <app-post  *ngFor="let post of allPosts"
               [post]="post"
               (delete)="deletePost($event)">
     </app-post>
+    </div>
+    <div *ngIf="!SortingByNew()"> <!-- Sort by Score (implemented this way because there are only 2 options) -->
+    </div>
   </mat-card>
 </div>
 
