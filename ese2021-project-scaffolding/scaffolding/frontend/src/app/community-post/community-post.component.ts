@@ -21,8 +21,7 @@ export class CommunityPostComponent implements OnInit {
   newImageUrlButtonText = 'Link an image to your post!';
   allPosts: Post[] = []; //contains all communityPosts
   displayPostsArray: Post[] = [];
-  sortPostsByIdArray: Post[] = [];
-  sortPostsByRankArray: Post[] = []; //used for sorting posts by their rank
+  sortedPosts: Post[] = [];
   newPostTitle: string = '';
   newPostText: string = '';
   newPostCategory: string = '';
@@ -32,6 +31,10 @@ export class CommunityPostComponent implements OnInit {
   private user: User | undefined;
   fileSelected: boolean = false;
   image: any;
+  selectedCategory: string = "All";
+  private i: number = 0;
+  private deleteList: number[] = [];
+
 
   constructor(
     public httpClient: HttpClient,
@@ -43,18 +46,9 @@ export class CommunityPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.displayPostsArray = this.allPosts;
+    console.log("oninit called");
     this.readPosts();
     this.checkAdmin();
-  }
-
-  SortingByNew(): boolean{
-    if(this.sortBy.match("New")){
-      return true;
-    }
-    else{
-      return false;
-    }
   }
 
   checkAdmin():void{
@@ -139,13 +133,19 @@ export class CommunityPostComponent implements OnInit {
   }
 
   sortPostsByRank(): void {
-    this.sortPostsByRankArray = this.allPosts;
-    this.displayPostsArray = this.sortPostsByRankArray.sort((a, b) => b.postRank - a.postRank);
+    this.sortedPosts = [];
+    this.allPosts.forEach((post: any) => {
+      this.sortedPosts.push(post);
+    })
+    this.sortedPosts.sort((a, b) => b.postRank - a.postRank);
   }
 
   sortPostsById(): void {
-    this.sortPostsByIdArray = this.allPosts;
-    this.displayPostsArray = this.sortPostsByIdArray.sort((a, b) => b.postId - a.postId);
+    this.sortedPosts = [];
+    this.allPosts.forEach((post: any) => {
+      this.sortedPosts.push(post);
+    })
+    this.sortedPosts.sort((a, b) => b.postId - a.postId);
   }
 
   sortPosts(): void {
@@ -158,5 +158,27 @@ export class CommunityPostComponent implements OnInit {
         this.sortPostsById();
         break;
     }
+  }
+
+  selectCategory() {
+    this.sortPosts();
+    this.displayPostsArray = [];
+    this.sortedPosts.forEach((post: any) => {
+      this.displayPostsArray.push(post);
+
+    })
+    this.deleteList = [];
+    this.i = 0;
+
+    this.displayPostsArray.forEach((post: any) => {
+      if(!post.category.match(this.selectedCategory) && !this.selectedCategory.match("All")) {
+        this.deleteList.push(this.sortedPosts.indexOf(post) - this.i);
+        this.i++;
+      }
+    })
+    this.deleteList.forEach((index:number)=>{
+      this.displayPostsArray.splice(index,1);
+      })
+
   }
 }
