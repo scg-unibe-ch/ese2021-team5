@@ -3,6 +3,7 @@ import { PostService } from '../services/post.service';
 import { Post } from '../models/post.model';
 import { verifyToken } from '../middlewares/checkAuth';
 import { MulterRequest } from '../models/multerRequest.model';
+import multer from 'multer';
 
 const postController: Router = express.Router();
 const postService = new PostService();
@@ -27,6 +28,7 @@ postController.get('/:id/image', (req: Request, res: Response) => {
   postService.getImagePost(Number(req.params.id)).then(products => res.send(products))
     .catch(err => res.status(500).send(err));
 });
+
 postController.get('/:id',
   (req: Request, res: Response) => {
     Post.findByPk(req.params.id).then(found => {

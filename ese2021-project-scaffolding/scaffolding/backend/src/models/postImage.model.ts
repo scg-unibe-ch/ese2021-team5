@@ -36,7 +36,7 @@ export class PostImage extends Model<PostImageAttributes, PostImageCreationAttri
                     allowNull: false
                 }
             },
-            { tableName: 'itemImages', sequelize }
+            { tableName: 'postImages', sequelize }
         );
     }
 

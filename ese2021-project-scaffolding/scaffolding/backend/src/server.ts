@@ -15,12 +15,16 @@ import { Post } from './models/post.model';
 import cors from 'cors';
 import {AdminController} from './controllers/admin.controller';
 import {ItemImage} from './models/itemImage.model';
+import multer, {diskStorage} from 'multer';
+import {PostImage} from './models/postImage.model';
 
 
 export class Server {
     private server: Application;
     private sequelize: Sequelize;
     private port = process.env.PORT || 3000;
+
+
 
     constructor() {
         this.server = this.configureServer();
@@ -30,10 +34,12 @@ export class Server {
         TodoList.initialize(this.sequelize);
         User.initialize(this.sequelize);
         ItemImage.initialize(this.sequelize);
+        PostImage.initialize(this.sequelize);
         Post.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
         ItemImage.createAssociations();
+        PostImage.createAssociations();
 
 
 

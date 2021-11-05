@@ -15,7 +15,7 @@ import {environment} from "../../../environments/environment";
 export class PostComponent implements OnInit {
 
   @Input()
-  post: Post = new Post('','','',0, '', '', new File([], ''), 0, 0);
+  post: Post = new Post('','','',0, '', '', '', 0, 0);
 
   imageURL: any;
   editMode: boolean = false;
@@ -41,7 +41,7 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkAdmin();
+    //this.checkAdmin();
   }
 
   deletePost(): void {

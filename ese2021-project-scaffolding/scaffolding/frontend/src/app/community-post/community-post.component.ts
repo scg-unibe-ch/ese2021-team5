@@ -32,6 +32,7 @@ export class CommunityPostComponent implements OnInit {
   private user: User | undefined;
   fileSelected: boolean = false;
   image: any;
+  pictureFileName: string = '';
 
   constructor(
     public httpClient: HttpClient,
@@ -58,11 +59,13 @@ export class CommunityPostComponent implements OnInit {
   }
 
   checkAdmin():void{
+
     this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
       this.admin = true;},
       () => {
       this.admin = false;
     });
+
 
   }
 
@@ -83,6 +86,11 @@ export class CommunityPostComponent implements OnInit {
 
 
   publishPost(): void {
+    let containsImage = false;
+    if (this.image != null){
+      containsImage = true;
+    }
+
     this.httpClient.post(environment.endpointURL + "post", {
       creatorId: this.userService.getUser()?.userId || 0,
       title: this.newPostTitle,
@@ -90,10 +98,30 @@ export class CommunityPostComponent implements OnInit {
       text: this.newPostText,
       creatorUsername: this.userService.getUser()?.username || '',
       pictureLink: this.newPictureLink,
-      pictureFile: this.image,
+      pictureFile: this.pictureFileName,
 
     }).subscribe((post: any) => {
-      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, this.image, post.postId, 0));
+
+      if(containsImage){
+        let formData = new FormData();
+        formData.append('image', this.image, this.image.name);
+
+        fetch(environment.endpointURL + "post/" + post.postId + "/image", {
+            method: 'POST',
+          body: formData,
+          }
+        ).then();
+      }
+
+      this.httpClient.get(environment.endpointURL + "post/" + post.postId + "image").subscribe( (name: any) => {
+        this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
+          pictureFile: name,
+        }).subscribe(
+          this.pictureFileName = post.pictureFile,
+        );
+      })
+
+      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, this.pictureFileName, post.pictureFile, 0));
       this.resetImage();
       this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
       this.newPost(); //resets the "new post window"

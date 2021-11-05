@@ -11,7 +11,7 @@ export class Post {
    public creatorId: number, //should this be a user? username?
    public creatorUsername: string,
    public pictureLink: string,
-   public pictureFile: File,
+   public pictureFile: string,
    public postId: number,
    public postRank: number,
   ) {
