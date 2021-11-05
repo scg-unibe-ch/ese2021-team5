@@ -21,13 +21,10 @@ export class CommunityPostComponent implements OnInit {
   showNewImageUrlField: boolean = false;
   newImageUrlButtonText = 'Link an image to your post!';
   allPosts: Post[] = []; //contains all communityPosts
-<<<<<<< Updated upstream
   displayPostsArray: Post[] = [];
   sortPostsByIdArray: Post[] = [];
   sortPostsByRankArray: Post[] = []; //used for sorting posts by their rank
-=======
   selectedPosts: Post[] = []; //contains the posts matching the selected category
->>>>>>> Stashed changes
   newPostTitle: string = '';
   newPostText: string = '';
   newPostCategory: string = '';
@@ -55,26 +52,26 @@ export class CommunityPostComponent implements OnInit {
     this.checkAdmin();
   }
 
-  SortingByNew(): boolean{
-    if(this.sortBy.match("New")){
+  SortingByNew(): boolean {
+    if (this.sortBy.match("New")) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
 
-  checkAdmin():void{
+  checkAdmin(): void {
     this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
-      this.admin = true;},
+        this.admin = true;
+      },
       () => {
-      this.admin = false;
-    });
+        this.admin = false;
+      });
 
   }
 
   newPost(): void {
-    if(this.newPostButtonTxt === "Create a new Post!") {
+    if (this.newPostButtonTxt === "Create a new Post!") {
       this.newPostButtonTxt = 'Cancel';
     } else {
       this.newPostButtonTxt = "Create a new Post!";
@@ -83,7 +80,7 @@ export class CommunityPostComponent implements OnInit {
     this.showNewPostWindow = !this.showNewPostWindow;
   }
 
-  publishButtonDisabled(): boolean{
+  publishButtonDisabled(): boolean {
 
     return (this.newPostText === '' && !this.fileSelected && this.newPictureLink === '') || this.newPostTitle === '' || this.newPostCategory === '';
   }
@@ -102,7 +99,7 @@ export class CommunityPostComponent implements OnInit {
     }).subscribe((post: any) => {
       this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, this.image, post.postId, 0));
       this.resetImage();
-      this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
+      this.newPostTitle = this.newPictureLink = this.newPostText = this.newPostCategory = '';
       this.newPost(); //resets the "new post window"
     })
   }
@@ -116,7 +113,7 @@ export class CommunityPostComponent implements OnInit {
   }
 
 
-  deletePost(post: Post): void{
+  deletePost(post: Post): void {
     this.httpClient.delete(environment.endpointURL + "post/" + post.postId).subscribe(() => {
       this.allPosts.splice(this.allPosts.indexOf(post), 1);
     })
@@ -126,7 +123,7 @@ export class CommunityPostComponent implements OnInit {
 
   addImageByURL(): void {
     this.showNewImageUrlField = !this.showNewImageUrlField
-    if (this.showNewImageUrlField){
+    if (this.showNewImageUrlField) {
       this.newImageUrlButtonText = "Cancel";
     } else {
       this.newImageUrlButtonText = "Link an image to your post!";
@@ -145,7 +142,7 @@ export class CommunityPostComponent implements OnInit {
     this.fileSelected = false;
   }
 
-<<<<<<< Updated upstream
+
   sortPostsByRank(): void {
     this.sortPostsByRankArray = this.allPosts;
     this.displayPostsArray = this.sortPostsByRankArray.sort((a, b) => b.postRank - a.postRank);
@@ -157,8 +154,7 @@ export class CommunityPostComponent implements OnInit {
   }
 
   sortPosts(): void {
-
-    switch (this.sortBy){
+    switch (this.sortBy) {
       case 'Score':
         this.sortPostsByRank();
         break;
@@ -166,20 +162,19 @@ export class CommunityPostComponent implements OnInit {
         this.sortPostsById();
         break;
     }
-=======
-  CategorySelected() { //modifies the selectedPosts so that only posts matching the category are included
+  }
+
+  CategorySelected() {
     this.selectedPosts = [];
     this.allPosts.forEach((post: any) => {
-      this.selectedPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId));
+      this.selectedPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId, post.postRank));
     })
     this.selectedPosts.forEach((post: any) => {
-      if(!post.category.match(this.selectedCategory) && !this.selectedCategory.match("All")){
+      if (!post.category.match(this.selectedCategory) && !this.selectedCategory.match("All")) {
         this.selectedPosts.splice(this.allPosts.indexOf(post), 1);
       }
 
     })
-
-
->>>>>>> Stashed changes
   }
 }
+
