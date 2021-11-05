@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Post} from "../models/post.model";
 import {User} from "../models/user.model";
 import {TodoList} from "../models/todo-list.model";
+import {copyArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-community-post',
@@ -20,9 +21,13 @@ export class CommunityPostComponent implements OnInit {
   showNewImageUrlField: boolean = false;
   newImageUrlButtonText = 'Link an image to your post!';
   allPosts: Post[] = []; //contains all communityPosts
+<<<<<<< Updated upstream
   displayPostsArray: Post[] = [];
   sortPostsByIdArray: Post[] = [];
   sortPostsByRankArray: Post[] = []; //used for sorting posts by their rank
+=======
+  selectedPosts: Post[] = []; //contains the posts matching the selected category
+>>>>>>> Stashed changes
   newPostTitle: string = '';
   newPostText: string = '';
   newPostCategory: string = '';
@@ -32,6 +37,8 @@ export class CommunityPostComponent implements OnInit {
   private user: User | undefined;
   fileSelected: boolean = false;
   image: any;
+  selectedCategory: string = "None";
+
 
   constructor(
     public httpClient: HttpClient,
@@ -138,6 +145,7 @@ export class CommunityPostComponent implements OnInit {
     this.fileSelected = false;
   }
 
+<<<<<<< Updated upstream
   sortPostsByRank(): void {
     this.sortPostsByRankArray = this.allPosts;
     this.displayPostsArray = this.sortPostsByRankArray.sort((a, b) => b.postRank - a.postRank);
@@ -158,5 +166,20 @@ export class CommunityPostComponent implements OnInit {
         this.sortPostsById();
         break;
     }
+=======
+  CategorySelected() { //modifies the selectedPosts so that only posts matching the category are included
+    this.selectedPosts = [];
+    this.allPosts.forEach((post: any) => {
+      this.selectedPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId));
+    })
+    this.selectedPosts.forEach((post: any) => {
+      if(!post.category.match(this.selectedCategory) && !this.selectedCategory.match("All")){
+        this.selectedPosts.splice(this.allPosts.indexOf(post), 1);
+      }
+
+    })
+
+
+>>>>>>> Stashed changes
   }
 }
