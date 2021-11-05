@@ -12,9 +12,10 @@ const postService = new PostService();
 postController.post('/',
   (req: Request, res: Response) => {
     Post.create(req.body)
-    .then(create => {
-        res.status(201).send(create); })
-    .catch(err => res.status(500).send(err));
+      .then(create => {
+        res.status(201).send(create);
+      })
+      .catch(err => res.status(500).send(err));
   }
 );
 // add image to a todoItem
@@ -31,7 +32,7 @@ postController.get('/:id',
   (req: Request, res: Response) => {
     Post.findByPk(req.params.id).then(found => {
       if (found != null) {
-          res.status(200).send(found);
+        res.status(200).send(found);
       } else {
         res.sendStatus(404);
       }
@@ -42,11 +43,11 @@ postController.get('/:id',
 
 
 postController.get('/',
-    (req: Request, res: Response) => {
+  (req: Request, res: Response) => {
     Post.findAll()
-        .then(post => res.status(200).send(post))
-        .catch(err => res.status(500).send(err));
-    });
+      .then(post => res.status(200).send(post))
+      .catch(err => res.status(500).send(err));
+  });
 
 
 postController.put('/:id', (req: Request, res: Response) => {
@@ -74,6 +75,24 @@ postController.delete('/:id', (req: Request, res: Response) => {
       }
     })
     .catch(err => res.status(500).send(err));
+});
+
+postController.put('/:id/upvote', (req: Request, res: Response) => {
+  Post.findByPk(req.params.id).then(found => {
+    if (found != null) {
+      found.increment('upvotes', { by: 1 })
+        .then(updated => { res.status(200).send(updated); });
+    }
+  });
+});
+
+postController.put('/:id/downvote', (req: Request, res: Response) => {
+  Post.findByPk(req.params.id).then(found => {
+    if (found != null) {
+      found.increment('downvotes', { by: 1 })
+        .then(updated => { res.status(200).send(updated); });
+    }
+  });
 });
 
 export const PostController: Router = postController;
