@@ -166,7 +166,7 @@ export class CommunityPostComponent implements OnInit {
 
   CategorySelected() {
     this.selectedPosts = [];
-    this.allPosts.forEach((post: any) => {
+    this.displayPostsArray.forEach((post: any) => {
       this.selectedPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId, post.postRank));
     })
     this.selectedPosts.forEach((post: any) => {

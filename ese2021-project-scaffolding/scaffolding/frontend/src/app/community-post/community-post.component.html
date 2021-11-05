@@ -64,16 +64,6 @@
 
 <div>
   <mat-card class="postBackground"><h3>All Posts</h3>
-      <p>Sort by: </p> <Button mat-flat-button color="primary" (click)="sortPosts()">Update</Button>
-      <select [(ngModel)]="sortBy" name="sort" (ngModelChange)="sortPosts()">
-        <option value="New">New</option>
-        <option value="Score">Score</option>
-      </select>
-    <app-post  *ngFor="let post of displayPostsArray"
-              [post]="post"
-              (delete)="deletePost($event)">
-    </app-post>
-  <mat-card class="postBackground"><h3>Some unsorted Posts</h3>
     <p>select category: </p>
     <select [(ngModel)]="selectedCategory" (click)="CategorySelected()" name="selectCtgry">
       <option value="None">None</option>
@@ -81,19 +71,15 @@
       <option value="Category 1">Category 1</option>
       <option value="Category 2">Category 2</option>
     </select>
-
-    <p>sort by: </p>
-    <select [(ngModel)]="sortBy" name="sort">
-      <option value="New">New</option>
-      <option value="Score">Score</option>
-    </select>
-    <div *ngIf="SortingByNew()"> <!-- Sort by New -->
+      <p>Sort by: </p> <Button mat-flat-button color="primary" (click)="sortPosts()">Update</Button>
+      <select [(ngModel)]="sortBy" name="sort" (ngModelChange)="sortPosts()">
+        <option value="New">New</option>
+        <option value="Score">Score</option>
+      </select>
     <app-post  *ngFor="let post of selectedPosts"
-               [post]="post"
-               (delete)="deletePost($event)">
+              [post]="post"
+              (delete)="deletePost($event)">
     </app-post>
-    </div>
-  </mat-card>
   </mat-card>
 
 
