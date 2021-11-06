@@ -78,6 +78,7 @@ export class Server {
             .use('/secured', SecuredController)
             .use('/admin', AdminController)
             .options('*', cors(options))
+            .use('/public', express.static('./uploads'))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running
             .get('/', (req, res) => res.send('<h1>Welcome to the ESE-2021 Backend Scaffolding <span style="font-size:50px">&#127881;</span></h1>'));

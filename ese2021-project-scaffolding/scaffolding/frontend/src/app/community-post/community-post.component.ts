@@ -113,7 +113,7 @@ export class CommunityPostComponent implements OnInit {
         ).then();
       }
 
-      this.httpClient.get(environment.endpointURL + "post/" + post.postId + "image").subscribe( (name: any) => {
+      this.httpClient.get(environment.endpointURL + "post/" + post.postId + "/image").subscribe( (name: any) => {
         this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
           pictureFile: name,
         }).subscribe(
