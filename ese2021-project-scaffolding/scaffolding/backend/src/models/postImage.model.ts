@@ -25,7 +25,7 @@ export class PostImage extends Model<PostImageAttributes, PostImageCreationAttri
                 imageId: {
                     type: DataTypes.INTEGER,
                     autoIncrement: true,
-                    primaryKey: true
+                    // primaryKey: true
                 },
                 fileName: {
                     type: DataTypes.STRING,
@@ -33,7 +33,8 @@ export class PostImage extends Model<PostImageAttributes, PostImageCreationAttri
                 },
                 postId: {
                     type: DataTypes.INTEGER,
-                    allowNull: false
+                    allowNull: false,
+                    primaryKey: true
                 }
             },
             { tableName: 'postImages', sequelize }

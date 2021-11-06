@@ -1,6 +1,7 @@
 import express, { Router, Request, Response } from 'express';
 import { PostService } from '../services/post.service';
 import { Post } from '../models/post.model';
+import { PostImage} from '../models/postImage.model';
 import { verifyToken } from '../middlewares/checkAuth';
 import { MulterRequest } from '../models/multerRequest.model';
 import multer from 'multer';
@@ -28,6 +29,20 @@ postController.get('/:id/image', (req: Request, res: Response) => {
   postService.getImagePost(Number(req.params.id)).then(products => res.send(products))
     .catch(err => res.status(500).send(err));
 });
+
+// get image from postId
+postController.get('/imageFromPostId/:id',
+    (req: Request, res: Response) => {
+        PostImage.findByPk(req.params.id).then(image => {
+            if (image != null) {
+                res.status(200).send(image);
+            } else {
+                res.sendStatus(404);
+            }
+        })
+            .catch(err => res.status(500).send(err));
+    }
+);
 
 postController.get('/:id',
   (req: Request, res: Response) => {

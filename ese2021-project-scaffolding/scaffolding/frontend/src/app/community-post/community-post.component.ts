@@ -113,20 +113,13 @@ export class CommunityPostComponent implements OnInit {
         ).then();
       }
 
-      this.httpClient.get(environment.endpointURL + "post/" + post.postId + "/image").subscribe( (name: any) => {
-        this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
-          pictureFile: name,
-        }).subscribe(
-          this.pictureFileName = post.pictureFile,
-        );
-      })
-
-      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, this.pictureFileName, post.pictureFile, 0));
+      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, '', post.postId, 0));
       this.resetImage();
       this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
       this.newPost(); //resets the "new post window"
     })
   }
+
 
   readPosts(): void {
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
