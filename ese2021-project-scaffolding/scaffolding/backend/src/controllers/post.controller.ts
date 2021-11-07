@@ -5,6 +5,7 @@ import { PostImage} from '../models/postImage.model';
 import { verifyToken } from '../middlewares/checkAuth';
 import { MulterRequest } from '../models/multerRequest.model';
 import multer from 'multer';
+import {unlink} from 'fs';
 
 const postController: Router = express.Router();
 const postService = new PostService();
@@ -43,6 +44,16 @@ postController.get('/imageFromPostId/:id',
             .catch(err => res.status(500).send(err));
     }
 );
+
+postController.delete('/image/:fileToBeDeletedName',
+    (req: Request, res: Response) => {
+    unlink('./uploads/' + req.params.fileToBeDeletedName, (err) => {
+        if (err) { res.sendStatus(404); } else {
+            res.sendStatus(200);
+        }
+    });
+
+    });
 
 postController.get('/:id',
   (req: Request, res: Response) => {

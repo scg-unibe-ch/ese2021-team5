@@ -44,8 +44,8 @@ export class PostComponent implements OnInit {
     //this.checkAdmin();
 
     this.httpClient.get(environment.endpointURL + "post/imageFromPostId/" + this.post.postId).subscribe( (image: any) => {
-        console.log(image.fileName);
         this.post.pictureLink = environment.endpointURL + "public/" + image.fileName;
+        this.post.pictureFileName = image.fileName;
       }
     )
   }

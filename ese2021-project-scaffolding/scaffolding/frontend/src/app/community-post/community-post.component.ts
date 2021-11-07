@@ -131,6 +131,7 @@ export class CommunityPostComponent implements OnInit {
 
 
   deletePost(post: Post): void{
+    this.httpClient.delete(environment.endpointURL + "post/image/" + post.pictureFileName).subscribe();
     this.httpClient.delete(environment.endpointURL + "post/" + post.postId).subscribe(() => {
       this.allPosts.splice(this.allPosts.indexOf(post), 1);
     })
