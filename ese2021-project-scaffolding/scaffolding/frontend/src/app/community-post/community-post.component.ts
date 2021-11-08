@@ -91,6 +91,8 @@ export class CommunityPostComponent implements OnInit {
       creatorUsername: this.userService.getUser()?.username || '',
       pictureLink: this.newPictureLink,
       pictureFile: this.image,
+      upvotes: 0, // broken?
+      downvotes: 0,
 
     }).subscribe((post: any) => {
       this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, this.image, post.postId, 0));
