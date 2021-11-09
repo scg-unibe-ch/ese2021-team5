@@ -87,6 +87,8 @@ export class CommunityPostComponent implements OnInit {
 
   publishPost(): void {
     let containsImage = false;
+    let imageId = 0;
+
     if (this.image != null){
       containsImage = true;
     }
@@ -98,7 +100,7 @@ export class CommunityPostComponent implements OnInit {
       text: this.newPostText,
       creatorUsername: this.userService.getUser()?.username || '',
       pictureLink: this.newPictureLink,
-      pictureFile: this.pictureFileName,
+      pictureId: 0,
 
     }).subscribe((post: any) => {
 
@@ -108,12 +110,23 @@ export class CommunityPostComponent implements OnInit {
 
         fetch(environment.endpointURL + "post/" + post.postId + "/image", {
             method: 'POST',
-          body: formData,
+            body: formData,
           }
-        ).then();
+        ).then((response) => {
+          return response.json();
+        }
+        ).then((imageData: any) => {
+          this.httpClient.put(environment.endpointURL + "post/" + post.postId,{
+            pictureId: imageData.imageId,
+          }).subscribe();
+          imageId = imageData.imageId;
+          this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
+        });
+      }
+      if(!containsImage) {
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
       }
 
-      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, '', post.postId, 0));
       this.resetImage();
       this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
       this.newPost(); //resets the "new post window"
@@ -124,7 +137,7 @@ export class CommunityPostComponent implements OnInit {
   readPosts(): void {
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
       posts.forEach((post: any) => {
-        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId, 0));
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, 0));
       })
     })
   }

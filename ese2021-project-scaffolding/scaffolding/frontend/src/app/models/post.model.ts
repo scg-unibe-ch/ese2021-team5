@@ -2,7 +2,6 @@
 
 export class Post {
 
-  public pictureUploadedURL: any;
   public pictureFileName: string = '';
 
   constructor(
@@ -11,10 +10,10 @@ export class Post {
    public text: string,
    public creatorId: number, //should this be a user? username?
    public creatorUsername: string,
-   public pictureLink: string,
-   public pictureFile: string,
+   public pictureLink: string, //can either link to external file, or image in backend
+   public pictureId: number, //used to find images in backend, could be expanded to array
    public postId: number,
-   public postRank: number,
+   public postRank: number, //calculated from votes
 
   ) {
     }

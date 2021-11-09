@@ -15,7 +15,7 @@ import {environment} from "../../../environments/environment";
 export class PostComponent implements OnInit {
 
   @Input()
-  post: Post = new Post('','','',0, '', '', '', 0, 0);
+  post: Post = new Post('','','',0, '', '', 0, 0, 0);
 
   imageURL: any;
   editMode: boolean = false;
@@ -43,11 +43,13 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     //this.checkAdmin();
 
-    this.httpClient.get(environment.endpointURL + "post/imageFromPostId/" + this.post.postId).subscribe( (image: any) => {
-        this.post.pictureLink = environment.endpointURL + "public/" + image.fileName;
-        this.post.pictureFileName = image.fileName;
-      }
-    )
+    if (this.post.pictureLink == '' && this.post.pictureId != 0) {
+      this.httpClient.get(environment.endpointURL + "post/" + this.post.pictureId + "/image").subscribe((image: any) => {
+          this.post.pictureLink = environment.endpointURL + "public/" + image.fileName;
+          this.post.pictureFileName = image.fileName;
+        }
+      )
+    }
   }
 
   deletePost(): void {

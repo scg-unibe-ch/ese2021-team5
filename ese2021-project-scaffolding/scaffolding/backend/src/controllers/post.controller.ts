@@ -6,6 +6,7 @@ import { verifyToken } from '../middlewares/checkAuth';
 import { MulterRequest } from '../models/multerRequest.model';
 import multer from 'multer';
 import {unlink} from 'fs';
+import ErrnoException = NodeJS.ErrnoException;
 
 const postController: Router = express.Router();
 const postService = new PostService();
@@ -20,7 +21,8 @@ postController.post('/',
     .catch(err => res.status(500).send(err));
   }
 );
-// add image to a todoItem
+
+// add image to a post
 postController.post('/:id/image', (req: MulterRequest, res: Response) => {
   postService.addImage(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
 });
@@ -31,30 +33,15 @@ postController.get('/:id/image', (req: Request, res: Response) => {
     .catch(err => res.status(500).send(err));
 });
 
-// get image from postId
-postController.get('/imageFromPostId/:id',
-    (req: Request, res: Response) => {
-        PostImage.findByPk(req.params.id).then(image => {
-            if (image != null) {
-                res.status(200).send(image);
-            } else {
-                res.sendStatus(404);
-            }
-        })
-            .catch(err => res.status(500).send(err));
-    }
-);
-
+// delete an image
 postController.delete('/image/:fileToBeDeletedName',
     (req: Request, res: Response) => {
-    unlink('./uploads/' + req.params.fileToBeDeletedName, (err) => {
-        if (err) { res.sendStatus(404); } else {
-            res.sendStatus(200);
-        }
+    unlink('./uploads/' + req.params.fileToBeDeletedName, () => {
+        res.status(200); // right now no error handling is implemented
+    });
     });
 
-    });
-
+// return specific post
 postController.get('/:id',
   (req: Request, res: Response) => {
     Post.findByPk(req.params.id).then(found => {
@@ -68,7 +55,7 @@ postController.get('/:id',
   }
 );
 
-
+// return all posts
 postController.get('/',
     (req: Request, res: Response) => {
     Post.findAll()
