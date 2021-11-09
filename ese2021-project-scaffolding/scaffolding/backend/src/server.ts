@@ -15,12 +15,16 @@ import { Post } from './models/post.model';
 import cors from 'cors';
 import {AdminController} from './controllers/admin.controller';
 import {ItemImage} from './models/itemImage.model';
+import multer, {diskStorage} from 'multer';
+import {PostImage} from './models/postImage.model';
 
 
 export class Server {
     private server: Application;
     private sequelize: Sequelize;
     private port = process.env.PORT || 3000;
+
+
 
     constructor() {
         this.server = this.configureServer();
@@ -30,10 +34,12 @@ export class Server {
         TodoList.initialize(this.sequelize);
         User.initialize(this.sequelize);
         ItemImage.initialize(this.sequelize);
+        PostImage.initialize(this.sequelize);
         Post.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
         ItemImage.createAssociations();
+        PostImage.createAssociations();
 
 
 
@@ -72,6 +78,7 @@ export class Server {
             .use('/secured', SecuredController)
             .use('/admin', AdminController)
             .options('*', cors(options))
+            .use('/public', express.static('./uploads'))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running
             .get('/', (req, res) => res.send('<h1>Welcome to the ESE-2021 Backend Scaffolding <span style="font-size:50px">&#127881;</span></h1>'));

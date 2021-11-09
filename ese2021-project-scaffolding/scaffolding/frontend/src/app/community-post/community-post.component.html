@@ -43,7 +43,7 @@
       <mat-card-actions *ngIf="newPictureLink.length === 0">
         <button *ngIf="!fileSelected" mat-flat-button color="primary" (click)="fileInput.click()">
           <mat-label>Upload an image from your computer!</mat-label>
-          <input #fileInput type="file" style="display:none;" (change)="onFileChanged($event)"/> <!-- unclear why this works -->
+          <input #fileInput type="file" id='image' style="display:none;" (change)="onFileChanged($event)"/> <!-- unclear why this works -->
         </button>
         <div *ngIf="fileSelected">
           <button mat-flat-button color="primary" (click)="resetImage()">

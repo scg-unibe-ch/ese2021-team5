@@ -32,6 +32,7 @@ export class CommunityPostComponent implements OnInit {
   private user: User | undefined;
   fileSelected: boolean = false;
   image: any;
+  pictureFileName: string = '';
 
   constructor(
     public httpClient: HttpClient,
@@ -58,11 +59,13 @@ export class CommunityPostComponent implements OnInit {
   }
 
   checkAdmin():void{
+
     this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
       this.admin = true;},
       () => {
       this.admin = false;
     });
+
 
   }
 
@@ -83,6 +86,13 @@ export class CommunityPostComponent implements OnInit {
 
 
   publishPost(): void {
+    let containsImage = false;
+    let imageId = 0;
+
+    if (this.image != null){
+      containsImage = true;
+    }
+
     this.httpClient.post(environment.endpointURL + "post", {
       creatorId: this.userService.getUser()?.userId || 0,
       title: this.newPostTitle,
@@ -90,28 +100,53 @@ export class CommunityPostComponent implements OnInit {
       text: this.newPostText,
       creatorUsername: this.userService.getUser()?.username || '',
       pictureLink: this.newPictureLink,
-      pictureFile: this.image,
       upvotes: 0, // broken?
       downvotes: 0,
+      pictureId: 0,
 
     }).subscribe((post: any) => {
-      this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, this.image, post.postId, 0));
+
+      if(containsImage){
+        let formData = new FormData();
+        formData.append('image', this.image, this.image.name);
+
+        fetch(environment.endpointURL + "post/" + post.postId + "/image", {
+            method: 'POST',
+            body: formData,
+          }
+        ).then((response) => {
+          return response.json();
+        }
+        ).then((imageData: any) => {
+          this.httpClient.put(environment.endpointURL + "post/" + post.postId,{
+            pictureId: imageData.imageId,
+          }).subscribe();
+          imageId = imageData.imageId;
+          this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
+        });
+      }
+      if(!containsImage) {
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
+      }
+
       this.resetImage();
       this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
       this.newPost(); //resets the "new post window"
     })
   }
 
+
   readPosts(): void {
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
       posts.forEach((post: any) => {
-        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureFile, post.postId, 0));
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, 0));
       })
     })
   }
 
 
   deletePost(post: Post): void{
+    this.httpClient.delete(environment.endpointURL + "post/image/" + post.pictureFileName).subscribe();
     this.httpClient.delete(environment.endpointURL + "post/" + post.postId).subscribe(() => {
       this.allPosts.splice(this.allPosts.indexOf(post), 1);
     })
