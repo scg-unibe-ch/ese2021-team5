@@ -33,10 +33,11 @@ export class PostImage extends Model<PostImageAttributes, PostImageCreationAttri
                 },
                 postId: {
                     type: DataTypes.INTEGER,
-                    allowNull: false
+                    allowNull: false,
+                    // primaryKey: true
                 }
             },
-            { tableName: 'itemImages', sequelize }
+            { tableName: 'postImages', sequelize }
         );
     }
 
