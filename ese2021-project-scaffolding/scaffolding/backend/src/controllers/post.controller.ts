@@ -1,14 +1,10 @@
 import express, { Router, Request, Response } from 'express';
 import { PostService } from '../services/post.service';
 import { Post } from '../models/post.model';
-import { PostImage} from '../models/postImage.model';
 import { verifyToken } from '../middlewares/checkAuth';
 import { MulterRequest } from '../models/multerRequest.model';
-import multer from 'multer';
-import {unlink} from 'fs';
-import ErrnoException = NodeJS.ErrnoException;
 import * as fs from 'fs';
-import {promisify} from 'util';
+
 
 const postController: Router = express.Router();
 const postService = new PostService();
