@@ -5,6 +5,7 @@ import { TodoItem } from './models/todo-item.model';
 import { environment } from '../environments/environment';
 import { UserService } from './services/user.service';
 import { User } from './models/user.model';
+import {Account} from "./models/account.model";
 
 
 @Component({
@@ -33,12 +34,14 @@ export class AppComponent implements OnInit {
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
-    this.user = userService.getUser();
+    //this.user = userService.getUser();
+
   }
 
   ngOnInit() {
     this.readLists();
     this.checkUserStatus();
+    //console.log(this.userService.getUser()?.username); //I might remember to delete this at some point. Or I might not.
   }
 
   // CREATE - TodoList
@@ -80,12 +83,35 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Checks the user status to see whether there is already a logged in user upon reloading the page.
+   * If a user is logged in, a request is sent to the backend, to get the corresponding user data.
+   */
   checkUserStatus(): void {
     // Get user data from local storage
     const userToken = localStorage.getItem('userToken');
 
     // Set boolean whether a user is logged in or not
     this.userService.setLoggedIn(!!userToken);
+
+    if (this.userService.getLoggedIn()) {
+      this.httpClient.get(environment.endpointURL + "user/").subscribe((user: any) => {
+        for (let i = 0; i < user.length; i++) {
+          if (user[i].userName === localStorage.getItem('userName')) {
+            this.userService.setUser(new User(user[i].userId, user[i].userName, user[i].password, new Account(user[i].firstName, user[i].lastName, user[i].email, user[i].street, user[i].phoneNumber, user[i].plz, user[i].city, '')));
+            break;
+          }
+        }
+      },
+      () => {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userToken');
+
+        this.userService.setLoggedIn(false);
+        this.userService.setUser(undefined);
+
+      })
+    }
 
   }
 }

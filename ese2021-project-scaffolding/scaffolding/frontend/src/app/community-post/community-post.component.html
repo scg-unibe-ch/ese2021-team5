@@ -1,0 +1,91 @@
+<div *ngIf="loggedIn && !admin"> <!-- guests and admins can't create posts. -->
+  <mat-card >
+    <button mat-flat-button [ngClass]="{ 'colorRed' :newPostFlag }" color="primary" (click)="newPost()">{{newPostButtonTxt}}</button>
+  </mat-card>
+</div>
+
+<div *ngIf="showNewPostWindow == true && loggedIn && !admin"> <!-- guests and admins can't create posts. -->
+  <mat-card class="example-card">
+
+    <mat-card-header>
+      <mat-card-title>
+        <h3>What do you want to tell the world?</h3>
+        <p>Your post needs to have a title and at least either a picture or a text.</p>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field class="title">
+        <mat-label>Title</mat-label>
+        <textarea matInput placeholder="write here" [(ngModel)]="newPostTitle" name="title"></textarea>
+      </mat-form-field>
+      <br>
+      <mat-card-actions>
+        <p>select Category</p>
+        <select [(ngModel)]="newPostCategory" name="categories">
+          <option>Category 1</option>
+          <option>Category 2</option>
+        </select>
+      </mat-card-actions>
+      <mat-form-field class="newPost">
+        <mat-label>Tell your Story</mat-label>
+        <textarea matInput placeholder="write here" [(ngModel)]="newPostText"></textarea>
+      </mat-form-field>
+      <br> <br>
+
+      <mat-card-actions *ngIf="!fileSelected">
+        <button mat-flat-button color="primary" (click)="addImageByURL()">{{newImageUrlButtonText}}</button>
+        <mat-form-field class="newPost" *ngIf="showNewImageUrlField">
+         <input matInput placeholder="Please enter a link" [(ngModel)]="newPictureLink">
+        </mat-form-field>
+      </mat-card-actions>
+
+      <mat-card-actions *ngIf="newPictureLink.length === 0">
+        <button *ngIf="!fileSelected" mat-flat-button color="primary" (click)="fileInput.click()">
+          <mat-label>Upload an image from your computer!</mat-label>
+          <input #fileInput type="file" id='image' style="display:none;" (change)="onFileChanged($event)"/> <!-- unclear why this works -->
+        </button>
+        <div *ngIf="fileSelected">
+          <button mat-flat-button color="primary" (click)="resetImage()">
+            <mat-label>Delete Image: <b>{{image.name}}</b></mat-label>
+          </button>
+        </div>
+      </mat-card-actions>
+
+    </mat-card-content>
+
+
+    <mat-card-actions>
+      <button mat-flat-button color="warn" (click)="publishPost()" [disabled]="publishButtonDisabled()">Publish!</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+
+<div>
+  <mat-card class="postBackground"><h3>Comunity Posts</h3>
+    <p>Select a Category: </p>
+    <select [(ngModel)]="selectedCategory" name="sort" (ngModelChange)="selectCategory()" (click)="selectCategory()">
+      <option value="None">None</option>
+      <option value="All">All</option>
+      <option value="Category 1">Category 1</option>
+      <option value="Category 2">Category 2</option>
+      <option value="Category 3">Category 3</option>
+    </select>
+      <p>Sort by: </p>
+      <select [(ngModel)]="sortBy" name="sort" (click)="sortPosts()" (ngModelChange)="sortPosts()">
+        <option value="New">New</option>
+        <option value="Score">Score</option>
+      </select>
+    <div>
+    <app-post  *ngFor="let post of displayPostsArray"
+              [post]="post"
+              (delete)="deletePost($event)">
+    </app-post>
+    </div>
+  </mat-card>
+</div>
+
+
+
+

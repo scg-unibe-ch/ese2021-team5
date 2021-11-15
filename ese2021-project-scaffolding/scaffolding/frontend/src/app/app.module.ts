@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -17,13 +17,18 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { CommunityPostComponent } from './community-post/community-post.component';
+import { PostComponent } from './community-post/post/post.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
     TodoItemComponent,
-    UserComponent
+    UserComponent,
+    CommunityPostComponent,
+    PostComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +42,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     MatButtonModule,
     MatListModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
   providers: [
     {
