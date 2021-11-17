@@ -1,29 +1,74 @@
 import express, { Router, Request, Response } from 'express';
-import {checkAdmin} from '../middlewares/checkAdmin';
+import { checkAdmin } from '../middlewares/checkAdmin';
+import { Product } from '../models/product.model';
 
 const productController: Router = express.Router();
 
-
-productController.get('/product/view/:id', (req: Request, res: Response) => {
-
+/**
+* get all products
+*/
+productController.get('/', (req: Request, res: Response) => {
+  Product.findAll()
+    .then(products => res.status(200).send(products))
+    .catch(err => res.status(500).send(err));
 });
 
-productController.post('/product/add', (req: Request, res: Response) => {
-    /**
-     * unimplemented
-     */
+/**
+* get specific product id
+*/
+productController.get('/:id', (req: Request, res: Response) => {
+    Product.findByPk(req.params.id).then(found => {
+      if (found != null) {
+        res.status(200).send(found);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+      .catch(err => res.status(500).send(err));
 });
 
-productController.post('/product/remove', (req: Request, res: Response) => {
-    /**
-     * unimplemented
-     */
+/**
+* create product
+*/
+productController.post('/', (req: Request, res: Response) => {
+  Product.create(req.body)
+    .then(create => {
+      res.status(201).send(create);
+    })
+    .catch(err => res.status(500).send(err));
 });
 
-productController.post('/product/update', (req: Request, res: Response) => {
-    /**
-     * unimplemented
-     */
+/**
+* delete specific product
+*/
+productController.delete('/:id', (req: Request, res: Response) => {
+  Product.findByPk(req.params.id)
+    .then(found => {
+      if (found != null) {
+        found.destroy()
+          .then(item => res.status(200).send({ deleted: item }))
+          .catch(err => res.status(500).send(err));
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch(err => res.status(500).send(err));
+});
+
+/**
+* update specific product
+*/
+productController.put('/:id', (req: Request, res: Response) => {
+  Product.findByPk(req.params.id).then(found => {
+    if (found != null) {
+      found.update(req.body).then(updated => {
+        res.status(200).send(updated);
+      });
+    } else {
+      res.sendStatus(404);
+    }
+  })
+    .catch(err => res.status(500).send(err));
 });
 
 

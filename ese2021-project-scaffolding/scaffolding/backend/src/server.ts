@@ -4,12 +4,14 @@ import { TodoItemController } from './controllers/todoitem.controller';
 import { TodoListController } from './controllers/todolist.controller';
 import { UserController } from './controllers/user.controller';
 import { PostController } from './controllers/post.controller';
+import { ProductController } from './controllers/product.controller';
 import { SecuredController } from './controllers/secured.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
 import { Post } from './models/post.model';
+import { Product } from './models/product.model';
 
 
 import cors from 'cors';
@@ -36,6 +38,7 @@ export class Server {
         ItemImage.initialize(this.sequelize);
         PostImage.initialize(this.sequelize);
         Post.initialize(this.sequelize);
+        Product.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
         ItemImage.createAssociations();
@@ -75,6 +78,7 @@ export class Server {
             .use('/todolist', TodoListController)
             .use('/user', UserController)
             .use('/post', PostController)
+            .use('/product', ProductController)
             .use('/secured', SecuredController)
             .use('/admin', AdminController)
             .options('*', cors(options))
