@@ -10,7 +10,7 @@ export interface ProductAttributes {
     // in which category the item is
     categoryId?: number;
     title: string;
-    description?: string
+    description?: string;
     imageUri?: string;
     price: number;
 }
@@ -22,7 +22,7 @@ export class Product extends Model<ProductAttributes> implements ProductAttribut
     // in which category the item is
     categoryId: number;
     title: string;
-    description: string
+    description: string;
     imageUri: string;
     price: number;
     public static initialize(sequelize: Sequelize) {

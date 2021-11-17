@@ -1,12 +1,9 @@
 import express, { Router, Request, Response } from 'express';
 import { PostService } from '../services/post.service';
 import { Post } from '../models/post.model';
-import { PostImage} from '../models/postImage.model';
 import { verifyToken } from '../middlewares/checkAuth';
 import { MulterRequest } from '../models/multerRequest.model';
-import multer from 'multer';
-import {unlink} from 'fs';
-import ErrnoException = NodeJS.ErrnoException;
+import * as fs from 'fs';
 
 const postController: Router = express.Router();
 const postService = new PostService();
@@ -37,9 +34,11 @@ postController.get('/:id/image', (req: Request, res: Response) => {
 // delete an image
 postController.delete('/image/:fileToBeDeletedName',
     (req: Request, res: Response) => {
-    unlink('./uploads/' + req.params.fileToBeDeletedName, () => {
-        res.status(200); // right now no error handling is implemented
-    });
+        fs.unlink('./uploads/' + req.params.fileToBeDeletedName, (err) => {
+            if (err) { res.sendStatus(404); } else {
+                res.sendStatus(204); // 204 tells the frontend that there is no content sent with the response
+            }                              // 200 would result in a failure to parse
+        });
     });
 
 // return specific post

@@ -5,7 +5,7 @@ const productController: Router = express.Router();
 
 
 productController.get('/product/view/:id', (req: Request, res: Response) => {
-    
+
 });
 
 productController.post('/product/add', (req: Request, res: Response) => {

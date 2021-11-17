@@ -8,34 +8,34 @@ import { OrderStatus, PaymentMethod } from '../constants';
 export interface OrderAttributes {
     orderId: number;
     purchaserId: number;
-    product: number
-    status: OrderStatus
+    product: number;
+    status: OrderStatus;
     paymentMethod: PaymentMethod;
     /**
      * address information
      */
-    firstName: string
-    lastName: string
-    street: string
-    city: string
-    plz: number
+    firstName: string;
+    lastName: string;
+    street: string;
+    city: string;
+    plz: number;
 }
 export class Order extends Model<OrderAttributes> implements OrderAttributes {
     orderId: number;
     purchaserId: number;
-    address: string
-    product: number
-    status: OrderStatus
+    address: string;
+    product: number;
+    status: OrderStatus;
     paymentMethod: PaymentMethod;
 
     /**
      * address information
      */
-    firstName: string
-    lastName: string
-    street: string
-    city: string
-    plz: number
+    firstName: string;
+    lastName: string;
+    street: string;
+    city: string;
+    plz: number;
     public static initialize(sequelize: Sequelize) {
         Order.init({
             orderId: {

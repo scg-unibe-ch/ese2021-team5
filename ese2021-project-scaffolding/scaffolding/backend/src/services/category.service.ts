@@ -10,13 +10,13 @@ export class CategoryService {
                 name: info.name
             }
         });
-        if (!c){
+        if (!c) {
             const init = await Category.create(info);
         }
         return {
             success: true
-        }
-        
+        };
+
 
     }
 }

@@ -14,7 +14,7 @@ categoryController.get('/category/view/:categoryName', (req: Request, res: Respo
     const pageNr =  req.params['page'] || 1;
     const conf = {
         pageNr
-    }
+    };
 });
 
 /**

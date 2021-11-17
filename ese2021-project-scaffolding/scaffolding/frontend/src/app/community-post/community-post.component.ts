@@ -135,13 +135,16 @@ export class CommunityPostComponent implements OnInit {
         this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, 0));
       })
     })
+    this.displayPostsArray = this.allPosts; //!!!temporary workaround!!!
   }
 
 
   deletePost(post: Post): void{
-    this.httpClient.delete(environment.endpointURL + "post/image/" + post.pictureFileName).subscribe();
-    this.httpClient.delete(environment.endpointURL + "post/" + post.postId).subscribe(() => {
+    this.httpClient.delete(environment.endpointURL + "post/" + post.postId,).subscribe(() => {
+      this.httpClient.delete(environment.endpointURL + "post/image/" + post.pictureFileName).subscribe( () => {
+      });
       this.allPosts.splice(this.allPosts.indexOf(post), 1);
+      this.displayPostsArray.splice(this.displayPostsArray.indexOf(post), 1); //!!!temporary workaround!!!
     })
 
   }
