@@ -19,6 +19,8 @@ import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { CommunityPostComponent } from './community-post/community-post.component';
 import { PostComponent } from './community-post/post/post.component';
+import { ShopComponent } from './shop/shop.component';
+import { ProductComponent } from './shop/product/product.component';
 
 
 @NgModule({
@@ -29,6 +31,8 @@ import { PostComponent } from './community-post/post/post.component';
     UserComponent,
     CommunityPostComponent,
     PostComponent,
+    ShopComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,
