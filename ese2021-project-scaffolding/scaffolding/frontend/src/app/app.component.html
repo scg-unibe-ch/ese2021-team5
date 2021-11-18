@@ -33,6 +33,10 @@
     <app-shop></app-shop>
   </mat-tab>
 
+  <mat-tab *ngIf="loggedIn" label="Orders">
+    <app-shop></app-shop>
+  </mat-tab>
+
   <mat-tab *ngIf="loggedIn" label="Profile Page">
     Profile Page
   </mat-tab>
