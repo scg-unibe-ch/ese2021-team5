@@ -21,6 +21,8 @@ import { CommunityPostComponent } from './community-post/community-post.componen
 import { PostComponent } from './community-post/post/post.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './shop/product/product.component';
+import {OrderComponent} from "./ShowOrders/Order/Order.component";
+import {ShowOrdersComponent} from "./ShowOrders/ShowOrders.component";
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { ProductComponent } from './shop/product/product.component';
     PostComponent,
     ShopComponent,
     ProductComponent,
+    OrderComponent,
+    ShowOrdersComponent,
   ],
   imports: [
     BrowserModule,

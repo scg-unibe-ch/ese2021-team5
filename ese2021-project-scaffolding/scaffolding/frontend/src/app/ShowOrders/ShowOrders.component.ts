@@ -8,7 +8,7 @@ import {environment} from "../../environments/environment";
 import {Post} from "../models/post.model";
 
 @Component({
-  selector: 'app-product',
+  selector: 'app-ShowOrders',
   templateUrl: './ShowOrders.component.html',
   styleUrls: ['./ShowOrders.component.css']
 })
