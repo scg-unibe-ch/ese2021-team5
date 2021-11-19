@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 import {UserService} from "../services/user.service";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
@@ -8,13 +8,19 @@ import {TodoList} from "../models/todo-list.model";
 
 @Component({
   selector: 'app-community-post',
-  templateUrl: './community-post.component.html',
-  styleUrls: ['./community-post.component.css']
+  templateUrl: './feed-wall.component.html',
+  styleUrls: ['./feed-wall.component.css']
 })
-export class CommunityPostComponent implements OnInit {
+export class FeedWallComponent implements OnInit {
 
   loggedIn: boolean | undefined;
-  admin: boolean | undefined;
+
+  @ Input() admin = false;
+
+  ngOnChanges(changes: SimpleChanges){
+    this.admin = changes.admin.currentValue;
+  }
+
   sortBy: string = 'New';
   showNewPostWindow: boolean = false;
   showNewImageUrlField: boolean = false;
@@ -46,11 +52,11 @@ export class CommunityPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("oninit called");
     this.readPosts();
-    this.checkAdmin();
+    //this.checkAdmin();
   }
 
+  /*
   checkAdmin():void{
 
     this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
@@ -58,9 +64,7 @@ export class CommunityPostComponent implements OnInit {
       () => {
       this.admin = false;
     });
-
-
-  }
+  } */
 
   newPost(): void {
     if(this.newPostButtonTxt === "Create a new Post!") {

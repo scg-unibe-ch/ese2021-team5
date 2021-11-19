@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from "../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user.model";
@@ -14,7 +14,10 @@ import {Post} from "../models/post.model";
 })
 export class ShowOrdersComponent implements OnInit {
   loggedIn: boolean | undefined;
-  admin: boolean | undefined;
+  //admin: boolean | undefined;
+
+  @ Input() admin = false;
+
   user: User | undefined;
   allOrders: Order[] = [];
 
@@ -29,7 +32,7 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkAdmin();
+    //this.checkAdmin();
   }
 
   checkAdmin():void{

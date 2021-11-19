@@ -4,6 +4,10 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
+<div *ngIf="admin">
+  <p style="color: orangered">You are logged-in as an admin!</p>
+</div>
+
 <mat-tab-group>
   <mat-tab label="Todo List Example">
     <mat-card>
@@ -22,19 +26,24 @@
   </mat-tab>
 
   <mat-tab label="Authentication">
-    <app-user></app-user>
+    <app-user
+    (userStatusChange)="checkUserStatus()"
+    ></app-user>
   </mat-tab>
 
   <mat-tab label="CommunityPosts">
-    <app-community-post></app-community-post>
+    <app-community-post
+      [admin]="admin"></app-community-post>
   </mat-tab>
 
   <mat-tab label="Shop">
-    <app-shop></app-shop>
+    <app-shop
+      [admin]="admin"></app-shop>
   </mat-tab>
 
   <mat-tab *ngIf="loggedIn" label="Orders">
-    <app-ShowOrders></app-ShowOrders>
+    <app-ShowOrders
+      [admin]="admin"></app-ShowOrders>
   </mat-tab>
 
   <mat-tab *ngIf="loggedIn" label="Profile Page">

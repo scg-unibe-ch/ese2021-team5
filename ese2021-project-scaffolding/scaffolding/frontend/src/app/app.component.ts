@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TodoList } from './models/todo-list.model';
 import { TodoItem } from './models/todo-item.model';
@@ -24,6 +24,8 @@ export class AppComponent implements OnInit {
 
   user: User | undefined;
 
+  admin: boolean = false;
+
   constructor(
     public httpClient: HttpClient,
     public userService: UserService
@@ -35,8 +37,8 @@ export class AppComponent implements OnInit {
     // Current value
     this.loggedIn = userService.getLoggedIn();
     //this.user = userService.getUser();
-
   }
+
 
   ngOnInit() {
     this.readLists();
@@ -112,6 +114,15 @@ export class AppComponent implements OnInit {
 
       })
     }
-
+    this.checkAdmin();
   }
+
+  checkAdmin() {
+    this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
+        this.admin = true;},
+      () => {
+        this.admin = false;
+      });
+  }
+
 }

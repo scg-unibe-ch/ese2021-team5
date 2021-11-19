@@ -17,8 +17,8 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { CommunityPostComponent } from './community-post/community-post.component';
-import { PostComponent } from './community-post/post/post.component';
+import { FeedWallComponent } from './feed-wall/feed-wall.component';
+import { PostComponent } from './feed-wall/post/post.component';
 import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './shop/product/product.component';
 import {OrderComponent} from "./ShowOrders/Order/Order.component";
@@ -31,7 +31,7 @@ import {ShowOrdersComponent} from "./ShowOrders/ShowOrders.component";
     TodoListComponent,
     TodoItemComponent,
     UserComponent,
-    CommunityPostComponent,
+    FeedWallComponent,
     PostComponent,
     ShopComponent,
     ProductComponent,

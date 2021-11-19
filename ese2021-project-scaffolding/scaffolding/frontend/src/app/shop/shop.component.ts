@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
 import {Product} from "../models/product.model";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
@@ -10,7 +10,11 @@ import {environment} from "../../environments/environment";
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-  admin: boolean = false;
+  @ Input() admin = false;
+
+  ngOnChanges(changes: SimpleChanges){
+    this.admin = changes.admin.currentValue;
+  }
 
   productsArray: Product[] = [];
 
@@ -32,8 +36,6 @@ export class ShopComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkAdmin();
-
     //this.readProducts(); Not implemented --> waiting for backend
 
     //only for testing --> will be removed once admins can create products
@@ -66,19 +68,6 @@ export class ShopComponent implements OnInit {
       this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price))
     }
     )
-  }
-
-  /**
-   * Decides whether a user is an admin.
-   * Might need to be changed as this will result in a failed http-request whenever a user is not an admin.
-   * As other components use the same function, on reloading the page as a none-admin there will be several failed requests.
-   */
-  checkAdmin() {
-    this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
-        this.admin = true;},
-      () => {
-        this.admin = false;
-      });
   }
 
   /**

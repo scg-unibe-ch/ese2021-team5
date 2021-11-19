@@ -80,6 +80,7 @@
     <div>
     <app-post  *ngFor="let post of displayPostsArray"
               [post]="post"
+               [admin]="admin"
               (delete)="deletePost($event)">
     </app-post>
     </div>

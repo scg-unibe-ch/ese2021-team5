@@ -17,6 +17,8 @@ export class PostComponent implements OnInit {
   @Input()
   post: Post = new Post('','','',0, '', '', 0, 0, 0);
 
+  @ Input() admin = false;
+
   imageURL: any;
   editMode: boolean = false;
   editButtonTextEdit: string = "Edit Post";
@@ -32,7 +34,6 @@ export class PostComponent implements OnInit {
   delete = new EventEmitter<Post>();
   upvoted: boolean = false;
   downvoted: boolean = false;
-  admin: boolean | undefined;
 
   constructor(
     public userService: UserService,
@@ -41,7 +42,6 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkAdmin();
 
     if (this.post.pictureLink == '' && this.post.pictureId != 0) {
       this.httpClient.get(environment.endpointURL + "post/" + this.post.pictureId + "/image").subscribe((image: any) => {
@@ -72,14 +72,6 @@ export class PostComponent implements OnInit {
     return this.userService.getLoggedIn() || false;
   }
 
-  checkAdmin(): void {
-    this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
-        this.admin = true;
-        },
-      () => {
-        this.admin = false;
-      });
-  }
 
   upvote(): void{
       if(!this.upvoteFlag) {
