@@ -4,7 +4,7 @@ const purchaseController: Router = express.Router();
 
 
 /**
- * 
+ *
  */
 purchaseController.post('/submit-purchase', (req: Request, res: Response) => {
     /**
@@ -34,7 +34,7 @@ purchaseController.post('/cart/remove-item', (req: Request, res: Response) => {
   /**
      * unimplemented
      */
-  
+
 });
 
 

@@ -64,6 +64,7 @@ export class UserService {
     this.loggedIn$.subscribe(res => this.loggedIn = res);
     this.user$.subscribe(res => this.user = res);
 
+
     // Default values
     this.setLoggedIn(false);
   }

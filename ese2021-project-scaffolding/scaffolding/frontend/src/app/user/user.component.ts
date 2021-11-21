@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -31,6 +31,9 @@ export class UserComponent {
   endpointMsgPassword: string = '';
   endpointMsgRegistration: string = '';
   endpointMsgLogin: string = '';
+
+  @Output()
+  userStatusChange = new EventEmitter();
 
   constructor(
     public httpClient: HttpClient,
@@ -86,6 +89,8 @@ export class UserComponent {
       this.userService.setLoggedIn(true);
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, this.account));
       this.endpointMsgLogin = ``;
+
+        this.userStatusChange.emit(); //triggers checkUserStatus() in app.component.ts
     },
       (err)=> {
       this.endpointMsgLogin = err.error.message.message;
@@ -99,6 +104,8 @@ export class UserComponent {
 
     this.userService.setLoggedIn(false);
     this.userService.setUser(undefined);
+
+    this.userStatusChange.emit(); //triggers checkUserStatus() in app.component.ts
   }
 
   accessUserEndpoint(): void {
@@ -261,13 +268,8 @@ export class UserComponent {
     return this.endpointMsgRegistration;
   }
 
-  /**
-   * Strange getter --> For some reason i'm unable to access localStorage from within
-   * the HTML directly?
-   */
   getUserName(): string{
-
-    return <string>localStorage.getItem('userName');
+    return this.userService.getUser()?.username || '(Unable to find username)';
   }
 
 }

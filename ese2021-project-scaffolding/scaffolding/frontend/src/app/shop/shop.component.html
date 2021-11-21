@@ -1,0 +1,45 @@
+
+<div *ngIf="admin && !showNewProductForm"> <!-- only admins can create products -->
+  <mat-card>
+    <button mat-flat-button color="primary" (click)="newProduct()">Create a new Product!</button>
+  </mat-card>
+</div>
+
+<div *ngIf="showNewProductForm && admin"> <!-- only admins can create products -->
+  <mat-card>
+    <p>Create a new Product!</p>
+
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Category ID</mat-label>
+        <textarea matInput placeholder="please enter a number" [(ngModel)]="categoryId" name="categoryId"></textarea>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <textarea matInput placeholder="Please enter the title" [(ngModel)]="title" name="title"></textarea>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Please enter a description" [(ngModel)]="description" name="description"></textarea>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Image URL</mat-label>
+        <textarea matInput placeholder="Please enter a link to an image" [(ngModel)]="imageUri" name="imageUri"></textarea>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Price</mat-label>
+        <textarea matInput placeholder="Please enter a number" [(ngModel)]="price" name="price"></textarea>
+      </mat-form-field>
+    </mat-card-content>
+
+    <button mat-flat-button color="warn" (click)="discardChanges()">Discard Changes</button>
+    <button mat-flat-button color="primary" [disabled]="checkNewProductInformation()"> Post new Product -- Not implemented</button>
+  </mat-card>
+</div>
+
+<app-product *ngFor="let product of productsArray">
+</app-product>

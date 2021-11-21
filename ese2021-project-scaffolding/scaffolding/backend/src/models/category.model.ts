@@ -7,14 +7,14 @@ import { Optional, Model, HasManyGetAssociationsMixin, HasManyAddAssociationMixi
 export interface CategoryAttributes {
     categoryId: number;
     name: string;
-    description?: string
+    description?: string;
 }
 
 
 export class Category extends Model<CategoryAttributes> implements CategoryAttributes {
     categoryId: number;
     name: string;
-    description?: string
+    description?: string;
     public static initialize(sequelize: Sequelize) {
         Category.init({
             categoryId: {

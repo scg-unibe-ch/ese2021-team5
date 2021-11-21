@@ -1,0 +1,27 @@
+p {
+  font-size: 15px;
+}
+
+.mat-card {
+  margin: 40px 0;
+}
+
+.mat-card-actions {
+  margin: 40px 0;
+}
+
+.postBackground {
+  background-color: #EEE;
+}
+
+.colorRed{
+  background-color: red;
+}
+
+.title{
+  width: 20%;
+}
+
+.newPost {
+  width: 60%;
+}
