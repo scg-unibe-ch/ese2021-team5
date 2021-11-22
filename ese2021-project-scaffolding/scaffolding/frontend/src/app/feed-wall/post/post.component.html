@@ -9,7 +9,7 @@
       <div [innerHTML]="post.text"></div>
     <div *ngIf="post.pictureLink != ''">
       <br>
-      <img src="{{post.pictureLink}}" alt="There seems to be a problem with your URL">
+      <img src="{{post.pictureLink}}" alt="There seems to be a problem with your URL" class="image">
     </div>
     </mat-card>
     </div>
@@ -31,7 +31,7 @@
         </mat-form-field>
         <div *ngIf="post.pictureLink != ''">
           <br>
-          <img src="{{post.pictureLink}}" alt="There seems to be a problem with your URL">
+          <img src="{{post.pictureLink}}" alt="There seems to be a problem with your URL" class="image">
         </div>
       </mat-card>
     </div>
