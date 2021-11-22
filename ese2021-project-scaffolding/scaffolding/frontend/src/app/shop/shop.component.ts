@@ -17,6 +17,8 @@ export class ShopComponent implements OnInit {
   }
 
   productsArray: Product[] = [];
+  productsArrayLeftSide: Product [] = [];
+  productsArrayRightSide: Product [] =[];
 
   //values for creating new products
   categoryId: number = 0;
@@ -39,25 +41,31 @@ export class ShopComponent implements OnInit {
     //this.readProducts(); Not implemented --> waiting for backend
 
     //only for testing --> will be removed once admins can create products
-    this.productsArray.push(new Product(this.categoryId, "Product One", this.description, this.imageUri, this.price))
-    this.productsArray.push(new Product(this.categoryId, "Product Two", this.description, this.imageUri, this.price))
+    this.productsArray.push(new Product(1, "A Thing", "You totally need this thing! <br> Note: This text doesn't look good right now ):", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c12c5e21-79bd-4999-82a7-8f5adcfba4fc/defqisu-310c7de5-8094-458c-bd75-481a01026b3e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2MxMmM1ZTIxLTc5YmQtNDk5OS04MmE3LThmNWFkY2ZiYTRmY1wvZGVmcWlzdS0zMTBjN2RlNS04MDk0LTQ1OGMtYmQ3NS00ODFhMDEwMjZiM2UucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.2WYNGHCgLI17G_ttJdsaKLmoAm0x-Q1Ump-mVAKaIYw", 12))
+    this.productsArray.push(new Product(2, "A picture of a man holding dollar bills", "I haven't seen <b>The Simpons</b>. <br> Still the picture looks nice. <br> Especially the background.", "https://banner2.cleanpng.com/20180920/aet/kisspng-mr-burns-stereotype-character-drawing-image-cosas-para-photoscape-imgenes-para-photoscape-d-5ba4147aba9c71.8569712015374798027644.jpg", 1))
+    this.productsArray.push(new Product(1, "Product Three", "This Product doesn't have a picture! <br> And this description doesn't help a lot.", this.imageUri, 100))
+    this.splitProductsLeftRight();
   }
 
   /**
    * Called upon initialization. Gets all products from the backend and adds them to the productsArray.
    */
   readProducts(): void {
+    /*
     this.httpClient.get(environment.endpointURL + "product/view/all").subscribe((products: any) => {
       products.forEach((product: any) => {
         this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price))
       })
     })
+     */
+    this.splitProductsLeftRight();
   }
 
   /**
    * Only Admins can create new products.
    */
   createProduct(): void {
+    /*
     this.httpClient.post(environment.endpointURL + "product/add", {
       categoryId: this.categoryId,
       title: this.title,
@@ -68,6 +76,11 @@ export class ShopComponent implements OnInit {
       this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price))
     }
     )
+     */
+
+    this.productsArray.push(new Product(this.categoryId, this.title, this.description, this.imageUri, this.price));
+    this.readProducts();
+    this.resetNewProductValues();
   }
 
   /**
@@ -78,7 +91,7 @@ export class ShopComponent implements OnInit {
     this.showNewProductForm = !this.showNewProductForm;
   }
 
-  resetNewPostValues(): void {
+  resetNewProductValues(): void {
     this.categoryId = 0;
     this.title = '';
     this.description = '';
@@ -87,7 +100,7 @@ export class ShopComponent implements OnInit {
   }
 
   discardChanges() {
-    this.resetNewPostValues();
+    this.resetNewProductValues();
     this.newProduct(); // resets the new product form to be invisible
   }
 
@@ -104,5 +117,21 @@ export class ShopComponent implements OnInit {
       this.disableNewProductPostButton = true;
     }
     return this.disableNewProductPostButton;
+  }
+
+  /**
+   * Splits the array holding all products into two arrays, so that the products can be displayed in two columns.
+   */
+  splitProductsLeftRight(): void {
+    this.productsArrayLeftSide = [];
+    this.productsArrayRightSide = [];
+
+    for (let i = 0; i < this.productsArray.length; i++){
+      if (i % 2 == 0){
+        this.productsArrayLeftSide.push(this.productsArray[i]);
+      } else {
+        this.productsArrayRightSide.push(this.productsArray[i]);
+      }
+    }
   }
 }

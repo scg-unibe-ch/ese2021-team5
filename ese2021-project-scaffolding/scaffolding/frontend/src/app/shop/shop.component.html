@@ -37,9 +37,19 @@
     </mat-card-content>
 
     <button mat-flat-button color="warn" (click)="discardChanges()">Discard Changes</button>
-    <button mat-flat-button color="primary" [disabled]="checkNewProductInformation()"> Post new Product -- Not implemented</button>
+    <button mat-flat-button color="primary" [disabled]="checkNewProductInformation()" (click)="createProduct()">Post new Product</button>
   </mat-card>
 </div>
 
-<app-product *ngFor="let product of productsArray">
-</app-product>
+<div class="row">
+  <div class="column">
+    <app-product *ngFor="let product of productsArrayLeftSide"
+    [product]="product"></app-product>
+  </div>
+  <div class="column">
+    <app-product *ngFor="let product of productsArrayRightSide"
+                 [product]="product"></app-product>
+  </div>
+</div>
+
+

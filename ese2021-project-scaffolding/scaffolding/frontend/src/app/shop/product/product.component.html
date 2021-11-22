@@ -1,1 +1,28 @@
-<p>product works!</p>
+<div>
+  <mat-card class="productBackground">
+    <div>
+      <h3>{{product.title}}</h3>
+      <p>Category: {{product.categoryId}}</p>
+      <br>
+      <div [innerHTML]="product.description"></div>
+      <div *ngIf="product.imageUri != ''">
+        <br>
+        <img src="{{product.imageUri}}" alt="Image not found. Please inform an admin about this problem." class="productPicture">
+      </div>
+
+      <div class="row">
+        <div class="columnPrice">
+          <mat-card class="priceBackground">
+            <h4>Price: {{product.price}}</h4>
+          </mat-card>
+        </div>
+        <div class="columnButton" class="alignLeft">
+          <mat-card class="orderButtonBackground">
+            <button mat-flat-button color="warn" class="orderButton" *ngIf="orderButtonDisabled() == false">Order! -- not implemented</button>
+            <em class="userNotLoggedIn" *ngIf="orderButtonDisabled()">To order a product you need to be logged in.</em>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
