@@ -1,6 +1,6 @@
-import { Result } from './types';
+import { Result } from '../src/utils/types';
 import express, { Router, Request, Response } from 'express';
-import { ProductService } from './services/product.service';
+import { ProductService } from '../src/services/product.service';
 
 
 

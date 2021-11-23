@@ -1,20 +1,8 @@
 import { Result } from './types';
 import express, { Router, Request, Response } from 'express';
-import { ProductService } from './services/product.service';
+import { ProductService } from '../services/product.service';
 import { KeyObjectType } from 'crypto';
-
-
-const wrapA = (result: Result, response: Response) => {
-    if (result.success){
-        response.status(200);
-    } else if (result.success === false){
-        response.status(404);
-    }
-}
-
-
-
-
+ 
 export class ErrorMessageFactory {
 
     

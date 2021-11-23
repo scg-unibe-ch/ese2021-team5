@@ -1,13 +1,11 @@
 import { Category, CategoryAttributes } from '../models/category.model';
+import { ErrorMessageFactory } from '../utils/utils';
  
-type o = ReturnType<string>
+const errors = new ErrorMessageFactory('Category');
+
 export class CategoryService {
 
-
-    
-
-
-    static async findIdByName(categoryName: string) {
+    static async getCategoryByName(categoryName: string) {
         const found = await Category.findOne({
             where: {
                 name: categoryName
@@ -19,17 +17,10 @@ export class CategoryService {
         return found
     }
 
-    static async getProductsInCategory(categoryId: number) {
-        const found = await Category.findByPk(categoryId);
-        if (found){
-            throw new Error(`[ERROR] Category '${categoryId}' not found.`);
-        }
-        return found
-    }
     static async getCategory(categoryId: number) {
         const found = await Category.findByPk(categoryId);
         if (found){
-            throw new Error(`[ERROR] Category '${categoryId}' not found.`);
+            throw new Error(errors.notFound(categoryId));
         }
         return found
     }
@@ -42,10 +33,10 @@ export class CategoryService {
         return Category.create(info)
     }
 
-    static async deleteCategory(categoryId: string) {
+    static async deleteCategory(categoryId: number) {
         const found = await Category.findByPk(categoryId)
         if (!found){
-            throw new Error(`[ERROR] Category '${categoryId}' not found.`);
+            throw new Error(errors.notFound(categoryId));
         }
         return found.destroy().then(() => ({ deleted: categoryId }))
     }
