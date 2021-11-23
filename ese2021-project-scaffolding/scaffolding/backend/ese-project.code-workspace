@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+		{
+			"name": "Attach",
+			"port": 9229,
+			"request": "attach",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"type": "pwa-node"
+		},
+			{
+				"type": "pwa-node",
+				"request": "launch",
+				"name": "Launch Program",
+				"skipFiles": [
+					"<node_internals>/**"
+				],
+				"program": "/home/jm/personal/edu/uni/module/ESE/project/ese2021-team5/ese2021-project-scaffolding/scaffolding/backend/src/utils.ts",
+				"__workspaceFolder": "/home/jm/personal/edu/uni/module/ESE/project/ese2021-team5/ese2021-project-scaffolding/scaffolding/backend/src",
+				"outFiles": [
+					"${workspaceFolder}/**/*.js"
+				]
+			}
+		]
+	}
+}

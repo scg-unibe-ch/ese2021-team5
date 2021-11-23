@@ -3,15 +3,17 @@ import {checkAdmin} from '../middlewares/checkAdmin';
 import { Category } from '../models/category.model';
 import { CategoryService } from '../services/category.service';
 
-const categoryController: Router = express.Router();
+const storefrontController: Router = express.Router();
 
 
 /**
  * accessed via the name of the category rather than the id, which is unknown to users
  * example:  /category/view/example&page=3
  */
-categoryController.get('/category/view/:categoryName', (req: Request, res: Response) => {
-
+storefrontController.get('/store/:categoryName', (req: Request, res: Response) => {
+    const categoryName = req.params.categoryName;
+    CategoryService.findIdByName(categoryName).then(id => CategoryService.getAllProducts(id))
+    CategoryService.getAllProductsForName()
     const pageNr =  req.params['page'] || 1;
     const conf = {
         pageNr
@@ -30,10 +32,6 @@ categoryController.get('/category/list/', (req: Request, res: Response) => {
 /**
  * REST API
  */
-
-categoryController.get('/category/', (req: Request, res: Response) => {
-    Category.findAll().then(c =>)
-});
 
 categoryController.get('/category/:categoryId', (req: Request, res: Response) => {
     const categoryId = req.params['categoryId']; 
