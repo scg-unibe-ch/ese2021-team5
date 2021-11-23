@@ -1,0 +1,53 @@
+
+
+.priceBackground {
+  background-color: darkgray;
+  margin-right: 70%;
+}
+
+.productBackground {
+  margin-right: 40px;
+}
+
+.orderButtonBackground {
+  margin-right: -25px;
+  visibility: hidden;
+}
+
+.orderButton {
+  display: block;
+  visibility: visible;
+}
+
+.userNotLoggedIn {
+  display: block;
+  visibility: visible;
+  float:right;
+  margin-top: 7px;
+  margin-right: 10px;
+}
+
+.productPicture {
+  max-width: 60%;
+  max-height: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+}
+
+.row {
+  display: flex;
+}
+
+.columnPrice {
+  flex: 25%;
+}
+
+.columnButton {
+  flex:25%;
+}
+
+.alignLeft {
+  float: left;
+}

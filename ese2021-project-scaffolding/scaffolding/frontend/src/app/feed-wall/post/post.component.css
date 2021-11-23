@@ -1,6 +1,4 @@
-p{
-  color: darkgoldenrod;
-}
+
 
 .postBackground {
   background-color: darkgray;
@@ -20,11 +18,22 @@ p{
 }
 
 .image{
-  width: 60%;
+  max-width: 60%;
+  max-height: 60%;
   margin-top: 10px;
   margin-left: 5px;
+
+  border-radius: 10px;
 }
 
 .colorRed{
   background-color: red;
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Product} from "../../models/product.model";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-product',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  product: Product = new Product(0, '', '', '', 0);
+
+  loggedIn: boolean | undefined;
+
+  constructor(
+    public userService: UserService,
+  ) {userService.loggedIn$.subscribe(res => this.loggedIn = res); }
 
   ngOnInit(): void {
   }
 
+  orderButtonDisabled(): boolean {
+    if (this.loggedIn == true){
+      return false;
+    } else return true;
+  }
 }
