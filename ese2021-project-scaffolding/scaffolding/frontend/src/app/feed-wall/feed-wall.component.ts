@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Post} from "../models/post.model";
 import {User} from "../models/user.model";
 import {TodoList} from "../models/todo-list.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-community-post',
@@ -129,6 +130,8 @@ export class FeedWallComponent implements OnInit {
       this.resetImage();
       this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
       this.newPost(); //resets the "new post window"
+
+      return new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0);
     })
   }
 
@@ -144,13 +147,14 @@ export class FeedWallComponent implements OnInit {
 
 
   deletePost(post: Post): void{
-    this.httpClient.delete(environment.endpointURL + "post/" + post.postId,).subscribe(() => {
-      this.httpClient.delete(environment.endpointURL + "post/image/" + post.pictureFileName).subscribe( () => {
-      });
+    this.httpClient.delete(environment.endpointURL + "post/" + post.postId,).subscribe((deletedPost: any) => {
+      if (deletedPost.pictureLink != '') {
+        this.httpClient.delete(environment.endpointURL + "post/image/" + post.pictureFileName).subscribe(() => {
+        });
+      }
       this.allPosts.splice(this.allPosts.indexOf(post), 1);
       this.displayPostsArray.splice(this.displayPostsArray.indexOf(post), 1); //!!!temporary workaround!!!
     })
-
   }
 
 
