@@ -1,48 +1,41 @@
-import express, { Application , Request, Response } from 'express';
+import express, { Application , Request, Response, Router } from 'express';
 import morgan from 'morgan';
-import { TodoItemController } from './controllers/todoitem.controller';
-import { TodoListController } from './controllers/todolist.controller';
-import { UserController } from './controllers/user.controller';
-import { PostController } from './controllers/post.controller';
-import { ProductController } from './controllers/product.controller';
-import { SecuredController } from './controllers/secured.controller';
-import { StoreController } from './controllers/store.controller';
+import {request} from 'http';
+import {promisify} from 'util';
+/* const fetch = (info) => promisify(request(info, (req) => {return req } */;
 import { Sequelize } from 'sequelize';
-import { TodoList } from './models/todolist.model';
-import { TodoItem } from './models/todoitem.model';
-import { User } from './models/user.model';
-import { Post } from './models/post.model';
-import { Product } from './models/product.model';
+
 
 
 import cors from 'cors';
-import {AdminController} from './controllers/admin.controller';
+/* import {AdminController} from './controllers/admin.controller';
 import {ItemImage} from './models/itemImage.model';
 import multer, {diskStorage} from 'multer';
-import {PostImage} from './models/postImage.model';
-import { CategoryController } from './controllers/category.controller';
+import {PostImage} from './models/postImage.model'; */
+//import { StorefrontController } from './controllers/storefront.controller';
+import { parseQuery } from '../src/middlewares/parseRequest';
 
+const app: Router = express.Router();
+//app.use('/:categoryName', parseQuery);
+app.get('/:categoryName', (req: Request<any,any,any, ParsedQuery>, res: Response) => {
+    console.log(`REQ.query`, req.query, req.params);
+});
+const StorefrontController = app;
 
-export class Server {
-    private server: Application;
+  class Server {
+      server: Application;
     private sequelize: Sequelize;
     private port = process.env.PORT || 3000;
+
+
 
     constructor() {
         this.server = this.configureServer();
         this.sequelize = this.configureSequelize();
 
-        TodoItem.initialize(this.sequelize); // creates the tables if they dont exist
-        TodoList.initialize(this.sequelize);
-        User.initialize(this.sequelize);
-        ItemImage.initialize(this.sequelize);
-        PostImage.initialize(this.sequelize);
-        Post.initialize(this.sequelize);
-        Product.initialize(this.sequelize);
-        TodoItem.createAssociations();
-        TodoList.createAssociations();
-        ItemImage.createAssociations();
-        PostImage.createAssociations();
+
+
+
 
         this.sequelize.sync().then(() => {                           // create connection to the database
             this.server.listen(this.port, () => {                                   // start server on specified port
@@ -71,15 +64,7 @@ export class Server {
             .use(cors())
             .use(express.json())                    // parses an incoming json to an object
             .use(morgan('tiny'))                    // logs incoming requests
-            .use('/todoitem', TodoItemController)   // any request on this path is forwarded to the TodoItemController
-            .use('/todolist', TodoListController)
-            .use('/user', UserController)
-            .use('/post', PostController)
-            .use('/product', ProductController)
-            .use('/secured', SecuredController)
-            .use('/admin', AdminController)
-            .use('/category', CategoryController)
-            .use('/store', StoreController)
+            .use('/store', StorefrontController)
             .options('*', cors(options))
             .use('/public', express.static('./uploads'))
             .use(express.static('./src/public'))
@@ -96,7 +81,28 @@ export class Server {
     }
 }
 
-function main(){
-    const server = new Server(); // starts the server
+interface ParsedQuery {
+    page: number
 }
-main();
+
+
+let server: Server;
+async function setup1(){
+    server = new Server(); // starts the server
+
+
+
+ 
+}
+
+async function test1(){
+    console.log(`server`, server.server.options)
+    const a = request(`http://localhost:3000/store/testcat?page=2`, (res) => {
+    console.log(`A`, a);
+
+    });
+}
+
+setup1().then(() => {
+   // test1();
+});
