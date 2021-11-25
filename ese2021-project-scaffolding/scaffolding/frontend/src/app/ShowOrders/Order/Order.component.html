@@ -7,8 +7,8 @@
 <body>
   <div class="order">
     <div class="description">
-      <p *ngIf="!!Order.user" class="text">Username: {{Order.user.username}}</p> <!--if statement doesn't work like intended. -->
-      <p *ngIf="!!Order.product" class="text">Product: {{Order.product}}</p> <!--if statement doesn't work like intended. -->
+      <p *ngIf="!!Order.user" class="text">Username: {{Order.user.username}}</p>
+      <p *ngIf="!!Order.product" class="text">Product: {{Order.product}}</p>
       <p class="text">Payment method: {{Order.paymentMethod}}</p>
       <p class="text">delivery Address: {{Order.deliveryAddress}}</p>
       <div [innerHTML]="status" class="text"></div>
