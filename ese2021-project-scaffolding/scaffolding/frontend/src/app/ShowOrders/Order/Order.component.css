@@ -1,0 +1,25 @@
+.order{
+  height: 100px;
+  width: 100%;
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 2%;
+}
+.description{
+  float: left;
+  height: 5em;
+  width: 80%;
+}
+button{
+  height: 40px;
+  width: 200px;
+  float: right;
+  margin: 30px;
+}
+.text{
+  height: 80px;
+  width: 11%;
+  float: left;
+  margin: 3px;
+  padding: 20px;
+}

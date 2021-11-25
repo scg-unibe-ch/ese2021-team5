@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
 import {UserService} from "../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user.model";
@@ -33,6 +33,9 @@ export class ShowOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     //this.checkAdmin();
+    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,0));
+    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,1));
+    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,2));
   }
 
   checkAdmin():void{
@@ -45,7 +48,7 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   //will be called by the method buyProduct in shop.component.
-  newOrder(product: Product, username: string, paymentMethod: string, deliveryAddress: string):void{
+  newOrder(product: Product, customer: User, paymentMethod: string, deliveryAddress: string):void{
   //create order in backend with the given input and StatusIndex = 0
   }
 
@@ -68,18 +71,7 @@ export class ShowOrdersComponent implements OnInit {
 
   }
 
-  //admin can change OrderStatus from Pending to Shipped (statusIndex 0 -> 1)
-  //user can change OrderStatus from Pending to Cancelled (statusIndex 0 -> 2)
-  UpdateOrderStatus(order: Order):void{
-    if(order.statusIndex == 0){
-      if(this.admin){
-        order.statusIndex = 1;
-      }
-      else{
-        order.statusIndex = 2;
-      }
-    }
-  }
+
 }
 
 
