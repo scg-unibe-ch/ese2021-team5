@@ -11,19 +11,18 @@
           <img src="{{product.imageUri}}" alt="Image not found. Please inform an admin about this problem." class="productPicture"></div>
       </div>
 
-      <div *ngIf="showPaymentAndDeliveryOptions">
+      <div *ngIf="showOptionsAndLoggedIn()">
         <p>To order this product you need to confirm your address and select a payment option!</p>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="addressField">
           <mat-label>Delivery Address</mat-label>
-          <textarea matInput placeholder="{{deliveryAddress}}" [(ngModel)]="deliveryAddress" name="deliveryAddress">something</textarea>
+          <textarea matInput placeholder="{{deliveryAddress}}" [(ngModel)]="deliveryAddress" name="deliveryAddress" class="addressField" style="resize: none">something</textarea>
         </mat-form-field>
         <br>
+        <br>
         <p>Payment Method:</p>
-          <br>
             <mat-checkbox [(ngModel)]="paymentWithInvoice" (ngModelChange)="chosePaymentMethod('invoice')">Invoice</mat-checkbox>
           <br>
             <mat-checkbox [(ngModel)]="paymentWithTwint" (ngModelChange)="chosePaymentMethod('twint')">Twint</mat-checkbox>
-
       </div>
 
       <div class="row">
@@ -33,11 +32,18 @@
           </mat-card>
         </div>
         <div class="columnButton" class="alignLeft">
+
           <mat-card class="orderButtonBackground">
-            <button mat-flat-button color="primary" class="orderButton" *ngIf="orderButtonDisabled() == false" (click)="showOrderOptions()">Order!</button>
-            <em class="userNotLoggedIn" *ngIf="orderButtonDisabled()">To order a product you need to be logged in.</em>
+            <button mat-flat-button color="primary" class="orderButton" *ngIf="loggedIn()" (click)="showOrderOptions()">{{detailsButtonText}}</button>
+            <br>
+            <em class="userNotLoggedIn" *ngIf="loggedIn() == false">To order a product you need to be logged in.</em>
+            <button mat-flat-button color="warn" class="orderButton" [disabled]="sendOrderDisabled()" *ngIf="orderStatus == 1 && loggedIn()" (click)="sendOrder()">Send Order!</button>
           </mat-card>
+
         </div>
+      </div>
+      <div *ngIf="admin">
+        <button mat-flat-button color="warn" (click)="deleteProduct()">Delete Product!</button>
       </div>
     </div>
   </mat-card>

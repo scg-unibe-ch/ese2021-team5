@@ -51,3 +51,8 @@
 .alignLeft {
   float: left;
 }
+
+.addressField {
+  width: 66% !important;
+  height: 140px !important;
+}

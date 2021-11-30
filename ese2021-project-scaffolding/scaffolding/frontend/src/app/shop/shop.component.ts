@@ -40,49 +40,56 @@ export class ShopComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.readProducts(); Not implemented --> waiting for backend
+    this.readProducts();
 
-    //only for testing --> will be removed once admins can create products
-    this.productsArray.push(new Product(1, "A Thing", "You totally need this thing! <br> Note: This text doesn't look good right now ):", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c12c5e21-79bd-4999-82a7-8f5adcfba4fc/defqisu-310c7de5-8094-458c-bd75-481a01026b3e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2MxMmM1ZTIxLTc5YmQtNDk5OS04MmE3LThmNWFkY2ZiYTRmY1wvZGVmcWlzdS0zMTBjN2RlNS04MDk0LTQ1OGMtYmQ3NS00ODFhMDEwMjZiM2UucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.2WYNGHCgLI17G_ttJdsaKLmoAm0x-Q1Ump-mVAKaIYw", 12))
-    this.productsArray.push(new Product(2, "A picture of a man holding dollar bills", "I haven't seen <b>The Simpons</b>. <br> Still the picture looks nice. <br> Especially the background.", "https://banner2.cleanpng.com/20180920/aet/kisspng-mr-burns-stereotype-character-drawing-image-cosas-para-photoscape-imgenes-para-photoscape-d-5ba4147aba9c71.8569712015374798027644.jpg", 1))
-    this.productsArray.push(new Product(1, "Product Three", "This Product doesn't have a picture! <br> And this description doesn't help a lot.", this.imageUri, 100))
-    this.splitProductsLeftRight();
+    //only for testing ui testing (does not support full product functionality)
+    /*
+    this.productsArray.push(new Product(1, "A Thing", "You totally need this thing! <br> Note: This text doesn't look good right now ):", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c12c5e21-79bd-4999-82a7-8f5adcfba4fc/defqisu-310c7de5-8094-458c-bd75-481a01026b3e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2MxMmM1ZTIxLTc5YmQtNDk5OS04MmE3LThmNWFkY2ZiYTRmY1wvZGVmcWlzdS0zMTBjN2RlNS04MDk0LTQ1OGMtYmQ3NS00ODFhMDEwMjZiM2UucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.2WYNGHCgLI17G_ttJdsaKLmoAm0x-Q1Ump-mVAKaIYw", 12, 0))
+    this.productsArray.push(new Product(2, "A picture of a man holding dollar bills", "I haven't seen <b>The Simpons</b>. <br> Still the picture looks nice. <br> Especially the background.", "https://banner2.cleanpng.com/20180920/aet/kisspng-mr-burns-stereotype-character-drawing-image-cosas-para-photoscape-imgenes-para-photoscape-d-5ba4147aba9c71.8569712015374798027644.jpg", 1, 0))
+    this.productsArray.push(new Product(1, "Product Three", "This Product doesn't have a picture! <br> And this description doesn't help a lot.", this.imageUri, 100, 0))
+    this.splitProductsLeftRight(); */
   }
 
   /**
    * Called upon initialization. Gets all products from the backend and adds them to the productsArray.
    */
   readProducts(): void {
-    /*
-    this.httpClient.get(environment.endpointURL + "product/view/all").subscribe((products: any) => {
+    this.productsArray = [];
+    this.httpClient.get(environment.endpointURL + "product").subscribe((products: any) => {
       products.forEach((product: any) => {
-        this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price))
+        this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price, product.productId));
       })
+      this.splitProductsLeftRight();
     })
-     */
-    this.splitProductsLeftRight();
   }
 
   /**
    * Only Admins can create new products.
    */
   createProduct(): void {
-    /*
-    this.httpClient.post(environment.endpointURL + "product/add", {
+
+    this.httpClient.post(environment.endpointURL + "product", {
       categoryId: this.categoryId,
       title: this.title,
       description: this.description,
       imageUri: this.imageUri,
       price: this.price,
     }).subscribe( (product: any) => {
-      this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price))
-    }
+      this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price, product.productId));
+      this.resetNewProductValues();
+      this.readProducts();
+      this.discardChanges();
+     }
     )
-     */
+  }
 
-    this.productsArray.push(new Product(this.categoryId, this.title, this.description, this.imageUri, this.price));
-    this.readProducts();
-    this.resetNewProductValues();
+  /**
+   * Only Admins can delete products.
+   */
+  deleteProduct(product: Product): void {
+    this.httpClient.delete(environment.endpointURL + "product/" + product.productId).subscribe( () => {
+      this.readProducts();
+    })
   }
 
   /**

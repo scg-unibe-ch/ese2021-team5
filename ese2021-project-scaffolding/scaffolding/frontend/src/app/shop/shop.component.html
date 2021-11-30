@@ -43,11 +43,15 @@
 <div class="row">
   <div class="column">
     <app-product *ngFor="let product of productsArrayLeftSide"
-    [product]="product"></app-product>
+    [product]="product"
+    [admin]="admin"
+                 (delete)="deleteProduct($event)"></app-product>
   </div>
   <div class="column">
     <app-product *ngFor="let product of productsArrayRightSide"
-                 [product]="product"></app-product>
+                 [product]="product"
+                 [admin]="admin"
+                  (delete)="deleteProduct($event)"></app-product>
   </div>
 </div>
 
