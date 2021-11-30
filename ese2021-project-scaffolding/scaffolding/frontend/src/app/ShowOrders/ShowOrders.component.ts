@@ -47,7 +47,7 @@ export class ShowOrdersComponent implements OnInit {
       });
   }
 
-  //will be called by the method buyProduct in shop.component.
+  //will be called by the method buyProduct in shop.component. //maybe we could also just call readOrders() and then get the new order from the backend?
   newOrder(product: Product, customer: User, paymentMethod: string, deliveryAddress: string):void{
   //create order in backend with the given input and StatusIndex = 0
   }

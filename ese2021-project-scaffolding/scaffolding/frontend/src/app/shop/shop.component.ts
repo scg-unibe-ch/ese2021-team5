@@ -3,6 +3,7 @@ import {Product} from "../models/product.model";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
 import {environment} from "../../environments/environment";
+import {User} from "../models/user.model";
 
 @Component({
   selector: 'app-shop',
@@ -26,6 +27,7 @@ export class ShopComponent implements OnInit {
   description: string = '';
   imageUri: string = '';
   price: number = 0;
+  loggedIn: boolean = false;
 
   showNewProductForm: boolean = false;
   disableNewProductPostButton: boolean = true;
@@ -34,7 +36,7 @@ export class ShopComponent implements OnInit {
     public httpClient: HttpClient,
     public userService: UserService,
   ) {
-
+    userService.loggedIn$.subscribe(res => this.loggedIn = res);
   }
 
   ngOnInit(): void {

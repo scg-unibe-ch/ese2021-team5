@@ -2,12 +2,28 @@
   <mat-card class="productBackground">
     <div>
       <h3>{{product.title}}</h3>
-      <p>Category: {{product.categoryId}}</p>
-      <br>
-      <div [innerHTML]="product.description"></div>
-      <div *ngIf="product.imageUri != ''">
+
+      <div *ngIf="showPaymentAndDeliveryOptions == false"><p>Category: {{product.categoryId}}</p>
         <br>
-        <img src="{{product.imageUri}}" alt="Image not found. Please inform an admin about this problem." class="productPicture">
+        <div [innerHTML]="product.description"></div>
+        <div *ngIf="product.imageUri != ''">
+          <br>
+          <img src="{{product.imageUri}}" alt="Image not found. Please inform an admin about this problem." class="productPicture"></div>
+      </div>
+
+      <div *ngIf="showPaymentAndDeliveryOptions">
+        <p>To order this product you need to confirm your address and select a payment option!</p>
+        <mat-form-field appearance="outline">
+          <mat-label>Delivery Address</mat-label>
+          <textarea matInput placeholder="{{deliveryAddress}}" [(ngModel)]="deliveryAddress" name="deliveryAddress">something</textarea>
+        </mat-form-field>
+        <br>
+        <p>Payment Method:</p>
+          <br>
+            <mat-checkbox [(ngModel)]="paymentWithInvoice" (ngModelChange)="chosePaymentMethod('invoice')">Invoice</mat-checkbox>
+          <br>
+            <mat-checkbox [(ngModel)]="paymentWithTwint" (ngModelChange)="chosePaymentMethod('twint')">Twint</mat-checkbox>
+
       </div>
 
       <div class="row">
@@ -18,7 +34,7 @@
         </div>
         <div class="columnButton" class="alignLeft">
           <mat-card class="orderButtonBackground">
-            <button mat-flat-button color="warn" class="orderButton" *ngIf="orderButtonDisabled() == false">Order! -- not implemented</button>
+            <button mat-flat-button color="primary" class="orderButton" *ngIf="orderButtonDisabled() == false" (click)="showOrderOptions()">Order!</button>
             <em class="userNotLoggedIn" *ngIf="orderButtonDisabled()">To order a product you need to be logged in.</em>
           </mat-card>
         </div>
