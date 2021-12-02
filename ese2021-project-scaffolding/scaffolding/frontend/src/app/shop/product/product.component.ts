@@ -91,12 +91,12 @@ export class ProductComponent implements OnInit {
 
   chosePaymentMethod(paymentMethod: string): void {
     switch (paymentMethod) {
-      case 'invoice': this.paymentWithTwint = false;
-                      this.paymentWithInvoice = true;
-                      break;
-      case 'twint': this.paymentWithInvoice = false;
-                    this.paymentWithTwint = true;
-                    break;
+      case 'invoice':
+        this.paymentWithTwint = false;
+        break;
+      case 'twint':
+        this.paymentWithInvoice = false;
+        break;
     }
   }
 
