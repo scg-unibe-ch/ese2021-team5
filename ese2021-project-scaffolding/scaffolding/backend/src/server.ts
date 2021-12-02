@@ -6,12 +6,14 @@ import { UserController } from './controllers/user.controller';
 import { PostController } from './controllers/post.controller';
 import { ProductController } from './controllers/product.controller';
 import { SecuredController } from './controllers/secured.controller';
+import { OrderController } from './controllers/order.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
 import { Post } from './models/post.model';
 import { Product } from './models/product.model';
+import { Order } from './models/order.model';
 
 
 import cors from 'cors';
@@ -39,13 +41,12 @@ export class Server {
         PostImage.initialize(this.sequelize);
         Post.initialize(this.sequelize);
         Product.initialize(this.sequelize);
+        Order.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
         ItemImage.createAssociations();
         PostImage.createAssociations();
-
-
-
+        Order.createAssociations();
 
         this.sequelize.sync().then(() => {                           // create connection to the database
             this.server.listen(this.port, () => {                                   // start server on specified port
@@ -79,6 +80,7 @@ export class Server {
             .use('/user', UserController)
             .use('/post', PostController)
             .use('/product', ProductController)
+            .use('/order', OrderController)
             .use('/secured', SecuredController)
             .use('/admin', AdminController)
             .options('*', cors(options))
