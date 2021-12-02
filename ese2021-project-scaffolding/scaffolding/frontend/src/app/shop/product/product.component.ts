@@ -4,6 +4,7 @@ import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../../models/user.model";
 import {Account} from "../../models/account.model";
+import {environment} from "../../../environments/environment";
 
 
 @Component({
@@ -33,6 +34,7 @@ export class ProductComponent implements OnInit {
 
   constructor(
     public userService: UserService,
+    public httpClient: HttpClient,
   ) {
   }
 
@@ -102,11 +104,24 @@ export class ProductComponent implements OnInit {
 
   sendOrder() { //unfinished implementation
     console.log("not implemented - waiting for backend");
+
+    this.httpClient.post(environment.endpointURL + 'purchase/submit-purchase', {
+      //waiting for backend
+    }).subscribe( () => {
+      this.orderStatus = 0;
+      this.showPaymentAndDeliveryOptions = false;
+      this.detailsButtonText = "BUY NOW"
+      this.resetPaymentOption();
+      this.initializeDeliveryAddress();
+    })
+
+    //----------- will be deleted after backend implementation
     this.orderStatus = 0;
     this.showPaymentAndDeliveryOptions = false;
     this.detailsButtonText = "BUY NOW"
     this.resetPaymentOption();
     this.initializeDeliveryAddress();
+    //---------------
   }
 
   resetPaymentOption(): void {

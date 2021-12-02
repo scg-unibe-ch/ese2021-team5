@@ -1,3 +1,15 @@
+<h3>Shop</h3>
+
+<div>
+  <mat-card>
+    <p>Select a Category:</p>
+    <select [(ngModel)]="selectedCategory" name="categorySelector" (ngModelChange)="selectCategory()">
+      <option value="1">1</option>
+      <option value="2">2</option>
+    </select>
+  </mat-card>
+</div>
+
 <div *ngIf="admin && !showNewProductForm"> <!-- only admins can create products -->
   <mat-card>
     <button mat-flat-button color="primary" (click)="newProduct()">Create a new Product!</button>
