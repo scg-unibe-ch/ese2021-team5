@@ -27,7 +27,7 @@ export class ProductComponent implements OnInit {
   deliveryAddress: string | undefined = '';
   customer: User | undefined;
   orderStatus: number = 0;
-  detailsButtonText: string = "Show Details";
+  detailsButtonText: string = "BUY NOW";
   sendOrderDisable = true;
 
 
@@ -63,7 +63,7 @@ export class ProductComponent implements OnInit {
     this.showPaymentAndDeliveryOptions = !this.showPaymentAndDeliveryOptions;
     if (this.orderStatus == 1){
       this.orderStatus = 0;
-      this.detailsButtonText = 'Show Details';
+      this.detailsButtonText = 'BUY NOW';
     } else {
       this.orderStatus = 1;
       this.detailsButtonText = 'Discard Changes!';
@@ -84,7 +84,7 @@ export class ProductComponent implements OnInit {
     } else if (!this.loggedIn()){
       this.showPaymentAndDeliveryOptions = false;
       this.orderStatus = 0;
-      this.detailsButtonText = 'Show Details';
+      this.detailsButtonText = 'BUY NOW';
       return false;
     } else return false;
   }
@@ -92,8 +92,10 @@ export class ProductComponent implements OnInit {
   chosePaymentMethod(paymentMethod: string): void {
     switch (paymentMethod) {
       case 'invoice': this.paymentWithTwint = false;
+                      this.paymentWithInvoice = true;
                       break;
       case 'twint': this.paymentWithInvoice = false;
+                    this.paymentWithTwint = true;
                     break;
     }
   }
@@ -101,6 +103,8 @@ export class ProductComponent implements OnInit {
   sendOrder() { //unfinished implementation
     console.log("not implemented - waiting for backend");
     this.orderStatus = 0;
+    this.showPaymentAndDeliveryOptions = false;
+    this.detailsButtonText = "BUY NOW"
     this.resetPaymentOption();
     this.initializeDeliveryAddress();
   }

@@ -14,12 +14,13 @@ import {environment} from "../../../environments/environment";
 })
 export class OrderComponent implements OnInit {
   @Input()
-  Order: Order = new Order(undefined, '', '', undefined, 0);
+  Order: Order = new Order(undefined, '', '', undefined, 0,0);
 
   user: User | undefined;
   loggedIn: boolean | undefined;
   admin: boolean = false;
   status: string = "";
+  newIndex: number = 0;
 
   constructor(
     public userService: UserService,
@@ -68,6 +69,19 @@ export class OrderComponent implements OnInit {
       }
     }
     this.setStatus();
+    this.newIndex = order.statusIndex;
+    this.SafeStatusUpdate();
+
+  }
+
+  //backend isn't implemented yet, so not sure if this works.
+  SafeStatusUpdate():void{
+    this.httpClient.put(environment.endpointURL + "order/" + this.Order.orderId, {
+      statusIndex: this.newIndex,
+    }).subscribe( (order: any) => {
+        this.Order.statusIndex = order.statusIndex;
+      }
+    )
   }
 
 }

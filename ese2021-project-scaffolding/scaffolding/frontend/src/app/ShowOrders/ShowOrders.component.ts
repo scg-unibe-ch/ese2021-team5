@@ -33,9 +33,9 @@ export class ShowOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     //this.checkAdmin();
-    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,0));
-    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,1));
-    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,2));
+    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,0,0));
+    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,1,1));
+    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,2,2));
   }
 
   checkAdmin():void{
@@ -55,7 +55,7 @@ export class ShowOrdersComponent implements OnInit {
   readOrders():void{
     this.httpClient.get(environment.endpointURL + "order").subscribe((orders: any) => {
       orders.forEach((order: any) => {
-        this.allOrders.push(new Order(order.user, order.paymentMethod, order.deliveryAddress, order.product, order.statusIndex));
+        this.allOrders.push(new Order(order.user, order.paymentMethod, order.deliveryAddress, order.product, order.statusIndex, order.orderId));
       })
     })
   }

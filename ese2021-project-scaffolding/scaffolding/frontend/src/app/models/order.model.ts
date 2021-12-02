@@ -8,5 +8,6 @@ export class Order {
     public deliveryAddress: string,
     public product: Product | undefined,
     public statusIndex: number, //it's easier to use a number instead of a string. (0 = Pending, 1 = Shipped, 2 = Cancelled)
+    public orderId: number,
   ) {}
 }
