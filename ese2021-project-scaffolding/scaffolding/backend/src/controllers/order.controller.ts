@@ -44,7 +44,8 @@ orderController.get('/', (req: Request, res: Response) => {
 orderController.put('/cancel/:id', (req: Request, res: Response) => {
     Order.findByPk(req.params.id).then(found => {
       if (found != null) {
-        found.status = OrderStatus.Cancelled;
+        found.update({'status': OrderStatus.Cancelled})
+        .then(updated => {res.status(200).send(updated); });
       } else {
         res.sendStatus(404);
       }
@@ -58,7 +59,8 @@ orderController.put('/cancel/:id', (req: Request, res: Response) => {
 orderController.put('/ship/:id', (req: Request, res: Response) => {
     Order.findByPk(req.params.id).then(found => {
       if (found != null) {
-        found.status = OrderStatus.Shipped;
+        found.update({'status': OrderStatus.Shipped})
+        .then(updated => {res.status(200).send(updated); });
       } else {
         res.sendStatus(404);
       }
