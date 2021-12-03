@@ -36,9 +36,34 @@
       </mat-card>
     </div>
 
+
     <div style="text-align: left" class="creator"><span>Score: {{post.postRank}} </span></div>
+
+    <div style="text-align: left" class="creator"><span>Comments:</span></div>
+
+    <div *ngFor="let cmnt of post.PostComments">
+      <mat-card class="postHeader">
+        <p>{{cmnt}}</p>
+      </mat-card>
+    </div>
+
+
+    <div *ngIf="answerMode">
+      <mat-card class="postHeader">
+        <h3 style="color: orangered">Create an comment</h3>
+        <mat-form-field appearance="outline" class="title">
+          <mat-label>Comment</mat-label>
+          <textarea matInput [(ngModel)]="newPostComment" name="comment">something</textarea>
+        </mat-form-field> <br>
+      </mat-card>
+    </div>
+
+    <div *ngIf="answerMode"> <!-- admins can edit posts from users. -->
+      <button class="right-button" mat-flat-button color="primary" (click)="addComment()">Post comment!</button>
+    </div>
+
     <div *ngIf="loggedIn() === true && !admin"> <!-- guests and admins can't comment on posts. -->
-      <button class="right-button" mat-flat-button color="primary" (click)="createAnswer()">Respond</button>
+      <button class="right-button" mat-flat-button color="primary" (click)="createComment()">Respond</button>
     </div>
     <div *ngIf="myOwnPost() || admin"> <!-- admins can delete posts from users. -->
       <button class="right-button" mat-flat-button color="warn" (click)="deletePost()">Delete your Post!</button>

@@ -100,7 +100,7 @@ export class FeedWallComponent implements OnInit {
       upvotes: 0, // broken?
       downvotes: 0,
       pictureId: 0,
-
+      postComment:[""],
     }).subscribe((post: any) => {
 
       if(containsImage){
@@ -119,11 +119,11 @@ export class FeedWallComponent implements OnInit {
             pictureId: imageData.imageId,
           }).subscribe();
           imageId = imageData.imageId;
-          this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
+          this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0,post.postComment));
         });
       }
       if(!containsImage) {
-        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0,post.postComment));
       }
 
       this.resetImage();
@@ -136,7 +136,7 @@ export class FeedWallComponent implements OnInit {
   readPosts(): void {
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
       posts.forEach((post: any) => {
-        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, 0));
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, 0,post.postComment));
       })
     })
     this.displayPostsArray = this.allPosts; //!!!temporary workaround!!!

@@ -15,18 +15,20 @@ import {environment} from "../../../environments/environment";
 export class PostComponent implements OnInit {
 
   @Input()
-  post: Post = new Post('','','',0, '', '', 0, 0, 0);
+  post: Post = new Post('','','',0, '', '', 0, 0, 0,['']);
 
   @ Input() admin = false;
 
   imageURL: any;
   editMode: boolean = false;
+  answerMode: boolean = false;
   editButtonTextEdit: string = "Edit Post";
   editButtonTextDiscardChanges: string = "Discard Changes";
   editButtonText: string = this.editButtonTextEdit;
   updatePostTitle: string = '';
   updatePostText: string = '';
   updatePostCategory: string = '';
+  newPostComment: string = '';
   upvoteFlag: any = false;
   downvoteFlag: any = false;
 
@@ -64,9 +66,6 @@ export class PostComponent implements OnInit {
     return thisIsMyPost;
   }
 
-  createAnswer(): void {
-
-  }
 
   loggedIn(): boolean {
     return this.userService.getLoggedIn() || false;
@@ -97,6 +96,10 @@ export class PostComponent implements OnInit {
       this.downvoteFlag = !this.downvoteFlag;
   }
 
+  createComment(): void {
+    this.answerMode = !this.answerMode;
+  }
+
   editPost() {
     this.editMode = !this.editMode;
     this.updatePostTitle = this.post.title;
@@ -122,4 +125,21 @@ export class PostComponent implements OnInit {
       }
     )
   }
+
+  addComment() {
+    this.createComment()
+    this.post.PostComments = [this.newPostComment];
+    /**
+     * does not work yet (needs backend saving)
+    this.httpClient.put(environment.endpointURL + "post/" + this.post.postId, {
+      PostComments: [this.newPostComment],
+    }).subscribe( (post: any) => {
+        this.createComment();
+        this.post.PostComments = post.PostComments;
+      }
+    )
+     **/
+
+  }
+
 }
