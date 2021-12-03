@@ -21,6 +21,7 @@ import { ItemImage } from './models/itemImage.model';
 import multer, { diskStorage } from 'multer';
 import { PostImage } from './models/postImage.model';
 
+import { UserService } from './services/user.service';
 
 export class Server {
 
@@ -50,23 +51,12 @@ export class Server {
       });
     });
 
-    Server.makeAnAdmin();
+    UserService.makeAnAdmin();
 
   }
   private server: Application;
   private sequelize: Sequelize;
   private port = process.env.PORT || 3000;
-  /**
-  * Used to create a default admin user during development. Needs refactoring
-  */
-  public static makeAnAdmin() {
-    User.create({
-      'userName': 'admin',
-      'password': 'password',
-      'admin': true,
-      'email': 'admin@email.com'
-    });
-  }
 
 
   private configureServer(): Application {
