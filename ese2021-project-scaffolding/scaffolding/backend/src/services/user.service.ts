@@ -5,18 +5,6 @@ import jwt from 'jsonwebtoken';
 
 export class UserService {
 
-  /**
-  * Used to create a default admin user during development.
-  */
-  public static makeAnAdmin() {
-    User.create({
-      'userName': 'admin',
-      'password': bcrypt.hashSync('password', 12),
-      'admin': true,
-      'email': 'admin@email.com'
-    });
-  }
-
 
   public register(user: UserAttributes): Promise<UserAttributes> {
     const saltRounds = 12;

@@ -21,7 +21,7 @@ import { ItemImage } from './models/itemImage.model';
 import multer, { diskStorage } from 'multer';
 import { PostImage } from './models/postImage.model';
 
-import { UserService } from './services/user.service';
+import { ServerService } from './services/server.service';
 
 export class Server {
 
@@ -51,7 +51,8 @@ export class Server {
       });
     });
 
-    UserService.makeAnAdmin();
+
+    ServerService.makeAnAdmin();
 
   }
   private server: Application;
@@ -103,5 +104,4 @@ export class Server {
     });
   }
 }
-
 const server = new Server(); // starts the server

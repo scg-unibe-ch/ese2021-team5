@@ -10,7 +10,7 @@ export interface OrderAttributes {
   orderId: number;
   purchaserId: number;
   productId: number;
-  status: OrderStatus;
+  statusId: OrderStatus;
   // paymentMethod: PaymentMethod;
   /**
    * address information
@@ -28,7 +28,7 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
   orderId!: number;
   purchaserId!: number;
   productId!: number;
-  status!: OrderStatus;
+  statusId!: OrderStatus;
   // paymentMethod: PaymentMethod;
 
   public static initialize(sequelize: Sequelize) {
@@ -42,15 +42,11 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      status: {
+      statusId: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: OrderStatus.Pending
       },
-      // paymentMethod: {
-      //     type: DataTypes.STRING,
-      //     allowNull: false
-      // },
       productId: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -64,21 +60,19 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
   }
 
   public static createAssociations() {
-    Order.hasOne(Product, {
-      as: 'merchandise',
+    Order.hasOne(User, {
+      as: 'buyer',
       foreignKey: 'orderId'
     });
-    Order.belongsTo(User, {
-      targetKey: 'userId',
-      as: 'buyer',
-      onDelete: 'cascade',
-      foreignKey: 'userId'
+    Order.hasMany(Product, {
+      as: 'merchandise',
+      foreignKey: 'orderId'
     });
   }
 }
 
 export const enum OrderStatus {
-  Pending = 'Pending',
-  Shipped = 'Shipped/Done',
-  Cancelled = 'Cancelled'
+  Pending = 0,
+  Shipped = 1,
+  Cancelled = 2
 }
