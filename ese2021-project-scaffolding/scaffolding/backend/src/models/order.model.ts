@@ -8,6 +8,7 @@ import { User } from '../models/user.model';
  */
 export interface OrderAttributes {
   orderId: number;
+  userId: number;
   statusId: OrderStatus;
   paymentMethod: PaymentMethod;
   buyerName: string;
@@ -29,12 +30,14 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
 
   public static associations: {
     purchase: Association<Order, Product>
+    buyer: Association<Order, User>
   };
 
   orderId!: number;
   statusId!: OrderStatus;
   paymentMethod: PaymentMethod;
   buyerName: string;
+  userId: number;
   deliveryAddress: string;
 
   public static initialize(sequelize: Sequelize) {
@@ -48,6 +51,9 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: OrderStatus.Pending
+      },
+      userId: {
+        type: DataTypes.INTEGER,
       },
       paymentMethod: {
         type: DataTypes.STRING,
@@ -66,6 +72,12 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
   }
 
   public static createAssociations() {
+
+    Order.belongsTo(User, {
+      foreignKey: 'userId',
+      targetKey: 'userId',
+      as: 'buyer',
+    });
 
     Order.belongsToMany(Product, {
       through: 'ProductOrders',

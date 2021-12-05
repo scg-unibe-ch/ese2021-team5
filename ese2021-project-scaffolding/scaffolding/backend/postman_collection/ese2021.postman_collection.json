@@ -55,7 +55,36 @@
 			"response": []
 		},
 		{
-			"name": "user login",
+			"name": "user login as admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"admin\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user login Copy",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -120,7 +149,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ik5vcmEiLCJ1c2VySWQiOjEsImFkbWluIjpmYWxzZSwiaWF0IjoxNjM4NDc2NTA1LCJleHAiOjE2Mzg0ODM3MDV9.yjGGVruRl4vbC7zY_00GiBI7Lr3YxU1Yort2Ly9fnY0",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ik5vcmEiLCJ1c2VySWQiOjEsImFkbWluIjpmYWxzZSwiaWF0IjoxNjM4NzI5MzYxLCJleHAiOjE2Mzg3MzY1NjF9.cpZe5L7enKB69RdDcgppNEE62O3G1tD6QgSVhZACI_g",
 							"type": "string"
 						}
 					]
@@ -406,7 +435,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/post/1",
+					"raw": "http://localhost:3000/post/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -414,7 +443,7 @@
 					"port": "3000",
 					"path": [
 						"post",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -624,7 +653,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"purchaserId\": 1,\n    \"productId\": 1\n}",
+					"raw": "{\n    \"purchase\":  [ 1 , 2],\n    \"userId\": 1\n\n}",
 					"options": {
 						"raw": {
 							"language": "json"

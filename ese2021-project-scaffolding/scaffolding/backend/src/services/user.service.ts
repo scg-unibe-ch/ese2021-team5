@@ -57,7 +57,8 @@ export class UserService {
   }
 
   public getAll(): Promise<User[]> {
-    return User.findAll();
+    // uncomment commented section if useful
+    return User.findAll(/*{ include: [User.associations.orders] }*/);
   }
 
 }

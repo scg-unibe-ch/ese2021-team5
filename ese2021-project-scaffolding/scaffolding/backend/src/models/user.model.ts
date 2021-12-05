@@ -1,4 +1,5 @@
-import { Optional, Model, Sequelize, DataTypes } from 'sequelize';
+import { Optional, Model, Sequelize, DataTypes , Association} from 'sequelize';
+import { Order } from './order.model';
 
 export interface UserAttributes {
   userId: number;
@@ -18,6 +19,11 @@ export interface UserAttributes {
 export interface UserCreationAttributes extends Optional<UserAttributes, 'userId'> { }
 
 export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+
+  public static associations: {
+    orders: Association<User, Order>
+  };
+
   userId!: number;
   userName!: string;
   password!: string;
@@ -82,13 +88,13 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
       }
     );
   }
-  public static makeAnAdmin() {
-    User.create({
-      'userName': 'admin',
-      'password': 'password',
-      'admin': true,
-      'email': 'admin@email.com'
+  public static createAssociations() {
+
+    User.hasMany(Order, {
+      foreignKey: 'userId',
+      as: 'orders',
     });
+
   }
 }
 
