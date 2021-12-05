@@ -113,10 +113,10 @@ export class ProductComponent implements OnInit {
     this.httpClient.post(environment.endpointURL + 'order', {
       purchaserId: this.customer?.userId,
       statusId: 0,
-      productId: this.product.productId,
+      purchase: [ this.product.productId ],
       paymentMethod: this.paymentMethod,
       userId: this.customer?.userId,
-      // deliveryAddress: this.deliveryAddress,
+      deliveryAddress: this.deliveryAddress,
     }).subscribe( () => {
       this.orderStatus = 0;
       this.showPaymentAndDeliveryOptions = false;
