@@ -1,4 +1,4 @@
-import { Optional, Model, DataTypes, Sequelize } from 'sequelize';
+import { Optional, Model, DataTypes, Sequelize, Association } from 'sequelize';
 import { Product } from '../models/product.model';
 import { User } from '../models/user.model';
 
@@ -8,10 +8,11 @@ import { User } from '../models/user.model';
  */
 export interface OrderAttributes {
   orderId: number;
-  purchaserId: number;
-  productId: number;
   statusId: OrderStatus;
   paymentMethod: PaymentMethod;
+  buyerName: string;
+  deliveryAddress: string;
+
   /**
    * address information
    */
@@ -25,11 +26,16 @@ export interface OrderAttributes {
 export interface OrderCreationAttributes extends Optional<OrderAttributes, 'orderId'> { }
 
 export class Order extends Model<OrderAttributes, OrderCreationAttributes> implements OrderAttributes {
+
+  public static associations: {
+    purchase: Association<Order, Product>
+  };
+
   orderId!: number;
-  purchaserId!: number;
-  productId!: number;
   statusId!: OrderStatus;
   paymentMethod: PaymentMethod;
+  buyerName: string;
+  deliveryAddress: string;
 
   public static initialize(sequelize: Sequelize) {
     Order.init({
@@ -38,24 +44,20 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
         autoIncrement: true,
         primaryKey: true
       },
-      purchaserId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       statusId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: OrderStatus.Pending
       },
-      productId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
       paymentMethod: {
         type: DataTypes.STRING,
         allowNull: true
+      },
+      buyerName: DataTypes.STRING,
+      deliveryAddress: DataTypes.STRING,
+
       }
-    },
+    ,
       {
         sequelize,
         tableName: 'orders'
@@ -64,6 +66,13 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
   }
 
   public static createAssociations() {
+
+    Order.belongsToMany(Product, {
+      through: 'ProductOrders',
+      as: 'purchase',
+      foreignKey: 'orderId',
+      otherKey: 'productId'
+    });
   }
 }
 

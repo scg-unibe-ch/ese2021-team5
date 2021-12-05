@@ -13,7 +13,8 @@ import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
 import { Post } from './models/post.model';
 import { Product } from './models/product.model';
-import { Order } from './models/order.model';
+import { Order} from './models/order.model';
+import { ProductOrders } from './models/productOrders.model';
 
 import cors from 'cors';
 import { AdminController } from './controllers/admin.controller';
@@ -39,6 +40,7 @@ export class Server {
     Post.initialize(this.sequelize);
     Product.initialize(this.sequelize);
     Order.initialize(this.sequelize);
+    ProductOrders.initialize(this.sequelize);
     TodoItem.createAssociations();
     TodoList.createAssociations();
     ItemImage.createAssociations();
