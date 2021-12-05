@@ -30,6 +30,7 @@ export class ProductComponent implements OnInit {
   orderStatus: number = 0;
   detailsButtonText: string = "BUY NOW";
   sendOrderDisable = true;
+  paymentMethod: string = "";
 
 
   constructor(
@@ -100,13 +101,22 @@ export class ProductComponent implements OnInit {
         this.paymentWithInvoice = false;
         break;
     }
+    if(this.paymentWithTwint){
+      this.paymentMethod = "Twint";
+    }
+    if(this.paymentWithInvoice){
+      this.paymentMethod = "Invoice";
+    }
   }
 
   sendOrder() { //unfinished implementation
-    console.log("not implemented - waiting for backend");
-
-    this.httpClient.post(environment.endpointURL + 'purchase/submit-purchase', {
-      //waiting for backend
+    this.httpClient.post(environment.endpointURL + 'order', {
+      purchaserId: this.customer?.userId,
+      statusId: 0,
+      productId: this.product.productId,
+      paymentMethod: this.paymentMethod,
+      userId: this.customer?.userId,
+      // deliveryAddress: this.deliveryAddress,
     }).subscribe( () => {
       this.orderStatus = 0;
       this.showPaymentAndDeliveryOptions = false;
@@ -114,14 +124,6 @@ export class ProductComponent implements OnInit {
       this.resetPaymentOption();
       this.initializeDeliveryAddress();
     })
-
-    //----------- will be deleted after backend implementation
-    this.orderStatus = 0;
-    this.showPaymentAndDeliveryOptions = false;
-    this.detailsButtonText = "BUY NOW"
-    this.resetPaymentOption();
-    this.initializeDeliveryAddress();
-    //---------------
   }
 
   resetPaymentOption(): void {
