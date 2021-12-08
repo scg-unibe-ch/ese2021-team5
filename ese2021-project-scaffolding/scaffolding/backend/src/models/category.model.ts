@@ -1,4 +1,4 @@
-import { Optional, Model, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, DataTypes, Sequelize, Association } from 'sequelize';
+import { Optional, Model, DataTypes, Sequelize} from 'sequelize';
 
 
 /**
@@ -32,7 +32,7 @@ export class Category extends Model<CategoryAttributes> implements CategoryAttri
         },
             {
                 sequelize,
-                tableName: 'products'
+                tableName: 'categories'
             }
         );
     }

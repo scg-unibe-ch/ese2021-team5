@@ -7,6 +7,7 @@ import { PostController } from './controllers/post.controller';
 import { ProductController } from './controllers/product.controller';
 import { SecuredController } from './controllers/secured.controller';
 import { OrderController } from './controllers/order.controller';
+import { CategoryController} from './controllers/category.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
@@ -15,6 +16,7 @@ import { Post } from './models/post.model';
 import { Product } from './models/product.model';
 import { Order} from './models/order.model';
 import { ProductOrders } from './models/productOrders.model';
+import { Category } from './models/category.model';
 
 import cors from 'cors';
 import { AdminController } from './controllers/admin.controller';
@@ -41,6 +43,7 @@ export class Server {
     Product.initialize(this.sequelize);
     Order.initialize(this.sequelize);
     ProductOrders.initialize(this.sequelize);
+    Category.initialize(this.sequelize);
     TodoItem.createAssociations();
     TodoList.createAssociations();
     ItemImage.createAssociations();
@@ -89,6 +92,7 @@ export class Server {
       .use('/post', PostController)
       .use('/product', ProductController)
       .use('/order', OrderController)
+      .use('/category', CategoryController)
       .use('/secured', SecuredController)
       .use('/admin', AdminController)
       .options('*', cors(options))

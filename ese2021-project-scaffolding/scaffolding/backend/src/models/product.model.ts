@@ -1,4 +1,4 @@
-import { Optional, Model, HasManyGetAssociationsMixin, HasManyAddAssociationMixin, DataTypes, Sequelize, Association } from 'sequelize';
+import { Optional, Model, DataTypes, Sequelize } from 'sequelize';
 
 
 /**
