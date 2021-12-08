@@ -14,14 +14,14 @@ categoryController.get('/', (req: Request, res: Response) => {
 /**
  */
 categoryController.get('/:id', (req: Request, res: Response) => {
-    Category.findByPk(req.params.id).then(found => {
+    Category.findByPk(req.params.id, {include: [Category.associations.products]}).then(found => {
       if (found != null) {
         res.status(200).send(found);
       } else {
         res.sendStatus(404);
       }
     })
-      .catch(err => res.status(500).send(err));
+      .catch(err => res.status(500).send(`${err}`));
 
 });
 

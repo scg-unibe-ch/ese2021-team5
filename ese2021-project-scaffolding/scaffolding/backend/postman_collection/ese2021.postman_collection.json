@@ -876,7 +876,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/category/1",
+					"raw": "http://localhost:3000/category/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -884,7 +884,36 @@
 					"port": "3000",
 					"path": [
 						"category",
-						"1"
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"shirts and stuff\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/category/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"category",
+						"2"
 					]
 				}
 			},
