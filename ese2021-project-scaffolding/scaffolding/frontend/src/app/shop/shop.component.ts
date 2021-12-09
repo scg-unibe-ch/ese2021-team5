@@ -43,7 +43,6 @@ export class ShopComponent implements OnInit {
 
   ngOnInit(): void {
     this.readProducts();
-
     this.selectCategory()  }
 
   /**

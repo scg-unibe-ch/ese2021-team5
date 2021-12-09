@@ -1,11 +1,12 @@
 import {Component, Input, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
-import {UserService} from "../services/user.service";
+
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user.model";
 import {Order} from "../models/order.model";
 import {Product} from "../models/product.model";
 import {environment} from "../../environments/environment";
 import {Post} from "../models/post.model";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-ShowOrders',
@@ -36,13 +37,21 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.readOrders();
-    this.readUserOrders();
+    setTimeout(() =>{
+      this.user = this.userService.getUser();
+      this.username = this.user?.username;
+      this.readOrders();
+      }, 0);
+
+
+
     // this.checkAdmin();
     // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,0,0));
     // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,1,1));
     // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,2,2));
   }
+
+
 
   checkAdmin():void{
 
@@ -58,6 +67,7 @@ export class ShowOrdersComponent implements OnInit {
     this.httpClient.get(environment.endpointURL + "order").subscribe((orders: any) => {
       orders.forEach((order: any) => {
         this.allOrders.push(new Order(order.user, order.buyerName, order.paymentMethod, order.deliveryAddress, order.product, order.statusId, order.orderId));
+        this.readUserOrders();
       })
     })
   }

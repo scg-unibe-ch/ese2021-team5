@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Product} from "../../models/product.model";
 import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
