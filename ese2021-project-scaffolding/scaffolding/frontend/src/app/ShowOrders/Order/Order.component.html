@@ -7,17 +7,33 @@
 <body>
   <div class="order">
     <div class="description">
-      <p *ngIf="Order.user" class="text">Username: {{Order.user.username}}</p>
-      <p *ngIf="Order.product" class="text">Product: {{Order.product}}</p>
-      <p class="text">Payment method: {{Order.paymentMethod}}</p>
-      <p class="text">delivery Address: {{Order.deliveryAddress}}</p>
-      <div [innerHTML]="status" class="text"></div>
+      <div class="text">
+        <p class="info">Username: </p>
+        <p class="variable">{{Order.buyerName}}</p>
+      </div>
+      <div class="text">
+        <p class="info">Product: </p>
+        <p class="variable">{{Order.product}}</p>
+      </div>
+      <div class="text">
+        <p class="info">Payment method: </p>
+        <p class="variable">{{Order.paymentMethod}}</p>
+      </div>
+      <div class="text">
+        <p class="info">delivery Address: </p>
+        <p class="variable">{{Order.deliveryAddress}}</p>
+      </div>
+      <div class="text">
+        <p class="info">current Status: </p>
+        <div class="variable" [innerHTML]="status"></div>
+      </div>
+
     </div>
     <div *ngIf="!admin && Order.statusIndex == 0">
-      <button mat-flat-button color="warn" class="orderButton" (click)="UpdateOrderStatus(this.Order)">Cancel this order</button>
+      <button mat-flat-button color="warn" class="orderButton" (click)="SafeStatusUpdate()">Cancel this order</button>
     </div>
     <div *ngIf="admin && Order.statusIndex == 0">
-      <button mat-flat-button color="warn" class="orderButton" (click)="UpdateOrderStatus(this.Order)">This order is shipped</button>
+      <button mat-flat-button color="warn" class="orderButton" (click)="SafeStatusUpdate()">This order is shipped</button>
     </div>
   </div>
 

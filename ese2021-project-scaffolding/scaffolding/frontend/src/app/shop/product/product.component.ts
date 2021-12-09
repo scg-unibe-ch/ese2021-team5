@@ -109,7 +109,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  sendOrder() { //unfinished implementation
+  sendOrder() {
     this.httpClient.post(environment.endpointURL + 'order', {
       purchaserId: this.customer?.userId,
       statusId: 0,
@@ -117,6 +117,7 @@ export class ProductComponent implements OnInit {
       paymentMethod: this.paymentMethod,
       userId: this.customer?.userId,
       deliveryAddress: this.deliveryAddress,
+      buyerName: this.customer?.username,
     }).subscribe( () => {
       this.orderStatus = 0;
       this.showPaymentAndDeliveryOptions = false;

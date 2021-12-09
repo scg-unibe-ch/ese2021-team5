@@ -44,11 +44,6 @@ export class ShopComponent implements OnInit {
   ngOnInit(): void {
     this.readProducts();
 
-    //only for testing ui testing (does not support full product functionality)
-
-    this.productsArray.push(new Product(1, "A Thing", "You totally need this thing! <br> Note: This text doesn't look good right now ):", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c12c5e21-79bd-4999-82a7-8f5adcfba4fc/defqisu-310c7de5-8094-458c-bd75-481a01026b3e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2MxMmM1ZTIxLTc5YmQtNDk5OS04MmE3LThmNWFkY2ZiYTRmY1wvZGVmcWlzdS0zMTBjN2RlNS04MDk0LTQ1OGMtYmQ3NS00ODFhMDEwMjZiM2UucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.2WYNGHCgLI17G_ttJdsaKLmoAm0x-Q1Ump-mVAKaIYw", 12, 0))
-    this.productsArray.push(new Product(2, "A picture of a man holding dollar bills", "I haven't seen <b>The Simpons</b>. <br> Still the picture looks nice. <br> Especially the background.", "https://banner2.cleanpng.com/20180920/aet/kisspng-mr-burns-stereotype-character-drawing-image-cosas-para-photoscape-imgenes-para-photoscape-d-5ba4147aba9c71.8569712015374798027644.jpg", 1, 0))
-    this.productsArray.push(new Product(1, "Product Three", "This Product doesn't have a picture! <br> And this description doesn't help a lot.", this.imageUri, 100, 0))
     this.selectCategory()  }
 
   /**

@@ -4,6 +4,7 @@ export class Order {
 
   constructor(
     public user: User | undefined,
+    public buyerName: string,
     public paymentMethod: string,
     public deliveryAddress: string,
     public product: Product | undefined,

@@ -12,6 +12,7 @@ import {Post} from "../models/post.model";
   templateUrl: './ShowOrders.component.html',
   styleUrls: ['./ShowOrders.component.css']
 })
+
 export class ShowOrdersComponent implements OnInit {
   loggedIn: boolean | undefined;
   //admin: boolean | undefined;
@@ -20,6 +21,8 @@ export class ShowOrdersComponent implements OnInit {
 
   user: User | undefined;
   allOrders: Order[] = [];
+  userOrders: Order[] = [];
+  username: string | undefined;
 
 
   constructor(
@@ -29,13 +32,16 @@ export class ShowOrdersComponent implements OnInit {
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
     this.user = userService.getUser();
+    this.username = this.user?.username;
   }
 
   ngOnInit(): void {
-    //this.checkAdmin();
-    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,0,0));
-    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,1,1));
-    this.allOrders.push(new Order(this.user,'example','testStreet',undefined,2,2));
+    this.readOrders();
+    this.readUserOrders();
+    // this.checkAdmin();
+    // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,0,0));
+    // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,1,1));
+    // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,2,2));
   }
 
   checkAdmin():void{
@@ -47,18 +53,27 @@ export class ShowOrdersComponent implements OnInit {
       });
   }
 
-  //will be called by the method buyProduct in shop.component. //maybe we could also just call readOrders() and then get the new order from the backend?
-  newOrder(product: Product, customer: User, paymentMethod: string, deliveryAddress: string):void{
-  //create order in backend with the given input and StatusIndex = 0
-  }
 
   readOrders():void{
     this.httpClient.get(environment.endpointURL + "order").subscribe((orders: any) => {
       orders.forEach((order: any) => {
-        this.allOrders.push(new Order(order.user, order.paymentMethod, order.deliveryAddress, order.product, order.statusIndex, order.orderId));
+        this.allOrders.push(new Order(order.user, order.buyerName, order.paymentMethod, order.deliveryAddress, order.product, order.statusId, order.orderId));
       })
     })
   }
+
+  /*
+  *   funktioniert nicht. problem ist glaube ich der userService, also this.username ist undefiniert.
+   */
+  readUserOrders():void{
+    this.userOrders = [];
+    for (let i = 0; i < this.allOrders.length; i++){
+      if (this.allOrders[i].buyerName == this.username){
+        this.userOrders.push(this.allOrders[i]);
+      }
+    }
+  }
+
 
   //nicht Pflicht.
   //sort orders by different criteria. (can be selected by user via checkbox or drop down)

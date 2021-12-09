@@ -7,6 +7,7 @@ import {User} from "../../models/user.model";
 import {Product} from "../../models/product.model";
 import {environment} from "../../../environments/environment";
 
+
 @Component({
   selector: 'app-order',
   templateUrl: './Order.component.html',
@@ -14,7 +15,7 @@ import {environment} from "../../../environments/environment";
 })
 export class OrderComponent implements OnInit {
   @Input()
-  Order: Order = new Order(undefined, '', '', undefined, 0,0);
+  Order: Order = new Order(undefined, '', '', '', undefined, 0,0);
 
   user: User | undefined;
   loggedIn: boolean | undefined;
@@ -45,43 +46,33 @@ export class OrderComponent implements OnInit {
 
   //Translates the statusIndex to the according status.
   setStatus(): void{
-    this.status = 'current status: '
     if(this.Order.statusIndex == 0){
-      this.status += 'Pending'
+      this.status = 'Pending'
     }
     else if(this.Order.statusIndex == 1){
-      this.status += 'Shipped'
+      this.status = 'Shipped'
     }
     else if(this.Order.statusIndex == 2){
-      this.status += 'Cancelled'
+      this.status = 'Cancelled'
     }
   }
 
   //admin can change OrderStatus from Pending to Shipped (statusIndex 0 -> 1)
   //user can change OrderStatus from Pending to Cancelled (statusIndex 0 -> 2)
-  UpdateOrderStatus(order: Order):void{
-    if(order.statusIndex == 0){
-      if(this.admin){
-        order.statusIndex = 1;
-      }
-      else{
-        order.statusIndex = 2;
-      }
-    }
-    this.setStatus();
-    this.newIndex = order.statusIndex;
-    this.SafeStatusUpdate();
-
-  }
-
-  //backend isn't implemented yet, so not sure if this works.
+  //safes the change in backend.
   SafeStatusUpdate():void{
-    this.httpClient.put(environment.endpointURL + "order/" + this.Order.orderId, {
-      statusIndex: this.newIndex,
-    }).subscribe( (order: any) => {
-        this.Order.statusIndex = order.statusIndex;
-      }
-    )
+    if(this.admin){
+      this.httpClient.put(environment.endpointURL + "order/ship/" + this.Order.orderId, {
+      }).subscribe( () => {
+        this.setStatus();
+      })
+    }
+    if(!this.admin){
+      this.httpClient.put(environment.endpointURL + "order/cancel/" + this.Order.orderId, {
+      }).subscribe( () => {
+        this.setStatus();
+      })
+    }
   }
 
 }
