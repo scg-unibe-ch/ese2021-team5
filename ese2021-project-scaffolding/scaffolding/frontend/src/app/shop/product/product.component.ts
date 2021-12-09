@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Product} from "../../models/product.model";
 import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
@@ -19,11 +19,12 @@ export class ProductComponent implements OnInit {
 
   @Input()
   product: Product = new Product(0, '', '', '', 0, 0);
+
   @Input()
   admin: boolean = false;
 
   showPaymentAndDeliveryOptions: boolean = false;
-  paymentWithInvoice: boolean = false;
+  //paymentWithInvoice: boolean = true;
   paymentWithTwint: boolean = false;
   deliveryAddress: string | undefined = '';
   customer: User | undefined;
@@ -64,6 +65,9 @@ export class ProductComponent implements OnInit {
   //Needs refactoring --> ugly mess
   showOrderOptions(): boolean {
     this.showPaymentAndDeliveryOptions = !this.showPaymentAndDeliveryOptions;
+    this.product.paymentWithInvoice = true;
+
+    this.paymentMethod = 'invoice';
     if (this.orderStatus == 1){
       this.orderStatus = 0;
       this.detailsButtonText = 'BUY NOW';
@@ -98,13 +102,13 @@ export class ProductComponent implements OnInit {
         this.paymentWithTwint = false;
         break;
       case 'twint':
-        this.paymentWithInvoice = false;
+        this.product.paymentWithInvoice = false;
         break;
     }
     if(this.paymentWithTwint){
       this.paymentMethod = "Twint";
     }
-    if(this.paymentWithInvoice){
+    if(this.product.paymentWithInvoice){
       this.paymentMethod = "Invoice";
     }
   }
@@ -129,11 +133,11 @@ export class ProductComponent implements OnInit {
 
   resetPaymentOption(): void {
     this.paymentWithTwint = false;
-    this.paymentWithInvoice = false;
+    this.product.paymentWithInvoice = true;
   }
 
   sendOrderDisabled(): boolean {
-    if (!this.paymentWithInvoice && !this.paymentWithTwint){
+    if (!this.product.paymentWithInvoice && !this.paymentWithTwint){
       return true;
     } else if (this.deliveryAddress == ''){
       return true;

@@ -20,9 +20,9 @@
         <br>
         <br>
         <p>Payment Method:</p>
-            <mat-checkbox [(ngModel)]="paymentWithInvoice" (ngModelChange)="chosePaymentMethod('invoice')">Invoice</mat-checkbox>
+            <mat-checkbox [(ngModel)]="product.paymentWithInvoice" (ngModelChange)="chosePaymentMethod('invoice')" name="invoice">Invoice</mat-checkbox>
           <br>
-            <mat-checkbox [(ngModel)]="paymentWithTwint" (ngModelChange)="chosePaymentMethod('twint')">Twint</mat-checkbox>
+            <mat-checkbox [(ngModel)]="paymentWithTwint" (ngModelChange)="chosePaymentMethod('twint')" name="twint">Twint</mat-checkbox>
       </div>
 
       <div class="row">
