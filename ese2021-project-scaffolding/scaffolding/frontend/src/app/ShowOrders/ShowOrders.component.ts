@@ -7,6 +7,8 @@ import {Product} from "../models/product.model";
 import {environment} from "../../environments/environment";
 import {Post} from "../models/post.model";
 import {UserService} from "../services/user.service";
+import {OrdersService} from "../services/orders.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-ShowOrders',
@@ -15,6 +17,7 @@ import {UserService} from "../services/user.service";
 })
 
 export class ShowOrdersComponent implements OnInit {
+  clickEventsubscription: Subscription;
   loggedIn: boolean | undefined;
   //admin: boolean | undefined;
 
@@ -28,12 +31,17 @@ export class ShowOrdersComponent implements OnInit {
 
   constructor(
     public userService: UserService,
-    public httpClient: HttpClient
+    public httpClient: HttpClient,
+    public orderService: OrdersService,
   ) {
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
     this.user = userService.getUser();
     this.username = this.user?.username;
+
+    this.clickEventsubscription = this.orderService.getClickEvent().subscribe(() => {
+      this.readOrders();
+    })
   }
 
   ngOnInit(): void {
@@ -64,11 +72,12 @@ export class ShowOrdersComponent implements OnInit {
 
 
   readOrders():void{
+    this.allOrders = [];
     this.httpClient.get(environment.endpointURL + "order").subscribe((orders: any) => {
       orders.forEach((order: any) => {
         this.allOrders.push(new Order(order.user, order.buyerName, order.paymentMethod, order.deliveryAddress, order.product, order.statusId, order.orderId));
-        this.readUserOrders();
       })
+      this.readUserOrders();
     })
   }
 

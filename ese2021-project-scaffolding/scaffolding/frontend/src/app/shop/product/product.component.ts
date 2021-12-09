@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../../models/user.model";
 import {Account} from "../../models/account.model";
 import {environment} from "../../../environments/environment";
+import {OrdersService} from "../../services/orders.service";
 
 
 @Component({
@@ -37,6 +38,7 @@ export class ProductComponent implements OnInit {
   constructor(
     public userService: UserService,
     public httpClient: HttpClient,
+    public orderService: OrdersService,
   ) {
   }
 
@@ -128,6 +130,8 @@ export class ProductComponent implements OnInit {
       this.detailsButtonText = "BUY NOW"
       this.resetPaymentOption();
       this.initializeDeliveryAddress();
+
+      this.orderService.sendClickEvent();
     })
   }
 
