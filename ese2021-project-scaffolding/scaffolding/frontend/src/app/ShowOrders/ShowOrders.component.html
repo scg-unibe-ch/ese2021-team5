@@ -2,11 +2,13 @@
   <mat-card class="postBackground"><h3>Orders</h3>
     <div *ngIf="admin">
       <app-order *ngFor="let Order of allOrders"
-                 [Order]="Order"></app-order>
+                 [Order]="Order"
+                 (changeOrderStatus)="readOrders()")></app-order>
     </div>
     <div *ngIf="!admin">
       <app-order *ngFor="let Order of userOrders"
-                 [Order]="Order"></app-order>
+                 [Order]="Order"
+                 (changeOrderStatus)="readOrders()"></app-order>
     </div>
     <!-- for testing userService <p class="text">Username: {{this.username}}</p> -->
 

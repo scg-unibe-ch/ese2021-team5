@@ -18,6 +18,9 @@ export class OrderComponent implements OnInit {
   @Input()
   Order: Order = new Order(undefined, '', '', '', undefined, 0,0);
 
+  @Output()
+  changeOrderStatus = new EventEmitter<Order>();
+
   user: User | undefined;
   loggedIn: boolean | undefined;
   admin: boolean = false;
@@ -66,12 +69,14 @@ export class OrderComponent implements OnInit {
       this.httpClient.put(environment.endpointURL + "order/ship/" + this.Order.orderId, {
       }).subscribe( () => {
         this.setStatus();
+        this.changeOrderStatus.emit();
       })
     }
     if(!this.admin){
       this.httpClient.put(environment.endpointURL + "order/cancel/" + this.Order.orderId, {
       }).subscribe( () => {
         this.setStatus();
+        this.changeOrderStatus.emit();
       })
     }
   }

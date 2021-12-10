@@ -25,7 +25,6 @@ export class ProductComponent implements OnInit {
   admin: boolean = false;
 
   showPaymentAndDeliveryOptions: boolean = false;
-  //paymentWithInvoice: boolean = true;
   paymentWithTwint: boolean = false;
   deliveryAddress: string | undefined = '';
   customer: User | undefined;
