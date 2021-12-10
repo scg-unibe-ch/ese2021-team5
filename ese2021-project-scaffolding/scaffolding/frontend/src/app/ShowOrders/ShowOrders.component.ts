@@ -51,12 +51,6 @@ export class ShowOrdersComponent implements OnInit {
       this.readOrders();
       }, 0);
 
-
-
-    // this.checkAdmin();
-    // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,0,0));
-    // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,1,1));
-    // this.allOrders.push(new Order(this.user,'example','testStreet',undefined,2,2));
   }
 
 
@@ -77,8 +71,9 @@ export class ShowOrdersComponent implements OnInit {
       orders.forEach((order: any) => {
         this.allOrders.push(new Order(order.user, order.buyerName, order.paymentMethod, order.deliveryAddress, order.product, order.statusId, order.orderId));
       })
-      this.readUserOrders();
+
     })
+    this.readUserOrders();
   }
 
   /*

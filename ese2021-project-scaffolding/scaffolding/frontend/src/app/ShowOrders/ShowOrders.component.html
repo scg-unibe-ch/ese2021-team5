@@ -3,7 +3,7 @@
     <div *ngIf="admin">
       <app-order *ngFor="let Order of allOrders"
                  [Order]="Order"
-                 (changeOrderStatus)="readOrders()")></app-order>
+                 (changeOrderStatus)="readOrders()"></app-order>
     </div>
     <div *ngIf="!admin">
       <app-order *ngFor="let Order of userOrders"
