@@ -71,9 +71,8 @@ export class ShowOrdersComponent implements OnInit {
       orders.forEach((order: any) => {
         this.allOrders.push(new Order(order.user, order.buyerName, order.paymentMethod, order.deliveryAddress, order.product, order.statusId, order.orderId));
       })
-
+      this.readUserOrders();
     })
-    this.readUserOrders();
   }
 
   /*
