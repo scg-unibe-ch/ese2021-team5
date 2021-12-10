@@ -49,7 +49,7 @@ export class ShowOrdersComponent implements OnInit {
       this.user = this.userService.getUser();
       this.username = this.user?.username;
       this.readOrders();
-      }, 0);
+      }, 300);
 
   }
 
