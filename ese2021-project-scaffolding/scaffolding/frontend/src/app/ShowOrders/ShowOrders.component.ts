@@ -26,6 +26,8 @@ export class ShowOrdersComponent implements OnInit {
   user: User | undefined;
   allOrders: Order[] = [];
   userOrders: Order[] = [];
+  allOrdersNewToOld: Order[] = [];
+  userOrdersNewToOld: Order[] = [];
   username: string | undefined;
 
 
@@ -72,11 +74,12 @@ export class ShowOrdersComponent implements OnInit {
         this.allOrders.push(new Order(order.user, order.buyerName, order.paymentMethod, order.deliveryAddress, order.product, order.statusId, order.orderId));
       })
       this.readUserOrders();
+      this.orderArrays();
     })
   }
 
   /*
-  *   funktioniert nicht. problem ist glaube ich der userService, also this.username ist undefiniert.
+  *   make an array with all orders from the current user.
    */
   readUserOrders():void{
     this.userOrders = [];
@@ -84,6 +87,18 @@ export class ShowOrdersComponent implements OnInit {
       if (this.allOrders[i].buyerName == this.username){
         this.userOrders.push(this.allOrders[i]);
       }
+    }
+  }
+
+  orderArrays():void{
+    this.allOrdersNewToOld = [];
+    for (let i = this.allOrders.length - 1; i >= 0; i--){
+      this.allOrdersNewToOld.push(this.allOrders[i]);
+    }
+
+    this.userOrdersNewToOld = [];
+    for (let i = this.userOrders.length - 1; i >= 0; i--){
+      this.userOrdersNewToOld.push(this.userOrders[i]);
     }
   }
 

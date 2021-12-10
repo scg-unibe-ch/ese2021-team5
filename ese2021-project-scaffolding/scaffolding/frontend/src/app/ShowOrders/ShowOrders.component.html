@@ -1,12 +1,12 @@
 <div>
   <mat-card class="postBackground"><h3>Orders</h3>
     <div *ngIf="admin">
-      <app-order *ngFor="let Order of allOrders"
+      <app-order *ngFor="let Order of allOrdersNewToOld"
                  [Order]="Order"
                  (changeOrderStatus)="readOrders()"></app-order>
     </div>
     <div *ngIf="!admin">
-      <app-order *ngFor="let Order of userOrders"
+      <app-order *ngFor="let Order of userOrdersNewToOld"
                  [Order]="Order"
                  (changeOrderStatus)="readOrders()"></app-order>
     </div>
