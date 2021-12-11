@@ -16,7 +16,7 @@ import {environment} from "../../../environments/environment";
 })
 export class OrderComponent implements OnInit {
   @Input()
-  Order: Order = new Order(undefined, '', '', '', undefined, 0,0);
+  Order: Order = new Order(undefined, '', '', '', '', 0,0);
 
   @Output()
   changeOrderStatus = new EventEmitter<Order>();
@@ -25,7 +25,6 @@ export class OrderComponent implements OnInit {
   loggedIn: boolean | undefined;
   admin: boolean = false;
   status: string = "";
-  newIndex: number = 0;
 
   constructor(
     public userService: UserService,

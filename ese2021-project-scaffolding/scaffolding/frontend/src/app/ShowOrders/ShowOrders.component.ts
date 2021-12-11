@@ -56,7 +56,9 @@ export class ShowOrdersComponent implements OnInit {
   }
 
 
-
+  /*
+  check if the current user is an admin
+   */
   checkAdmin():void{
 
     this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
@@ -66,12 +68,15 @@ export class ShowOrdersComponent implements OnInit {
       });
   }
 
-
+  /*
+  get all orders from the backend and store it in the array allOrders.
+  then call readUserOrders() and orderArrays()
+   */
   readOrders():void{
     this.allOrders = [];
     this.httpClient.get(environment.endpointURL + "order").subscribe((orders: any) => {
       orders.forEach((order: any) => {
-        this.allOrders.push(new Order(order.user, order.buyerName, order.paymentMethod, order.deliveryAddress, order.product, order.statusId, order.orderId));
+        this.allOrders.push(new Order(order.user, order.buyerName, order.paymentMethod, order.deliveryAddress, order.purchase[0].title, order.statusId, order.orderId));
       })
       this.readUserOrders();
       this.orderArrays();
@@ -90,6 +95,9 @@ export class ShowOrdersComponent implements OnInit {
     }
   }
 
+  /*
+  fill in the arrays all/user-OrdersNewToOld
+   */
   orderArrays():void{
     this.allOrdersNewToOld = [];
     for (let i = this.allOrders.length - 1; i >= 0; i--){
@@ -101,20 +109,6 @@ export class ShowOrdersComponent implements OnInit {
       this.userOrdersNewToOld.push(this.userOrders[i]);
     }
   }
-
-
-  //nicht Pflicht.
-  //sort orders by different criteria. (can be selected by user via checkbox or drop down)
-  sortOrders():void{
-
-  }
-  //nicht Pflicht.
-  //only show Orders with specific orderStatus (can be selected by user via drop down)
-  showXStatusOnly():void{
-
-  }
-
-
 }
 
 
