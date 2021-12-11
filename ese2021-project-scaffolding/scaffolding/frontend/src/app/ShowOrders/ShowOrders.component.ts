@@ -18,6 +18,7 @@ import {Subscription} from "rxjs";
 
 export class ShowOrdersComponent implements OnInit {
   clickEventsubscription: Subscription;
+  userStatusChangeEventSubscription: Subscription;
   loggedIn: boolean | undefined;
   //admin: boolean | undefined;
 
@@ -38,21 +39,18 @@ export class ShowOrdersComponent implements OnInit {
   ) {
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
-    this.user = userService.getUser();
-    this.username = this.user?.username;
 
     this.clickEventsubscription = this.orderService.getClickEvent().subscribe(() => {
       this.readOrders();
     })
+
+    this.userStatusChangeEventSubscription = this.userService.getUserStatusChangeEvent().subscribe(() => {
+      this.updateUserStatus();
+    })
   }
 
   ngOnInit(): void {
-    setTimeout(() =>{
-      this.user = this.userService.getUser();
-      this.username = this.user?.username;
-      this.readOrders();
-      }, 300);
-
+  //this.updateUserStatus();
   }
 
 
@@ -108,6 +106,12 @@ export class ShowOrdersComponent implements OnInit {
     for (let i = this.userOrders.length - 1; i >= 0; i--){
       this.userOrdersNewToOld.push(this.userOrders[i]);
     }
+  }
+
+  private updateUserStatus() {
+    this.user = this.userService.getUser();
+    this.username = this.user?.username;
+    this.readOrders();
   }
 }
 

@@ -1,5 +1,8 @@
 <div>
   <mat-card class="postBackground"><h3>Orders</h3>
+    <div>
+      logged in: {{username}}
+    </div>
     <div *ngIf="admin">
       <app-order *ngFor="let Order of allOrdersNewToOld"
                  [Order]="Order"

@@ -101,6 +101,7 @@ export class AppComponent implements OnInit {
         for (let i = 0; i < user.length; i++) {
           if (user[i].userName === localStorage.getItem('userName')) {
             this.userService.setUser(new User(user[i].userId, user[i].userName, user[i].password, new Account(user[i].firstName, user[i].lastName, user[i].email, user[i].street, user[i].phoneNumber, user[i].plz, user[i].city, '')));
+            this.userService.sendUserStatusChangeEvent();
             break;
           }
         }
@@ -111,7 +112,7 @@ export class AppComponent implements OnInit {
 
         this.userService.setLoggedIn(false);
         this.userService.setUser(undefined);
-
+        this.userService.sendUserStatusChangeEvent();
       })
     }
     this.checkAdmin();

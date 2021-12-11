@@ -8,9 +8,12 @@ export class OrdersService {
 
   constructor() { }
 
-  private subject = new Subject<any>();sendClickEvent() {
+  private subject = new Subject<any>();
+
+  sendClickEvent() {
     this.subject.next();
   } // @ts-ignore
+
   getClickEvent(): Observable<any>{
     return this.subject.asObservable();
   }
