@@ -60,7 +60,7 @@ export class ProductComponent implements OnInit {
   }
 
   deleteProduct(): void {
-    this.delete.emit(this.product);
+    // this.delete.emit(this.product);    put this in comments because deleting a product causes bug on this version.
   }
 
   //Needs refactoring --> ugly mess
