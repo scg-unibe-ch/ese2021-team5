@@ -15,3 +15,16 @@ button, input {
 .mat-form-field-wrapper {
   margin-right: 25px !important;
 }
+
+div{
+  margin: 0px;
+}
+body{
+  background-image: url("https://wallpaperbat.com/img/243320-simpsons-wallpaper.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+app-root{
+  background-color: white;
+}
+
