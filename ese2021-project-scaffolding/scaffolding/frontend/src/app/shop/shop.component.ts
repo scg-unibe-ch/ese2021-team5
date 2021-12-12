@@ -52,7 +52,9 @@ export class ShopComponent implements OnInit {
     this.productsArray = [];
     this.httpClient.get(environment.endpointURL + "product").subscribe((products: any) => {
       products.forEach((product: any) => {
-        this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price, product.productId));
+        if(product.active) {
+          this.productsArray.push(new Product(product.categoryId, product.title, product.description, product.imageUri, product.price, product.productId));
+        }
       })
       this.selectCategory();
     })
