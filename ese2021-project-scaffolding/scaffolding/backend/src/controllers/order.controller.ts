@@ -7,7 +7,6 @@ import { verifyToken } from '../middlewares/checkAuth';
 
 const orderController: Router = express.Router();
 
-orderController.use(verifyToken);
 
 /**
  * Create an order
