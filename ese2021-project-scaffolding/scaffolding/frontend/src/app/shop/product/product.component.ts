@@ -32,6 +32,7 @@ export class ProductComponent implements OnInit {
   detailsButtonText: string = "BUY NOW";
   sendOrderDisable = true;
   paymentMethod: string = "";
+  categoryString: string = "";
 
 
   constructor(
@@ -147,5 +148,27 @@ export class ProductComponent implements OnInit {
     } else return false;
   }
 
+  parseCategory(): string{
+    this.categoryString = "";
+    switch(this.product.categoryId){
+      case 1:{
+        this.categoryString = "Clothes";
+        break;
+      }
+      case 2:{
+        this.categoryString = "Poster";
+        break;
+      }
+      case 3:{
+        this.categoryString = "Figure";
+        break;
+      }
+      case 4:{
+        this.categoryString = "Other";
+        break;
+      }
 
+    }
+    return this.categoryString;
+  }
 }

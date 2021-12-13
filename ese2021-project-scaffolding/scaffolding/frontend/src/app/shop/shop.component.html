@@ -4,8 +4,10 @@
   <mat-card>
     <p>Select a Category:</p>
     <select [(ngModel)]="selectedCategory" name="categorySelector" (ngModelChange)="selectCategory()">
-      <option value="1">1</option>
-      <option value="2">2</option>
+      <option value="1">Clothes</option>
+      <option value="2">Poster</option>
+      <option value="3">Figure</option>
+      <option value="4">Other</option>
     </select>
   </mat-card>
 </div>
@@ -22,8 +24,13 @@
 
     <mat-card-content>
       <mat-form-field>
-        <mat-label>Category ID</mat-label>
-        <textarea matInput placeholder="please enter a number" [(ngModel)]="categoryId" name="categoryId"></textarea>
+        <mat-label>Category</mat-label>
+        <mat-select [(ngModel)]="categoryId" name="categorySelector">
+          <mat-option value="1">Clothes</mat-option>
+          <mat-option value="2">Poster</mat-option>
+          <mat-option value="3">Figure</mat-option>
+          <mat-option value="4">Other</mat-option>
+        </mat-select>
       </mat-form-field>
       <br>
       <mat-form-field>

@@ -23,6 +23,8 @@ import { ShopComponent } from './shop/shop.component';
 import { ProductComponent } from './shop/product/product.component';
 import {OrderComponent} from "./ShowOrders/Order/Order.component";
 import {ShowOrdersComponent} from "./ShowOrders/ShowOrders.component";
+import {MatSelectModule} from "@angular/material/select";
+import {MatOptionModule} from "@angular/material/core";
 
 
 @NgModule({
@@ -51,6 +53,8 @@ import {ShowOrdersComponent} from "./ShowOrders/ShowOrders.component";
     MatListModule,
     FormsModule,
     MatCheckboxModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   providers: [
     {
