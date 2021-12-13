@@ -4,7 +4,7 @@
       <h3>{{product.title}}</h3>
 
       <div *ngIf="showPaymentAndDeliveryOptions == false">
-        <p>Category: {{parseCategory()}}</p>
+        <p id="category">{{parseCategory()}}</p>
         <br>
         <div [innerHTML]="product.description"></div>
         <div *ngIf="product.imageUri != ''">

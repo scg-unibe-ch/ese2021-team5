@@ -56,3 +56,7 @@
   width: 66% !important;
   height: 140px !important;
 }
+
+#category {
+  color: darkgreen;
+}

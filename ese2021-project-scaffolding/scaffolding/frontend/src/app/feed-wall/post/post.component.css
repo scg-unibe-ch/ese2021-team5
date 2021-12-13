@@ -37,3 +37,7 @@
 .column {
   flex: 50%;
 }
+
+#category {
+  color: darkgreen;
+}

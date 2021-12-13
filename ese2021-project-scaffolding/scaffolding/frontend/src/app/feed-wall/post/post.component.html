@@ -1,11 +1,11 @@
 <div>
   <mat-card class="postBackground">
-    <div style="text-align: right" class="creator"><span>This Post was created by <b>{{post.creatorUsername}}</b> on (creation date)</span></div>
+    <div style="text-align: right" class="creator"><span>Created by <b>{{post.creatorUsername}}</b></span></div>
 
     <div *ngIf="!editMode">
     <mat-card class="postHeader">
       <h3>{{post.title}}</h3>
-      <p>{{post.category}}</p>
+      <p id="category">{{post.category}}</p>
       <div [innerHTML]="post.text"></div>
     <div *ngIf="post.pictureLink != ''">
       <br>
@@ -41,9 +41,11 @@
     </div>
 
     <div style="text-align: left" class="creator"><span>Score: {{post.postRank}} </span></div>
-    <div *ngIf="loggedIn() === true && !admin"> <!-- guests and admins can't comment on posts. -->
+    <!--
+    <div *ngIf="loggedIn() === true && !admin"> // guests and admins can't comment on posts.
       <button class="right-button" mat-flat-button color="primary" (click)="createAnswer()">Respond</button>
     </div>
+    -->
     <div *ngIf="myOwnPost() || admin"> <!-- admins can delete posts from users. -->
       <button class="right-button" mat-flat-button color="warn" (click)="deletePost()">Delete your Post!</button>
     </div>
@@ -57,9 +59,6 @@
       <button class="vote" [ngClass]="{'colorRed' :upvoteFlag}" mat-flat-button color="primary" (click)="upvote()">Upvote</button>
       <button class="vote" [ngClass]="{'colorRed' :downvoteFlag}" mat-flat-button color="primary" (click)="downvote()">Downvote</button>
     </div>
-
-
-
 
   </mat-card>
 </div>
