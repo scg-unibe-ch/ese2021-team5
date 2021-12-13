@@ -38,7 +38,6 @@ export class FeedWallComponent implements OnInit {
   private user: User | undefined;
   fileSelected: boolean = false;
   image: any;
-  pictureFileName: string = '';
   selectedCategory: string = "All";
   private i: number = 0;
   private deleteList: number[] = [];
@@ -148,7 +147,7 @@ export class FeedWallComponent implements OnInit {
 
   deletePost(post: Post): void{
     this.httpClient.delete(environment.endpointURL + "post/" + post.postId,).subscribe((deletedPost: any) => {
-      if (deletedPost.pictureLink != '') {
+      if (post.pictureLink != '') {
         this.httpClient.delete(environment.endpointURL + "post/image/" + post.pictureFileName).subscribe(() => {
         });
       }
