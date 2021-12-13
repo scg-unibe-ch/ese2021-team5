@@ -50,7 +50,6 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  //this.updateUserStatus();
   }
 
 
@@ -113,6 +112,8 @@ export class ShowOrdersComponent implements OnInit {
     this.username = this.user?.username;
     this.readOrders();
   }
+
+
 }
 
 

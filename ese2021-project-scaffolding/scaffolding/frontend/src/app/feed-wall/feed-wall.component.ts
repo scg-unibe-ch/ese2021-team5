@@ -53,18 +53,9 @@ export class FeedWallComponent implements OnInit {
 
   ngOnInit(): void {
     this.readPosts();
-    //this.checkAdmin();
+    this.sortPosts();
   }
 
-  /*
-  checkAdmin():void{
-
-    this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
-      this.admin = true;},
-      () => {
-      this.admin = false;
-    });
-  } */
 
   newPost(): void {
     if(this.newPostButtonTxt === "Create a new Post!") {
@@ -77,7 +68,6 @@ export class FeedWallComponent implements OnInit {
   }
 
   publishButtonDisabled(): boolean{
-
     return (this.newPostText === '' && !this.fileSelected && this.newPictureLink === '') || this.newPostTitle === '' || this.newPostCategory === '';
   }
 
@@ -152,7 +142,8 @@ export class FeedWallComponent implements OnInit {
         });
       }
       this.allPosts.splice(this.allPosts.indexOf(post), 1);
-      this.displayPostsArray.splice(this.displayPostsArray.indexOf(post), 1); //!!!temporary workaround!!!
+      this.selectCategory();
+      this.sortPosts();
     })
   }
 
@@ -168,7 +159,6 @@ export class FeedWallComponent implements OnInit {
   }
 
   onFileChanged(event: any): void {
-
     this.image = event.target.files[0];
     this.fileSelected = true;
   }
