@@ -25,6 +25,7 @@ categoryController.get('/:id', (req: Request, res: Response) => {
 
 });
 
+// everything below is not used by frontend
 
 categoryController.post('/', (req: Request, res: Response) => {
   Category.create(req.body)

@@ -1,6 +1,7 @@
 import express, { Router, Request, Response } from 'express';
 import { checkAdmin } from '../middlewares/checkAdmin';
 import { Product } from '../models/product.model';
+import { verifyToken } from '../middlewares/checkAuth';
 
 const productController: Router = express.Router();
 
@@ -30,7 +31,7 @@ productController.get('/:id', (req: Request, res: Response) => {
 /**
 * create product
 */
-productController.post('/', (req: Request, res: Response) => {
+productController.post('/', checkAdmin, (req: Request, res: Response) => {
   Product.create(req.body)
     .then(create => {
       res.status(201).send(create);
@@ -41,7 +42,7 @@ productController.post('/', (req: Request, res: Response) => {
 /**
 * delete specific product
 */
-productController.delete('/:id', (req: Request, res: Response) => {
+productController.delete('/:id', checkAdmin,  (req: Request, res: Response) => {
   Product.findByPk(req.params.id)
     .then(found => {
       if (found != null) {
@@ -58,7 +59,7 @@ productController.delete('/:id', (req: Request, res: Response) => {
 /**
 * update specific product
 */
-productController.put('/:id', (req: Request, res: Response) => {
+productController.put('/:id', checkAdmin, (req: Request, res: Response) => {
   Product.findByPk(req.params.id).then(found => {
     if (found != null) {
       found.update(req.body).then(updated => {

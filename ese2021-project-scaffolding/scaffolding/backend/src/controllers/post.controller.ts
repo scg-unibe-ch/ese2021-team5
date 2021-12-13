@@ -8,9 +8,7 @@ import * as fs from 'fs';
 const postController: Router = express.Router();
 const postService = new PostService();
 
-// postController.use(verifyToken);
-
-postController.post('/',
+postController.post('/', verifyToken,
   (req: Request, res: Response) => {
     Post.create(req.body)
       .then(create => {
@@ -64,7 +62,7 @@ postController.get('/',
   });
 
 
-postController.put('/:id', (req: Request, res: Response) => {
+postController.put('/:id', verifyToken, (req: Request, res: Response) => {
   Post.findByPk(req.params.id).then(found => {
     if (found != null) {
       found.update(req.body).then(updated => {
@@ -77,7 +75,7 @@ postController.put('/:id', (req: Request, res: Response) => {
     .catch(err => res.status(500).send(err));
 });
 
-postController.delete('/:id', (req: Request, res: Response) => {
+postController.delete('/:id', verifyToken, (req: Request, res: Response) => {
   Post.findByPk(req.params.id)
     .then(found => {
       if (found != null) {

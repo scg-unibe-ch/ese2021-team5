@@ -21,10 +21,8 @@ import { Category } from './models/category.model';
 import cors from 'cors';
 import { AdminController } from './controllers/admin.controller';
 import { ItemImage } from './models/itemImage.model';
-import multer, { diskStorage } from 'multer';
 import { PostImage } from './models/postImage.model';
 
-import { ServerService } from './services/server.service';
 
 export class Server {
 
@@ -57,9 +55,6 @@ export class Server {
         console.log(`server listening at http://localhost:${this.port}`);   // indicate that the server has started
       });
     });
-
-
-    ServerService.makeAnAdmin();
 
   }
   private server: Application;
