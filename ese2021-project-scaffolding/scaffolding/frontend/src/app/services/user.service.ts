@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
-import { Subject } from 'rxjs';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,8 @@ export class UserService {
   private loggedIn: boolean | undefined;
 
   private user: User | undefined;
+
+  private subject = new Subject<any>();
 
 
   /*******************************************************************************************************************
@@ -41,6 +43,10 @@ export class UserService {
     return this.user;
   }
 
+  getUserStatusChangeEvent(){
+    return this.subject.asObservable();
+  }
+
 
   /*******************************************************************************************************************
    * SETTERS
@@ -54,6 +60,9 @@ export class UserService {
     this.userSource.next(user);
   }
 
+  sendUserStatusChangeEvent(){
+    this.subject.next();
+  }
 
   /*******************************************************************************************************************
    * CONSTRUCTOR
@@ -63,6 +72,7 @@ export class UserService {
     // Observer
     this.loggedIn$.subscribe(res => this.loggedIn = res);
     this.user$.subscribe(res => this.user = res);
+
 
     // Default values
     this.setLoggedIn(false);

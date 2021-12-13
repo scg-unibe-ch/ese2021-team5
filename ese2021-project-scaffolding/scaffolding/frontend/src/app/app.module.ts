@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -17,13 +17,28 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { FeedWallComponent } from './feed-wall/feed-wall.component';
+import { PostComponent } from './feed-wall/post/post.component';
+import { ShopComponent } from './shop/shop.component';
+import { ProductComponent } from './shop/product/product.component';
+import {OrderComponent} from "./ShowOrders/Order/Order.component";
+import {ShowOrdersComponent} from "./ShowOrders/ShowOrders.component";
+import {MatSelectModule} from "@angular/material/select";
+import {MatOptionModule} from "@angular/material/core";
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
     TodoItemComponent,
-    UserComponent
+    UserComponent,
+    FeedWallComponent,
+    PostComponent,
+    ShopComponent,
+    ProductComponent,
+    OrderComponent,
+    ShowOrdersComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +52,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     MatButtonModule,
     MatListModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   providers: [
     {

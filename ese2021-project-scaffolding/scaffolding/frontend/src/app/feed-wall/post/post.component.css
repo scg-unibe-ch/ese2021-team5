@@ -1,0 +1,43 @@
+
+
+.postBackground {
+  background-color: darkgray;
+  margin-bottom: 40px;
+}
+
+.postHeader{
+  background-color: white;
+}
+
+.creator{
+  margin-bottom: 20px;
+}
+
+.right-button{
+  float: right;
+}
+
+.image{
+  max-width: 60%;
+  max-height: 60%;
+  margin-top: 10px;
+  margin-left: 5px;
+
+  border-radius: 10px;
+}
+
+.colorRed{
+  background-color: red;
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+
+#category {
+  color: darkgreen;
+}

@@ -1,0 +1,17 @@
+<div>
+  <mat-card class="postBackground">
+    <h3 *ngIf="admin">All Orders</h3>
+    <h3 *ngIf="!admin">Your Orders</h3>
+    <div *ngIf="admin">
+      <app-order *ngFor="let Order of allOrdersNewToOld"
+                 [Order]="Order"
+                 (changeOrderStatus)="readOrders()"></app-order>
+    </div>
+    <div *ngIf="!admin">
+      <app-order *ngFor="let Order of userOrdersNewToOld"
+                 [Order]="Order"
+                 (changeOrderStatus)="readOrders()"></app-order>
+    </div>
+
+  </mat-card>
+</div>

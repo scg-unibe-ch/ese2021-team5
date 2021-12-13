@@ -1,1 +1,14 @@
+.background{
+  background-color: white;
+}
+.title{
+  color: #ffd90f;
+  font-family: "Comic Sans MS";
+  font-size: 2em;
+}
+h5{
+  background-color: white;
+  padding: 10px;
+  margin: 0px;
+}
 

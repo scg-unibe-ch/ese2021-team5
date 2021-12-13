@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TodoList } from './models/todo-list.model';
 import { TodoItem } from './models/todo-item.model';
 import { environment } from '../environments/environment';
 import { UserService } from './services/user.service';
 import { User } from './models/user.model';
+import {Account} from "./models/account.model";
 
 
 @Component({
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit {
 
   user: User | undefined;
 
+  admin: boolean = false;
+
   constructor(
     public httpClient: HttpClient,
     public userService: UserService
@@ -33,12 +36,14 @@ export class AppComponent implements OnInit {
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
-    this.user = userService.getUser();
+    //this.user = userService.getUser();
   }
+
 
   ngOnInit() {
     this.readLists();
     this.checkUserStatus();
+    //console.log(this.userService.getUser()?.username); //I might remember to delete this at some point. Or I might not.
   }
 
   // CREATE - TodoList
@@ -80,6 +85,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Checks the user status to see whether there is already a logged in user upon reloading the page.
+   * If a user is logged in, a request is sent to the backend, to get the corresponding user data.
+   */
   checkUserStatus(): void {
     // Get user data from local storage
     const userToken = localStorage.getItem('userToken');
@@ -87,5 +96,34 @@ export class AppComponent implements OnInit {
     // Set boolean whether a user is logged in or not
     this.userService.setLoggedIn(!!userToken);
 
+    if (this.userService.getLoggedIn()) {
+      this.httpClient.get(environment.endpointURL + "user/").subscribe((user: any) => {
+        for (let i = 0; i < user.length; i++) {
+          if (user[i].userName === localStorage.getItem('userName')) {
+            this.userService.setUser(new User(user[i].userId, user[i].userName, user[i].password, new Account(user[i].firstName, user[i].lastName, user[i].email, user[i].street, user[i].phoneNumber, user[i].plz, user[i].city, '')));
+            this.userService.sendUserStatusChangeEvent();
+            break;
+          }
+        }
+      },
+      () => {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userToken');
+
+        this.userService.setLoggedIn(false);
+        this.userService.setUser(undefined);
+        this.userService.sendUserStatusChangeEvent();
+      })
+    }
+    this.checkAdmin();
   }
+
+  checkAdmin() {
+    this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
+        this.admin = true;},
+      () => {
+        this.admin = false;
+      });
+  }
+
 }
