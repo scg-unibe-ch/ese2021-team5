@@ -139,10 +139,10 @@ export class FeedWallComponent implements OnInit {
   readPosts(): void {
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
       posts.forEach((post: any) => {
-        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, 0));
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, post.upvotes - post.downvotes));
       })
     })
-    this.displayPostsArray = this.allPosts; //!!!temporary workaround!!!
+    this.displayPostsArray = this.allPosts;
   }
 
 

@@ -98,6 +98,15 @@ postController.put('/:id/upvote', (req: Request, res: Response) => {
   });
 });
 
+postController.put('/:id/removeUpvote', (req: Request, res: Response) => {
+    Post.findByPk(req.params.id).then(found => {
+        if (found != null) {
+            found.increment('upvotes', { by: -1 })
+                .then(updated => { res.status(200).send(updated); });
+        }
+    });
+});
+
 postController.put('/:id/downvote', (req: Request, res: Response) => {
   Post.findByPk(req.params.id).then(found => {
     if (found != null) {
@@ -105,6 +114,14 @@ postController.put('/:id/downvote', (req: Request, res: Response) => {
         .then(updated => { res.status(200).send(updated); });
     }
   });
+});
+postController.put('/:id/removeDownvote', (req: Request, res: Response) => {
+    Post.findByPk(req.params.id).then(found => {
+        if (found != null) {
+            found.increment('downvotes', { by: -1 })
+                .then(updated => { res.status(200).send(updated); });
+        }
+    });
 });
 
 export const PostController: Router = postController;

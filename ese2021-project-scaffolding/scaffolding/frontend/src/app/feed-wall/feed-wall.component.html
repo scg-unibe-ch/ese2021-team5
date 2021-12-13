@@ -81,7 +81,7 @@
 
     </select>
       <p>Sort by: </p>
-      <select [(ngModel)]="sortBy" name="sort" (click)="sortPosts()" (ngModelChange)="sortPosts()">
+      <select [(ngModel)]="sortBy" name="sort" (click)="selectCategory()" (ngModelChange)="sortPosts()"> <!-- this needs to call selectCategory() to work, it's right this way!-->
         <option value="New">New</option>
         <option value="Score">Score</option>
       </select>

@@ -64,9 +64,6 @@ export class PostComponent implements OnInit {
     return thisIsMyPost;
   }
 
-  createAnswer(): void {
-
-  }
 
   loggedIn(): boolean {
     return this.userService.getLoggedIn() || false;
@@ -75,9 +72,16 @@ export class PostComponent implements OnInit {
 
   upvote(): void{
       if(!this.upvoteFlag) {
-        this.post.postRank++;
+        this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/upvote", {
+        }).subscribe( () => {
+          this.post.postRank++;
+        })
+
       } else {
-        this.post.postRank--;
+          this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/removeUpvote", {
+          }).subscribe( () => {
+            this.post.postRank--;
+          })
       }
       if(this.downvoteFlag){
         this.downvote();
@@ -87,9 +91,15 @@ export class PostComponent implements OnInit {
 
   downvote(): void{
       if(!this.downvoteFlag){
-        this.post.postRank--;
+        this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/downvote", {
+        }).subscribe( () => {
+          this.post.postRank--;
+        })
       } else {
-        this.post.postRank++;
+        this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/removeDownvote", {
+        }).subscribe( () => {
+          this.post.postRank++;
+        })
       }
       if(this.upvoteFlag){
         this.upvote();
