@@ -146,8 +146,6 @@ export class PostComponent implements OnInit {
   }
 
   updateUserStatus(): void {
-    console.log("Status change!");
-    console.log(this.admin);
     if (this.admin){
       this.deleteButtonText = "Delete post! Creator: -" + this.post.creatorUsername + "-";
     } else {this.deleteButtonText = "Delete your Post!"}
