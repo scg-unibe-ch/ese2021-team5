@@ -1,9 +1,8 @@
-import {Component, Input, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
 import {Product} from "../models/product.model";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
 import {environment} from "../../environments/environment";
-import {User} from "../models/user.model";
 
 @Component({
   selector: 'app-shop',
@@ -22,17 +21,18 @@ export class ShopComponent implements OnInit {
   productsArrayLeftSide: Product [] = [];
   productsArrayRightSide: Product [] =[];
 
-  //values for creating new products
-  categoryId: number = 0;
   title: string = '';
   description: string = '';
   imageUri: string = '';
-  price: number = 0;
-  loggedIn: boolean = false;
+  selectedCategory: string = "1";
 
+
+  categoryId: number = 0;
+  price: number = 0;
+
+  loggedIn: boolean = false;
   showNewProductForm: boolean = false;
   disableNewProductPostButton: boolean = true;
-  selectedCategory: string = "1";
 
   constructor(
     public httpClient: HttpClient,
@@ -41,12 +41,17 @@ export class ShopComponent implements OnInit {
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
   }
 
+  /**
+   * Calls readProducts to load all products and selectCategory() to initially sort them.
+   */
   ngOnInit(): void {
     this.readProducts();
-    this.selectCategory()  }
+    this.selectCategory()
+  }
 
   /**
    * Called upon initialization. Gets all products from the backend and adds them to the productsArray.
+   * Then calls selectCategory() to sort the products.
    */
   readProducts(): void {
     this.productsArray = [];
@@ -61,7 +66,8 @@ export class ShopComponent implements OnInit {
   }
 
   /**
-   * Only Admins can create new products.
+   * Creates a new product and saves it to the backend.
+   * Only Admins can create new products (this is regulated in shop.component.html).
    */
   createProduct(): void {
 
@@ -81,6 +87,7 @@ export class ShopComponent implements OnInit {
   }
 
   /**
+   * Deletes a product from the backend, then calls readProducts() to get the remaining products.
    * Only Admins can delete products.
    */
   deleteProduct(product: Product): void {
@@ -141,6 +148,10 @@ export class ShopComponent implements OnInit {
     }
   }
 
+  /**
+   * Only adds products of a selected category to the selectedProductsArray.
+   * Then calls splitProductsLeftRight().
+   */
   selectCategory() {
     this.selectedProductsArray = [];
     for (let i = 0; i < this.productsArray.length; i++){
