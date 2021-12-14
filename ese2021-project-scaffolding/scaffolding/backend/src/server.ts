@@ -17,6 +17,7 @@ import { Product } from './models/product.model';
 import { Order} from './models/order.model';
 import { ProductOrders } from './models/productOrders.model';
 import { Category } from './models/category.model';
+import { Vote } from './models/votes.model';
 
 import cors from 'cors';
 import { AdminController } from './controllers/admin.controller';
@@ -41,6 +42,7 @@ export class Server {
     Product.initialize(this.sequelize);
     Order.initialize(this.sequelize);
     ProductOrders.initialize(this.sequelize);
+    Vote.initialize(this.sequelize);
     Category.initialize(this.sequelize);
     TodoItem.createAssociations();
     TodoList.createAssociations();

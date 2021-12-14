@@ -1,6 +1,8 @@
 import express, { Router, Request, Response } from 'express';
 import { PostService } from '../services/post.service';
 import { Post } from '../models/post.model';
+import { Vote, VoteTypes } from '../models/votes.model';
+import { User } from '../models/user.model';
 import { verifyToken } from '../middlewares/checkAuth';
 import { MulterRequest } from '../models/multerRequest.model';
 import * as fs from 'fs';
@@ -31,13 +33,13 @@ postController.get('/:id/image', (req: Request, res: Response) => {
 
 // delete an image
 postController.delete('/image/:fileToBeDeletedName',
-    (req: Request, res: Response) => {
-        fs.unlink('./uploads/' + req.params.fileToBeDeletedName, (err) => {
-            if (err) { res.sendStatus(404); } else {
-                res.sendStatus(204); // 204 tells the frontend that there is no content sent with the response
-            }                              // 200 would result in a failure to parse
-        });
+  (req: Request, res: Response) => {
+    fs.unlink('./uploads/' + req.params.fileToBeDeletedName, (err) => {
+      if (err) { res.sendStatus(404); } else {
+        res.sendStatus(204); // 204 tells the frontend that there is no content sent with the response
+      }                              // 200 would result in a failure to parse
     });
+  });
 
 // return specific post
 postController.get('/:id',
@@ -90,38 +92,117 @@ postController.delete('/:id', verifyToken, (req: Request, res: Response) => {
 });
 
 postController.put('/:id/upvote', (req: Request, res: Response) => {
-  Post.findByPk(req.params.id).then(found => {
-    if (found != null) {
-      found.increment('upvotes', { by: 1 })
-        .then(updated => { res.status(200).send(updated); });
+  Vote.findOrCreate({
+    where: {
+      postId: req.params.id,
+      userId: req.body.userId
     }
-  });
+  })
+    .then((vote: [Vote, boolean]) => { // boolean is true if created
+      if (!vote[1] && vote[0].type === VoteTypes.Upvote) { return res.status(400).send({ message: 'alreay upvoted' }); }
+
+      Post.findByPk(req.params.id).then((foundPost) => {
+        if (!foundPost) { res.status(404).send({ message: 'did not find post' }); }
+
+
+        foundPost.increment('upvotes', { by: 1 })
+          .then(updated => {
+            if (!vote[1] && vote[0].type === VoteTypes.Downvote) {
+              updated.increment('downvotes', { by: -1 });
+            }
+            vote[0].update({ 'type': VoteTypes.Upvote })
+              .then(result => { res.status(200).send(result); });
+          });
+      },
+        err => { res.status(500).send(`${err} 2`); }
+      );
+
+    },
+      err => { res.status(500).send(`${err} 3`); }
+    );
 });
 
 postController.put('/:id/removeUpvote', (req: Request, res: Response) => {
-    Post.findByPk(req.params.id).then(found => {
-        if (found != null) {
-            found.increment('upvotes', { by: -1 })
-                .then(updated => { res.status(200).send(updated); });
-        }
-    });
+  Vote.findOne({
+    where: {
+      postId: req.params.id,
+      userId: req.body.userId
+    }
+  })
+    .then((foundVote) => {
+      if (!foundVote) { return res.status(404).send({ message: 'not upvoted yet' }); }
+      if (foundVote.type = VoteTypes.Downvote) { return res.status(400).send({ message: 'this is a downvote' }); }
+
+      Post.findByPk(foundVote.postId)
+        .then(foundPost => {
+          foundPost.increment('upvotes', { by: -1 });
+        },
+          err => { res.status(500).send(`${err} 3`); }
+        )
+        .then(() => {
+          foundVote.destroy()
+            .then(destroyed => res.status(200).send(destroyed),
+              err => res.status(500).send(`${err}`));
+        });
+    },
+      err => { res.status(500).send(`${err} 3`); }
+    );
 });
 
 postController.put('/:id/downvote', (req: Request, res: Response) => {
-  Post.findByPk(req.params.id).then(found => {
-    if (found != null) {
-      found.increment('downvotes', { by: 1 })
-        .then(updated => { res.status(200).send(updated); });
+  Vote.findOrCreate({
+    where: {
+      postId: req.params.id,
+      userId: req.body.userId
     }
-  });
+  })
+    .then((vote: [Vote, boolean]) => { // boolean is true if created
+      if (!vote[1] && vote[0].type === VoteTypes.Downvote) { return res.status(400).send({ message: 'alreay upvoted' }); }
+
+      Post.findByPk(req.params.id).then((foundPost) => {
+        if (!foundPost) { res.status(404).send({ message: 'did not find post' }); }
+
+        foundPost.increment('downvotes', { by: 1 })
+          .then(updated => {
+            if (!vote[1] && vote[0].type === VoteTypes.Upvote) {
+              updated.increment('upvotes', { by: -1 });
+            }
+            vote[0].update({ 'type': VoteTypes.Downvote })
+              .then(result => { res.status(200).send(result); });
+          });
+      },
+        err => { res.status(500).send(`${err} 2`); }
+      );
+
+    },
+      err => { res.status(500).send(`${err} 3`); }
+    );
 });
 postController.put('/:id/removeDownvote', (req: Request, res: Response) => {
-    Post.findByPk(req.params.id).then(found => {
-        if (found != null) {
-            found.increment('downvotes', { by: -1 })
-                .then(updated => { res.status(200).send(updated); });
-        }
-    });
+  Vote.findOne({
+    where: {
+      postId: req.params.id,
+      userId: req.body.userId
+    }
+  })
+    .then((foundVote) => {
+      if (!foundVote) { return res.status(404).send({ message: 'not upvoted yet' }); }
+      if (foundVote.type = VoteTypes.Upvote) { return res.status(400).send({ message: 'this is an upvote' }); }
+
+      Post.findByPk(foundVote.postId)
+        .then(foundPost => {
+          foundPost.increment('downvotes', { by: -1 });
+        },
+          err => { res.status(500).send(`${err} 3`); }
+        )
+        .then(() => {
+          foundVote.destroy()
+            .then(destroyed => res.status(200).send(destroyed),
+              err => res.status(500).send(`${err}`));
+        });
+    },
+      err => { res.status(500).send(`${err} 3`); }
+    );
 });
 
 export const PostController: Router = postController;
