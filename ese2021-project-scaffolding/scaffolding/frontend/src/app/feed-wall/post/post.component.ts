@@ -67,7 +67,7 @@ export class PostComponent implements OnInit {
   }
 
   updateUserVotes(): void{
-
+    this.upvoteFlag = this.downvoteFlag = false;
     this.post.postVotes.forEach((postVote: any) => {
       if (postVote.userId == this.userService.getUser()?.userId){
         if (postVote.type == 1){
