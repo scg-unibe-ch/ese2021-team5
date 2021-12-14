@@ -23,24 +23,30 @@ export class FeedWallComponent implements OnInit {
   }
 
   sortBy: string = 'New';
-  showNewPostWindow: boolean = false;
-  showNewImageUrlField: boolean = false;
-  newImageUrlButtonText = 'Link an image to your post!';
-  allPosts: Post[] = []; //contains all communityPosts
-  displayPostsArray: Post[] = [];
-  sortedPosts: Post[] = [];
+  newImageUrlButtonText: string = 'Link an image to your post!';
+  newPostButtonTxt: string = "Create a new Post!";
   newPostTitle: string = '';
   newPostText: string = '';
   newPostCategory: string = '';
   newPictureLink: string = '';
-  newPostFlag: any = false;
-  newPostButtonTxt: string = "Create a new Post!";
-  private user: User | undefined;
-  fileSelected: boolean = false;
-  image: any;
   selectedCategory: string = "All";
-  private i: number = 0;
+
+  showNewPostWindow: boolean = false;
+  showNewImageUrlField: boolean = false;
+  fileSelected: boolean = false;
+
+  newPostFlag: any = false;
+  image: any;
+
+  allPosts: Post[] = []; //contains all communityPosts
+  displayPostsArray: Post[] = [];
+  sortedPosts: Post[] = [];
   private deleteList: number[] = [];
+
+  private user: User | undefined;
+
+  private i: number = 0;
+
 
   constructor(
     public httpClient: HttpClient,
@@ -51,11 +57,17 @@ export class FeedWallComponent implements OnInit {
     this.user = userService.getUser();
   }
 
+  /**
+   * Calls readPosts() upon initialization.
+   */
   ngOnInit(): void {
     this.readPosts();
   }
 
-
+  /**
+   * Switches the window for creating new posts on and off.
+   * Changes the text of the button to match the state.
+   */
   newPost(): void {
     if(this.newPostButtonTxt === "Create a new Post!") {
       this.newPostButtonTxt = 'Cancel';
@@ -66,11 +78,17 @@ export class FeedWallComponent implements OnInit {
     this.showNewPostWindow = !this.showNewPostWindow;
   }
 
-  publishButtonDisabled(): boolean{
+  /**
+   * Disables the button for publishing a new post if required information is missing.
+   */
+  publishButtonDisabled(): boolean {
     return (this.newPostText === '' && !this.fileSelected && this.newPictureLink === '') || this.newPostTitle === '' || this.newPostCategory === '';
   }
 
-
+  /**
+   * Publishes a post and saves it to the backend.
+   * Also handles image upload.
+   */
   publishPost(): void {
     let containsImage = false;
     let imageId = 0;
@@ -111,6 +129,7 @@ export class FeedWallComponent implements OnInit {
           this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
         });
       }
+
       if(!containsImage) {
         this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
       }
@@ -123,7 +142,10 @@ export class FeedWallComponent implements OnInit {
     })
   }
 
-
+  /**
+   * Reads all posts from the backend, adds them to allPosts and then sorts them by calling sortPostsById().
+   * feed-wall.component.html then uses displayPostsArray to display the posts.
+   */
   readPosts(): void {
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
       posts.forEach((post: any) => {
@@ -133,10 +155,13 @@ export class FeedWallComponent implements OnInit {
       this.selectCategory();
       this.sortPostsById();
     })
-
   }
 
-
+  /**
+   * Deletes a selected post from the frontend and from the backend.
+   * After the deletion, the remaining post are sorted again.
+   * @param post, a selected post.
+   */
   deletePost(post: Post): void{
     this.httpClient.delete(environment.endpointURL + "post/" + post.postId,).subscribe((deletedPost: any) => {
       if (post.pictureLink != '') {
@@ -149,7 +174,10 @@ export class FeedWallComponent implements OnInit {
     })
   }
 
-
+  /**
+   * Switches the field for adding an imageURL to a post on and off.
+   * Changes the button text according to the state.
+   */
   addImageByURL(): void {
     this.showNewImageUrlField = !this.showNewImageUrlField
     if (this.showNewImageUrlField){
@@ -160,16 +188,26 @@ export class FeedWallComponent implements OnInit {
     }
   }
 
+  /**
+   * Initializes the image from the image input.
+   */
   onFileChanged(event: any): void {
     this.image = event.target.files[0];
     this.fileSelected = true;
   }
 
+  /**
+   * Resets the image.
+   * Is called when a post is created, or changes are discarded.
+   */
   resetImage(): void {
     this.image = null;
     this.fileSelected = false;
   }
 
+  /**
+   * Sorts posts by rank. Highest rank on top.
+   */
   sortPostsByRank(): void {
     this.sortedPosts = [];
     this.allPosts.forEach((post: any) => {
@@ -178,6 +216,10 @@ export class FeedWallComponent implements OnInit {
     this.sortedPosts.sort((a, b) => b.postRank - a.postRank);
   }
 
+  /**
+   * Sorts posts by postId. As the backend gives out postIds in an ascending order,
+   * this is equal to sorting posts by creation date.
+   */
   sortPostsById(): void {
     this.sortedPosts = [];
     this.allPosts.forEach((post: any) => {
@@ -186,8 +228,11 @@ export class FeedWallComponent implements OnInit {
     this.sortedPosts.sort((a, b) => b.postId - a.postId);
   }
 
+  /**
+   * Sorts posts by calling the responsible sorting algorithm.
+   * The algorithm can be chosen by the user, default is 'New'.
+   */
   sortPosts(): void {
-
     switch (this.sortBy){
       case 'Score':
         this.sortPostsByRank();
@@ -198,6 +243,10 @@ export class FeedWallComponent implements OnInit {
     }
   }
 
+  /**
+   * Selects a specific category of posts to be displayed.
+   * The category can be chosen by the user, default is all.
+   */
   selectCategory() {
     this.sortPosts();
     this.displayPostsArray = [];
