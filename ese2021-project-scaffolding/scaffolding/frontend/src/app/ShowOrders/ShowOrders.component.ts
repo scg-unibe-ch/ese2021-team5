@@ -1,11 +1,9 @@
-import {Component, Input, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user.model";
 import {Order} from "../models/order.model";
-import {Product} from "../models/product.model";
 import {environment} from "../../environments/environment";
-import {Post} from "../models/post.model";
 import {UserService} from "../services/user.service";
 import {OrdersService} from "../services/orders.service";
 import {Subscription} from "rxjs";
@@ -17,18 +15,21 @@ import {Subscription} from "rxjs";
 })
 
 export class ShowOrdersComponent implements OnInit {
-  clickEventsubscription: Subscription;
-  userStatusChangeEventSubscription: Subscription;
-  loggedIn: boolean | undefined;
-  //admin: boolean | undefined;
 
   @ Input() admin = false;
 
+  clickEventsubscription: Subscription;
+  userStatusChangeEventSubscription: Subscription;
+
+  loggedIn: boolean | undefined;
+
   user: User | undefined;
+
   allOrders: Order[] = [];
   userOrders: Order[] = [];
   allOrdersNewToOld: Order[] = [];
   userOrdersNewToOld: Order[] = [];
+
   username: string | undefined;
 
 
@@ -53,8 +54,8 @@ export class ShowOrdersComponent implements OnInit {
   }
 
 
-  /*
-  check if the current user is an admin
+  /**
+  Checks if the current user is an admin.
    */
   checkAdmin():void{
 
@@ -65,9 +66,9 @@ export class ShowOrdersComponent implements OnInit {
       });
   }
 
-  /*
-  get all orders from the backend and store it in the array allOrders.
-  then call readUserOrders() and orderArrays()
+  /**
+  Get all orders from the backend and store it in the array allOrders.
+  Then call readUserOrders() and orderArrays().
    */
   readOrders():void{
     this.allOrders = [];
@@ -80,8 +81,8 @@ export class ShowOrdersComponent implements OnInit {
     })
   }
 
-  /*
-  *   make an array with all orders from the current user.
+  /**
+  *  Make an array with all orders from the current user.
    */
   readUserOrders():void{
     this.userOrders = [];
@@ -92,8 +93,8 @@ export class ShowOrdersComponent implements OnInit {
     }
   }
 
-  /*
-  fill in the arrays all/user-OrdersNewToOld
+  /**
+  Fill in the arrays all/user-OrdersNewToOld.
    */
   orderArrays():void{
     this.allOrdersNewToOld = [];
