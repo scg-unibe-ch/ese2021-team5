@@ -53,7 +53,6 @@ export class FeedWallComponent implements OnInit {
 
   ngOnInit(): void {
     this.readPosts();
-    this.sortPosts();
   }
 
 
@@ -130,8 +129,11 @@ export class FeedWallComponent implements OnInit {
       posts.forEach((post: any) => {
         this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, post.upvotes - post.downvotes));
       })
+      this.displayPostsArray = this.allPosts;
+      this.selectCategory();
+      this.sortPostsById();
     })
-    this.displayPostsArray = this.allPosts;
+
   }
 
 
