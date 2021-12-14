@@ -1,9 +1,7 @@
 import express, { Router, Request, Response } from 'express';
 import { Order, OrderStatus } from '../models/order.model';
 import { Product } from '../models/product.model';
-import { User } from '../models/user.model';
 import { ProductOrders } from '../models/productOrders.model';
-import { verifyToken } from '../middlewares/checkAuth';
 
 const orderController: Router = express.Router();
 
