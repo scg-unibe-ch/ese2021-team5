@@ -35,26 +35,6 @@ describe('FeedWallComponent', () => {
   });
 
 
-  /**
-   * Tests whether {@link feed-wall.component.ts#publishPost(), publishPost()} method
-   * calls the backend and adds a new Post to the allPosts-array.
-   */
-  it('should create a new post and add it to the allPosts array', (done: DoneFn) => {
-
-
-    const mockResponse = {}; //mockResponse is allowed to be empty, because right now we don't care about what values
-                             //the newly created Post holds. (The Post will by created by publishPost())
-
-    component.publishPost();
-
-    const mockRequest = httpMock.expectOne(
-      'http://localhost:3000/post'
-    );
-    mockRequest.flush(mockResponse);
-    done();
-    expect(component.allPosts.length).toEqual(1); //a post has been added to allPosts: Post[]
-  });
-
 
   it('should delete a post by calling the backend and then removing it from the allPosts-array', (done: DoneFn) => {
 

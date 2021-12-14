@@ -132,11 +132,13 @@ export class FeedWallComponent implements OnInit {
           }).subscribe();
           imageId = imageData.imageId;
           this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0, []));
+          this.selectCategory()
         });
       }
 
       if(!containsImage) {
         this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0, []));
+        this.selectCategory();
       }
 
       this.resetImage();
@@ -152,6 +154,7 @@ export class FeedWallComponent implements OnInit {
    * feed-wall.component.html then uses displayPostsArray to display the posts.
    */
   readPosts(): void {
+    this.allPosts = [];
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
       posts.forEach((post: any) => {
         let postVotesForFrontendPostModel: any[] = [];
