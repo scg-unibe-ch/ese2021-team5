@@ -4,7 +4,7 @@
 *If you happen to fix anything, please make a note on discord and ~~cross-out~~ the issue in this file*  
 
 
-> ### User-service not working properly --> Frontend
+> ### ~~User-service not working properly --> Frontend~~
 > *in frontend/services/user.service.ts*  
 > userService does only work on specific classes. For example, it seems to be working in *feed-wall.component.ts*,  
 > but not in *Order.component.ts*. There it will only work directly after logging in, but not after reloading the site.  
@@ -89,9 +89,9 @@
 > The options for editing a post are very limiting and allow only for the Text, Title and Category to be changed.  
 > See *communityPost.component.ts* and communityPost.component.html*.
 
-> ### Everything Shop (:
+> ### ~~Everything Shop (:~~
 
-> ### Several html and css files --> Frontend
+> ### ~~Several html and css files --> Frontend~~
 > Not very important, but a lot of things don't look particularly nice. Stuff moves around or is placed weirdly.  
 > Also the favicon and the name of the tab (right now: *Frontend*) should be changed at some point.
 
@@ -99,7 +99,7 @@
 > Testing functionality...  
 > Maybe more unit-testing --> not directly required.
 
-> ### Some general cleanup --> mainly Frontend?
+> ### ~~Some general cleanup --> mainly Frontend?~~
 > -Removing / updating old comments  
 > -maybe rework some of the messages sent to the user (typos, etc.)  
 > -removing unused / unreachable code. Empty methods, unused strings, etc.
