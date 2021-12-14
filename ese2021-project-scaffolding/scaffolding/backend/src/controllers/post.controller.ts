@@ -131,7 +131,7 @@ postController.put('/:id/removeUpvote', (req: Request, res: Response) => {
   })
     .then((foundVote) => {
       if (!foundVote) { return res.status(404).send({ message: 'not upvoted yet' }); }
-      if (foundVote.type = VoteTypes.Downvote) { return res.status(400).send({ message: 'this is a downvote' }); }
+      if (foundVote.type === VoteTypes.Downvote) { return res.status(400).send({ message: 'this is a downvote' }); }
 
       Post.findByPk(foundVote.postId)
         .then(foundPost => {
@@ -187,7 +187,7 @@ postController.put('/:id/removeDownvote', (req: Request, res: Response) => {
   })
     .then((foundVote) => {
       if (!foundVote) { return res.status(404).send({ message: 'not upvoted yet' }); }
-      if (foundVote.type = VoteTypes.Upvote) { return res.status(400).send({ message: 'this is an upvote' }); }
+      if (foundVote.type === VoteTypes.Upvote) { return res.status(400).send({ message: 'this is an upvote' }); }
 
       Post.findByPk(foundVote.postId)
         .then(foundPost => {
