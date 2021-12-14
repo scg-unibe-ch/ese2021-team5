@@ -104,6 +104,11 @@ export class PostComponent implements OnInit {
 
 
   upvote(): void{
+      if(this.downvoteFlag){
+
+      this.post.postRank++;
+      this.downvoteFlag = false;
+    }
       if(!this.upvoteFlag) {
         this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/upvote", {
           userId: this.userService.getUser()?.userId,
@@ -118,13 +123,16 @@ export class PostComponent implements OnInit {
           })
         this.post.postRank--;
       }
-      if(this.downvoteFlag){
-        this.downvote();
-      }
+
     this.upvoteFlag = !this.upvoteFlag;
   }
 
   downvote(): void{
+    if(this.upvoteFlag){
+
+      this.post.postRank--;
+      this.upvoteFlag = false;
+    }
       if(!this.downvoteFlag){
         this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/downvote", {
           userId: this.userService.getUser()?.userId,
@@ -138,9 +146,6 @@ export class PostComponent implements OnInit {
 
         })
         this.post.postRank++;
-      }
-      if(this.upvoteFlag){
-        this.upvote();
       }
       this.downvoteFlag = !this.downvoteFlag;
   }
