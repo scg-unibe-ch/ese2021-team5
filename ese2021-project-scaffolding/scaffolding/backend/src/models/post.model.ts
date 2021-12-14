@@ -1,5 +1,6 @@
-import { Optional, Model, Sequelize, DataTypes } from 'sequelize';
-import {PostImage} from '../models/postImage.model';
+import { Association, Optional, Model, Sequelize, DataTypes } from 'sequelize';
+import { PostImage } from '../models/postImage.model';
+import { User } from './user.model';
 
 export interface PostAttributes {
   postId: number;
@@ -17,6 +18,11 @@ export interface PostAttributes {
 export interface PostCreationAttributes extends Optional<PostAttributes, 'postId'> { }
 
 export class Post extends Model<PostAttributes, PostCreationAttributes> implements PostAttributes {
+
+  public static associations: {
+    postvotes: Association<Post, User>
+  };
+
   postId!: number;
   title: string;
   category: string;
@@ -60,10 +66,16 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
       }
     );
   }
-    public static createAssociations() {
-        Post.hasMany(PostImage, {
-            as: 'images',
-            foreignKey: 'postId'
-        });
-    }
+  public static createAssociations() {
+    // Post.hasMany(PostImage, {
+    //   as: 'images',
+    //   foreignKey: 'postId'
+    // });
+    Post.belongsToMany(User, {
+      through: 'Vote',
+      as: 'postvotes',
+      foreignKey: 'postId',
+      otherKey: 'userId'
+    });
+  }
 }

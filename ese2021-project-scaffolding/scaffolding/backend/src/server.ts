@@ -51,6 +51,7 @@ export class Server {
     Order.createAssociations();
     User.createAssociations();
     Category.createAssociations();
+    Post.createAssociations();
 
     this.sequelize.sync().then(() => {                           // create connection to the database
       this.server.listen(this.port, () => {                                   // start server on specified port

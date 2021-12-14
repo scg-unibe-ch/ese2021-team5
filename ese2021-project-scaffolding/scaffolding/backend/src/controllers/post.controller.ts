@@ -44,7 +44,7 @@ postController.delete('/image/:fileToBeDeletedName',
 // return specific post
 postController.get('/:id',
   (req: Request, res: Response) => {
-    Post.findByPk(req.params.id).then(found => {
+    Post.findByPk(req.params.id, {include: [ Post.associations.postvotes]}).then(found => {
       if (found != null) {
         res.status(200).send(found);
       } else {
@@ -58,7 +58,7 @@ postController.get('/:id',
 // return all posts
 postController.get('/',
   (req: Request, res: Response) => {
-    Post.findAll()
+    Post.findAll({include: [ Post.associations.postvotes]})
       .then(post => res.status(200).send(post))
       .catch(err => res.status(500).send(err));
   });
