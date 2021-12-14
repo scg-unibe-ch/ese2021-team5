@@ -58,7 +58,7 @@ describe('FeedWallComponent', () => {
 
   it('should delete a post by calling the backend and then removing it from the allPosts-array', (done: DoneFn) => {
 
-    let mockPost = new Post('', '', '', 0, '', '', 0, 0, 0);
+    let mockPost = new Post('', '', '', 0, '', '', 0, 0, 0, []);
 
     const mockResponse = {
       pictureLink: '', //if picture link is not an empty string, the call to delete an image will be made
@@ -82,7 +82,7 @@ describe('FeedWallComponent', () => {
 
   it('should delete a post with an imageLink by calling the backend and then removing it from the allPosts-array', (done: DoneFn) => {
 
-    let mockPost = new Post('', '', '', 0, '', '', 0, 0, 0);
+    let mockPost = new Post('', '', '', 0, '', 'link', 0, 0, 0, []);
 
     const mockResponse = {
       pictureLink: 'mockPictureLink.something',
@@ -123,6 +123,7 @@ describe('FeedWallComponent', () => {
       pictureId: 0,
       postId: 0,
       postRank: 0,
+      postvotes: [],
     },
       {
         title: "mockTitleTwo",
@@ -134,6 +135,7 @@ describe('FeedWallComponent', () => {
         pictureId: 0,
         postId: 0,
         postRank: 0,
+        postvotes: [],
       }
     ]
 
@@ -170,10 +172,10 @@ describe('FeedWallComponent', () => {
 
   it('should sort posts by rank and push them to sortedPosts-array', () => {
 
-    let mockPost = new Post('', '', '', 0, '', '', 0, 0, 1);
-    let mockPostTwo = new Post('', '', '', 0, '', '', 0, 0, 0);
-    let mockPostThree = new Post('', '', '', 0, '', '', 0, 0, 3);
-    let mockPostFour = new Post('', '', '', 0, '', '', 0, 0, 0);
+    let mockPost = new Post('', '', '', 0, '', '', 0, 0, 1, []);
+    let mockPostTwo = new Post('', '', '', 0, '', '', 0, 0, 0, []);
+    let mockPostThree = new Post('', '', '', 0, '', '', 0, 0, 3, []);
+    let mockPostFour = new Post('', '', '', 0, '', '', 0, 0, 0, []);
 
     component.allPosts.push(mockPost);
     component.allPosts.push(mockPostTwo);
@@ -190,10 +192,10 @@ describe('FeedWallComponent', () => {
 
   it('should sort posts by publishing date (uses the postId) and push them to sortedPosts-array', () => {
 
-    let mockPost = new Post('', '', '', 0, '', '', 0, 19, 0);
-    let mockPostTwo = new Post('', '', '', 0, '', '', 0, 2, 0);
-    let mockPostThree = new Post('', '', '', 0, '', '', 0, 22, 0);
-    let mockPostFour = new Post('', '', '', 0, '', '', 0, 22, 0);
+    let mockPost = new Post('', '', '', 0, '', '', 0, 19, 0, []);
+    let mockPostTwo = new Post('', '', '', 0, '', '', 0, 2, 0, []);
+    let mockPostThree = new Post('', '', '', 0, '', '', 0, 22, 0, []);
+    let mockPostFour = new Post('', '', '', 0, '', '', 0, 22, 0, []);
 
     component.allPosts.push(mockPost);
     component.allPosts.push(mockPostTwo);
@@ -210,10 +212,10 @@ describe('FeedWallComponent', () => {
 
   it('should only add posts of category 1 to displayPostsArray-array', () => {
 
-    let mockPost = new Post('', 'category 1', '', 0, '', '', 0, 0, 0);
-    let mockPostTwo = new Post('', 'category 2', '', 0, '', '', 0, 0, 0);
-    let mockPostThree = new Post('', 'category 3', '', 0, '', '', 0, 0, 0);
-    let mockPostFour = new Post('', 'category 1', '', 0, '', '', 0, 0, 0);
+    let mockPost = new Post('', 'category 1', '', 0, '', '', 0, 0, 0, []);
+    let mockPostTwo = new Post('', 'category 2', '', 0, '', '', 0, 0, 0, []);
+    let mockPostThree = new Post('', 'category 3', '', 0, '', '', 0, 0, 0, []);
+    let mockPostFour = new Post('', 'category 1', '', 0, '', '', 0, 0, 0, []);
 
     component.allPosts.push(mockPost);
     component.allPosts.push(mockPostTwo);

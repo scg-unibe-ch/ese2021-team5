@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { PostComponent } from './post.component';
-import {FeedWallComponent} from "../feed-wall.component";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {environment} from "../../../environments/environment";
 
@@ -63,8 +62,15 @@ describe('PostComponent', () => {
 
     expect(component.post.postRank).toEqual(0);
     component.upvote();
+    httpMock.expectOne(
+      environment.endpointURL + 'post/0/upvote'
+    );
     expect(component.post.postRank).toEqual(1);
+
     component.upvote();
+    httpMock.expectOne(
+      environment.endpointURL + 'post/0/removeUpvote'
+    );
     expect(component.post.postRank).toEqual(0);
   });
 
@@ -72,8 +78,15 @@ describe('PostComponent', () => {
 
     expect(component.post.postRank).toEqual(0);
     component.downvote();
+    httpMock.expectOne(
+      environment.endpointURL + 'post/0/downvote'
+    );
     expect(component.post.postRank).toEqual(-1);
+
     component.downvote();
+    httpMock.expectOne(
+      environment.endpointURL + 'post/0/removeDownvote'
+    );
     expect(component.post.postRank).toEqual(0);
   });
 
