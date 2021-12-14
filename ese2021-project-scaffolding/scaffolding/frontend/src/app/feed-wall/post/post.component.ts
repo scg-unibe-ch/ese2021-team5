@@ -175,5 +175,7 @@ export class PostComponent implements OnInit {
     if (this.admin){
       this.deleteButtonText = "Delete post! Creator: -" + this.post.creatorUsername + "-";
     } else {this.deleteButtonText = "Delete your Post!"}
+
+    this.updateUserVotes();
   }
 }
