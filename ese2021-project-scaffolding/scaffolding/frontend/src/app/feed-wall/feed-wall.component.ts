@@ -1,11 +1,10 @@
-import {Component, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
 import {UserService} from "../services/user.service";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Post} from "../models/post.model";
 import {User} from "../models/user.model";
-import {TodoList} from "../models/todo-list.model";
-import {Observable} from "rxjs";
+import { Subscription} from "rxjs";
 
 @Component({
   selector: 'app-community-post',
@@ -21,6 +20,8 @@ export class FeedWallComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges){
     this.admin = changes.admin.currentValue;
   }
+
+  userStatusChangeEventSubscription: Subscription;
 
   sortBy: string = 'New';
   newImageUrlButtonText: string = 'Link an image to your post!';
@@ -55,6 +56,10 @@ export class FeedWallComponent implements OnInit {
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
     this.user = userService.getUser();
+
+    this.userStatusChangeEventSubscription = this.userService.getUserStatusChangeEvent().subscribe(() => {
+      this.updateUserStatus();
+    })
   }
 
   /**
@@ -266,6 +271,12 @@ export class FeedWallComponent implements OnInit {
     this.deleteList.forEach((index:number)=>{
       this.displayPostsArray.splice(index,1);
       })
+  }
 
+  /**
+   * Is called whenever the logged-in user changes.
+   */
+  private updateUserStatus() {
+    this.user = this.userService.getUser();
   }
 }
