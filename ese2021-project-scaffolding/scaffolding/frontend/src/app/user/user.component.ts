@@ -106,6 +106,7 @@ export class UserComponent {
     this.userService.setUser(undefined);
 
     this.userStatusChange.emit(); //triggers checkUserStatus() in app.component.ts
+    this.userService.sendUserStatusChangeEvent();
   }
 
   accessUserEndpoint(): void {

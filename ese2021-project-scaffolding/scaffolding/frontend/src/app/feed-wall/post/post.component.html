@@ -47,7 +47,7 @@
     </div>
     -->
     <div *ngIf="myOwnPost() || admin"> <!-- admins can delete posts from users. -->
-      <button class="right-button" mat-flat-button color="warn" (click)="deletePost()">Delete your Post!</button>
+      <button class="right-button" mat-flat-button color="warn" (click)="deletePost()">{{deleteButtonText}}</button>
     </div>
     <div *ngIf="myOwnPost() || admin"> <!-- admins can edit posts from users. -->
       <button class="right-button" mat-flat-button color="primary" (click)="editPost()">{{editButtonText}}</button>

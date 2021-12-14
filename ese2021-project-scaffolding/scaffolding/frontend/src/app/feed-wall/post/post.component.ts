@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../../models/user.model";
 import {Account} from "../../models/account.model";
 import {environment} from "../../../environments/environment";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-post',
@@ -17,13 +18,17 @@ export class PostComponent implements OnInit {
   @Input()
   post: Post = new Post('','','',0, '', '', 0, 0, 0);
 
-  @ Input() admin = false;
+  @ Input()
+  admin = false;
+
+  userStatusChangeEventSubscription: Subscription;
 
   imageURL: any;
   editMode: boolean = false;
   editButtonTextEdit: string = "Edit Post";
   editButtonTextDiscardChanges: string = "Discard Changes";
   editButtonText: string = this.editButtonTextEdit;
+  deleteButtonText: string = "Delete your Post!";
   updatePostTitle: string = '';
   updatePostText: string = '';
   updatePostCategory: string = '';
@@ -39,6 +44,9 @@ export class PostComponent implements OnInit {
     public userService: UserService,
     public httpClient: HttpClient
   ) {
+    this.userStatusChangeEventSubscription = this.userService.getUserStatusChangeEvent().subscribe(() => {
+      this.updateUserStatus();
+    })
   }
 
   ngOnInit(): void {
@@ -49,6 +57,10 @@ export class PostComponent implements OnInit {
           this.post.pictureFileName = image.fileName;
         }
       )
+    }
+
+    if (this.admin){
+      this.deleteButtonText = "Delete post! Creator: -" + this.post.creatorUsername + "-";
     }
   }
 
@@ -131,5 +143,13 @@ export class PostComponent implements OnInit {
       this.post.category = post.category;
       }
     )
+  }
+
+  updateUserStatus(): void {
+    console.log("Status change!");
+    console.log(this.admin);
+    if (this.admin){
+      this.deleteButtonText = "Delete post! Creator: -" + this.post.creatorUsername + "-";
+    } else {this.deleteButtonText = "Delete your Post!"}
   }
 }
