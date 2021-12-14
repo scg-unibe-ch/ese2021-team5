@@ -24,7 +24,10 @@ export class PostComponent implements OnInit {
   userStatusChangeEventSubscription: Subscription;
 
   imageURL: any;
+  upvoteFlag: any = false;
+  downvoteFlag: any = false;
   editMode: boolean = false;
+
   editButtonTextEdit: string = "Edit Post";
   editButtonTextDiscardChanges: string = "Discard Changes";
   editButtonText: string = this.editButtonTextEdit;
@@ -32,8 +35,6 @@ export class PostComponent implements OnInit {
   updatePostTitle: string = '';
   updatePostText: string = '';
   updatePostCategory: string = '';
-  upvoteFlag: any = false;
-  downvoteFlag: any = false;
 
   @Output()
   delete = new EventEmitter<Post>();
@@ -49,6 +50,10 @@ export class PostComponent implements OnInit {
     })
   }
 
+  /**
+   * Initializes the pictureLink, if it hasn't been initialized yet. This is necessary, as the backend changes the filename when saving an image.
+   * Calls updateUserVotes() to display earlier up/downvotes to the user.
+   */
   ngOnInit(): void {
 
     if (this.post.pictureLink == '' && this.post.pictureId != 0) {
@@ -66,6 +71,10 @@ export class PostComponent implements OnInit {
     }
   }
 
+  /**
+   * Sets the upvote/ downvoteFlag according to a vote in an earlier session.
+   * There is a rare case, where userService.getUser returns undefined when onInit() of this component is called. In that case the methode pauses and then tries again.
+   */
   updateUserVotes(): void{
     this.upvoteFlag = this.downvoteFlag = false;
     this.post.postVotes.forEach((postVote: any) => {
@@ -85,10 +94,16 @@ export class PostComponent implements OnInit {
 
   }
 
+  /**
+   * Emits an event that that deletes the post in feed-wall.component.ts#deletePost().
+   */
   deletePost(): void {
     this.delete.emit(this.post);
   }
 
+  /**
+   * Returns true if the post belongs to the logged-in user.
+   */
   myOwnPost(): boolean {
     let thisIsMyPost: boolean = false;
     if((this.userService.getUser()?.userId || 0) == this.post.creatorId){ //0 stands for an error
@@ -97,12 +112,16 @@ export class PostComponent implements OnInit {
     return thisIsMyPost;
   }
 
-
+  /**
+   * Returns true if the a user is logged in.
+   */
   loggedIn(): boolean {
     return this.userService.getLoggedIn() || false;
   }
 
-
+  /**
+   * Upvotes or removes a vote from a post and sends the according http request to the backend.
+   */
   upvote(): void{
       if(this.downvoteFlag){
 
@@ -127,6 +146,9 @@ export class PostComponent implements OnInit {
     this.upvoteFlag = !this.upvoteFlag;
   }
 
+  /**
+   * Downvotes or removes a vote from a post and sends the according http request to the backend.
+   */
   downvote(): void{
     if(this.upvoteFlag){
 
@@ -150,6 +172,9 @@ export class PostComponent implements OnInit {
       this.downvoteFlag = !this.downvoteFlag;
   }
 
+  /**
+   * Switches to editMode, so that a user can edit his post.
+   */
   editPost() {
     this.editMode = !this.editMode;
     this.updatePostTitle = this.post.title;
@@ -162,6 +187,9 @@ export class PostComponent implements OnInit {
     }
   }
 
+  /**
+   * Safes changes of an edited post to the backend.
+   */
   safeChanges() {
     this.httpClient.put(environment.endpointURL + "post/" + this.post.postId, {
       title: this.updatePostTitle,
@@ -176,6 +204,9 @@ export class PostComponent implements OnInit {
     )
   }
 
+  /**
+   * Is called when user.component.ts or app.component.ts emit a userStatusChangeEvent.
+   */
   updateUserStatus(): void {
     if (this.admin){
       this.deleteButtonText = "Delete post! Creator: -" + this.post.creatorUsername + "-";
