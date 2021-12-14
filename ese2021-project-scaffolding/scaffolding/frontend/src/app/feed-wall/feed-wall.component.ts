@@ -131,19 +131,19 @@ export class FeedWallComponent implements OnInit {
             pictureId: imageData.imageId,
           }).subscribe();
           imageId = imageData.imageId;
-          this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
+          this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0, []));
         });
       }
 
       if(!containsImage) {
-        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0));
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0, []));
       }
 
       this.resetImage();
       this.newPostTitle= this.newPictureLink = this.newPostText = this.newPostCategory = '';
       this.newPost(); //resets the "new post window"
 
-      return new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0);
+      return new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, imageId, post.postId, 0, []);
     })
   }
 
@@ -154,7 +154,13 @@ export class FeedWallComponent implements OnInit {
   readPosts(): void {
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
       posts.forEach((post: any) => {
-        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, post.upvotes - post.downvotes));
+        let postVotesForFrontendPostModel: any[] = [];
+
+        post.postvotes.forEach((postVote: any) => {
+          postVotesForFrontendPostModel.push(postVote.Vote);
+        })
+
+        this.allPosts.push(new Post(post.title, post.category, post.text, post.creatorId, post.creatorUsername, post.pictureLink, post.pictureId, post.postId, post.upvotes - post.downvotes, postVotesForFrontendPostModel));
       })
       this.displayPostsArray = this.allPosts;
       this.selectCategory();

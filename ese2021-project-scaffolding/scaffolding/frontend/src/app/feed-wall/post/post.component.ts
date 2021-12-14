@@ -16,7 +16,7 @@ import {Subscription} from "rxjs";
 export class PostComponent implements OnInit {
 
   @Input()
-  post: Post = new Post('','','',0, '', '', 0, 0, 0);
+  post: Post = new Post('','','',0, '', '', 0, 0, 0, []);
 
   @ Input()
   admin = false;
@@ -59,9 +59,30 @@ export class PostComponent implements OnInit {
       )
     }
 
+   this.updateUserVotes();
+
     if (this.admin){
       this.deleteButtonText = "Delete post! Creator: -" + this.post.creatorUsername + "-";
     }
+  }
+
+  updateUserVotes(): void{
+
+    this.post.postVotes.forEach((postVote: any) => {
+      if (postVote.userId == this.userService.getUser()?.userId){
+        if (postVote.type == 1){
+          this.upvoteFlag = true;
+        } else if (postVote.type == -1){
+          this.downvoteFlag = true;
+        }
+      }
+    })
+
+    if (typeof this.userService.getUser() == "undefined" && this.loggedIn()){
+      console.log("check");
+      setTimeout(this.updateUserVotes, 500);
+    }
+
   }
 
   deletePost(): void {

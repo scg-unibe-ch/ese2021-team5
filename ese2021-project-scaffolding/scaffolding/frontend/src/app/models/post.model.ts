@@ -14,6 +14,7 @@ export class Post {
    public pictureId: number, //used to find images in backend, could be expanded to array
    public postId: number,
    public postRank: number, //calculated from votes
+   public postVotes: any[],
 
   ) {
     }
