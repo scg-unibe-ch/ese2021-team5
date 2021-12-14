@@ -16,12 +16,10 @@ export class UserComponent {
 
   registrationState: number = 0;
 
-  user: User | undefined;
-
   account: Account = new Account('', '','','','','','','');
 
+  user: User | undefined;
   userToRegister: User = new User(0, '', '', this.account);
-
   userToLogin: User = new User(0, '', '', this.account);
 
   endpointMsgUser: string = '';
@@ -49,7 +47,9 @@ export class UserComponent {
 
   }
 
-
+  /**
+   * Registers a new user to the backend.
+   */
   registerUser(): void {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
@@ -76,6 +76,9 @@ export class UserComponent {
     );
   }
 
+  /**
+   * Logs in an already registered user.
+   */
   loginUser(): void {
     this.httpClient.post(environment.endpointURL + "user/login", {
       userName: this.userToLogin.username,
@@ -98,6 +101,9 @@ export class UserComponent {
     );
   }
 
+  /**
+   * Logs out a user and clears userName and userToken from local storage.
+   */
   logoutUser(): void {
     localStorage.removeItem('userName');
     localStorage.removeItem('userToken');
@@ -109,6 +115,9 @@ export class UserComponent {
     this.userService.sendUserStatusChangeEvent();
   }
 
+  /**
+   * Calls the backend to see whether a user can access a secured endpoint.
+   */
   accessUserEndpoint(): void {
     this.httpClient.get(environment.endpointURL + "secured").subscribe(() => {
       this.endpointMsgUser = "Access granted";
@@ -117,6 +126,9 @@ export class UserComponent {
     });
   }
 
+  /**
+   * Calls the backend to see whether a user can access an admin endpoint.
+   */
   accessAdminEndpoint(): void {
     this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
       this.endpointMsgAdmin = "Access granted";
@@ -174,8 +186,6 @@ export class UserComponent {
    * all variables of Account have a length unequal to 0
    * the address contains a digit.
    * the email contains '@'
-   * (not yet: the email isn't used already.
-   *
    */
   checkProvidedAccountData(username: string, password: string, firstname: string, lastname: string, email: string, address: string, zip: string, city: string, phone: string, birthday: string):boolean{
     let dataIsOkay: boolean = false
