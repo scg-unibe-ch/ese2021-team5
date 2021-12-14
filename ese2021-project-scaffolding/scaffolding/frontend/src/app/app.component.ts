@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TodoList } from './models/todo-list.model';
 import { TodoItem } from './models/todo-item.model';
@@ -13,6 +13,8 @@ import {Account} from "./models/account.model";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
 export class AppComponent implements OnInit {
   title = 'frontend';
 
@@ -36,14 +38,12 @@ export class AppComponent implements OnInit {
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
-    //this.user = userService.getUser();
   }
 
 
   ngOnInit() {
     this.readLists();
     this.checkUserStatus();
-    //console.log(this.userService.getUser()?.username); //I might remember to delete this at some point. Or I might not.
   }
 
   // CREATE - TodoList
