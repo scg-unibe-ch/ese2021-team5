@@ -1,10 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TodoList} from "../../models/todo-list.model";
 import {Post} from "../../models/post.model";
 import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
-import {User} from "../../models/user.model";
-import {Account} from "../../models/account.model";
 import {environment} from "../../../environments/environment";
 import {Subscription} from "rxjs";
 
