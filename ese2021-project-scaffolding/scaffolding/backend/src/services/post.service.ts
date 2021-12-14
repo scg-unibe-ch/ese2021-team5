@@ -1,4 +1,4 @@
-import { PostAttributes, Post } from '../models/post.model';
+import { Post } from '../models/post.model';
 import { PostImageAttributes, PostImage } from '../models/postImage.model';
 import { MulterRequest } from '../models/multerRequest.model';
 import { upload } from '../middlewares/fileFilter';

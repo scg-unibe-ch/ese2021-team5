@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application} from 'express';
 import morgan from 'morgan';
 import { TodoItemController } from './controllers/todoitem.controller';
 import { TodoListController } from './controllers/todolist.controller';

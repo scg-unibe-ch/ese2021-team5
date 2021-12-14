@@ -1,7 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import { checkAdmin } from '../middlewares/checkAdmin';
 import { Product } from '../models/product.model';
-import { verifyToken } from '../middlewares/checkAuth';
 
 const productController: Router = express.Router();
 

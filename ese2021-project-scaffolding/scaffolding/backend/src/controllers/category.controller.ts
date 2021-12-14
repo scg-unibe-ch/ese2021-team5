@@ -1,5 +1,4 @@
 import express, { Router, Request, Response } from 'express';
-import {checkAdmin} from '../middlewares/checkAdmin';
 import { Category } from '../models/category.model';
 
 const categoryController: Router = express.Router();

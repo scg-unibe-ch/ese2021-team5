@@ -2,7 +2,6 @@ import express, { Router, Request, Response } from 'express';
 import { PostService } from '../services/post.service';
 import { Post } from '../models/post.model';
 import { Vote, VoteTypes } from '../models/votes.model';
-import { User } from '../models/user.model';
 import { verifyToken } from '../middlewares/checkAuth';
 import { MulterRequest } from '../models/multerRequest.model';
 import * as fs from 'fs';

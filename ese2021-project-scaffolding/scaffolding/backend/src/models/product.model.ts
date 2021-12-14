@@ -1,4 +1,4 @@
-import { Optional, Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes, Sequelize } from 'sequelize';
 
 
 /**
