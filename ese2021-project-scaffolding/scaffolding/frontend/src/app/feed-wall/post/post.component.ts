@@ -85,12 +85,14 @@ export class PostComponent implements OnInit {
   upvote(): void{
       if(!this.upvoteFlag) {
         this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/upvote", {
+          userId: this.userService.getUser()?.userId,
         }).subscribe( () => {
           this.post.postRank++;
         })
 
       } else {
           this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/removeUpvote", {
+            userId: this.userService.getUser()?.userId,
           }).subscribe( () => {
             this.post.postRank--;
           })
@@ -104,11 +106,13 @@ export class PostComponent implements OnInit {
   downvote(): void{
       if(!this.downvoteFlag){
         this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/downvote", {
+          userId: this.userService.getUser()?.userId,
         }).subscribe( () => {
           this.post.postRank--;
         })
       } else {
         this.httpClient.put(environment.endpointURL + "post/" + this.post.postId + "/removeDownvote", {
+          userId: this.userService.getUser()?.userId,
         }).subscribe( () => {
           this.post.postRank++;
         })
