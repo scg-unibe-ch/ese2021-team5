@@ -3,7 +3,6 @@ import {Product} from "../../models/product.model";
 import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../../models/user.model";
-import {Account} from "../../models/account.model";
 import {environment} from "../../../environments/environment";
 import {OrdersService} from "../../services/orders.service";
 
@@ -26,14 +25,16 @@ export class ProductComponent implements OnInit {
 
   showPaymentAndDeliveryOptions: boolean = false;
   paymentWithTwint: boolean = false;
-  deliveryAddress: string | undefined = '';
-  customer: User | undefined;
-  orderStatus: number = 0;
-  detailsButtonText: string = "BUY NOW";
   sendOrderDisable = true;
+
+  deliveryAddress: string | undefined = '';
+  detailsButtonText: string = "BUY NOW";
   paymentMethod: string = "";
   categoryString: string = "";
 
+  customer: User | undefined;
+
+  orderStatus: number = 0;
 
   constructor(
     public userService: UserService,
@@ -42,29 +43,41 @@ export class ProductComponent implements OnInit {
   ) {
   }
 
+  /**
+   * Returns true if the user is logged in.
+   */
   loggedIn(): boolean {
     return this.userService.getLoggedIn() || false;
   }
 
-  ngOnChange(): void{
-
-  }
-
+  /**
+   * Calls initializeDeliveryAddress() to initialize the delivery address to match a logged in user.
+   */
   ngOnInit(): void {
     this.initializeDeliveryAddress();
   }
 
+  /**
+   * Initializes the delivery address as a nice looking string.
+   */
   initializeDeliveryAddress(): void {
     this.deliveryAddress = this.customer?.account.firstname + " " + this.customer?.account.lastname + "\n"
       + this.customer?.account.address + "\n"
       + this.customer?.account.zip + " " + this.customer?.account.city;
   }
 
+  /**
+   * Emits an event to delete a product.
+   * Products are deleted by shop.component.ts#deleteProduct().
+   */
   deleteProduct(): void {
     this.delete.emit(this.product);
   }
 
-  //Needs refactoring --> ugly mess
+  /**
+   * Shows the detailed options for ordering a product.
+   * Also changes the text on the buttons to match the new state.
+   */
   showOrderOptions(): boolean {
     this.showPaymentAndDeliveryOptions = !this.showPaymentAndDeliveryOptions;
     this.product.paymentWithInvoice = true;
@@ -81,12 +94,13 @@ export class ProductComponent implements OnInit {
       this.resetPaymentOption();
 
     }
-
     return this.showPaymentAndDeliveryOptions;
   }
 
-
-  //Needs refactoring --> ugly mess
+  /**
+   * Shows the detailed options for ordering a product.
+   * Also changes the text on the buttons to match the new state.
+   */
   showOptionsAndLoggedIn() {
     if(this.loggedIn() && this.showPaymentAndDeliveryOptions){
       return true;
@@ -98,6 +112,12 @@ export class ProductComponent implements OnInit {
     } else return false;
   }
 
+  /**
+   * Is called when selecting a payment method in product.component.html via a checkbox.
+   * Sets the payment method and un-checks the other checkbox.
+   * Initially payment method is set to 'invoice'.
+   * @param paymentMethod, the payment method selected by the user.
+   */
   chosePaymentMethod(paymentMethod: string): void {
     switch (paymentMethod) {
       case 'invoice':
@@ -115,6 +135,9 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  /**
+   * Sends an order to the backend and resets the window for ordering the product.
+   */
   sendOrder() {
     this.httpClient.post(environment.endpointURL + 'order', {
       purchaserId: this.customer?.userId,
@@ -140,6 +163,9 @@ export class ProductComponent implements OnInit {
     this.product.paymentWithInvoice = true;
   }
 
+  /**
+   * Returns true (which is used by product.component.html to disable the button for sending an order) if a user has not entered a delivery address or chosen a payment method.
+   */
   sendOrderDisabled(): boolean {
     if (!this.product.paymentWithInvoice && !this.paymentWithTwint){
       return true;
@@ -148,6 +174,9 @@ export class ProductComponent implements OnInit {
     } else return false;
   }
 
+  /**
+   * Parses a number category to a string.
+   */
   parseCategory(): string{
     this.categoryString = "";
     switch(this.product.categoryId){
